@@ -4,7 +4,7 @@ type [<CLIMutable>] SqlSchema =
     {SchemaName: string;}
 
 type [<CLIMutable>] SqlTable = 
-    {Name: string;
+    {TableName: string;
     SchemaName: string;} 
 
 type [<CLIMutable>] SqlColumn =

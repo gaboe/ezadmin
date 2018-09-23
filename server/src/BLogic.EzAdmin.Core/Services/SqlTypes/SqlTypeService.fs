@@ -5,3 +5,5 @@ open BLogic.EzAdmin.Data.Repositories.SqlTypes.SqlTypeRepository
 module SqlTypeService = 
     let getAllSchemas = getAllSchemas
 
+    let getTables schemaName = getTables schemaName
+

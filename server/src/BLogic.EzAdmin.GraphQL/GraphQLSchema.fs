@@ -19,9 +19,21 @@ module GraphQLSchema =
             isTypeOf = (fun o -> o :? SqlSchema),
             fieldsFn = fun () ->
             [
-                Define.Field("schemaName", String, "Schema name", fun _ (s: SqlSchema) -> s.SchemaName)
-            ])
+                Define.Field("schemaName", String, "Schema name", fun _ (x: SqlSchema) -> x.SchemaName)
+            ]
+            )
 
+    and SqlTableType = 
+        Define.Object<SqlTable>(
+            name = "SqlTable",
+            description = "",
+            isTypeOf = (fun o -> o :? SqlTable),
+            fieldsFn = fun () ->
+            [
+                Define.Field("tableName", String, "Table name", fun _ (x: SqlTable) -> x.TableName)
+                Define.Field("schemaName", String, "Schema name", fun _ (x: SqlTable) -> x.SchemaName)
+            ]
+        )
     
     and RootType =
         Define.Object<Root>(
@@ -41,6 +53,7 @@ module GraphQLSchema =
             name = "Query",
             fields = [
                 Define.Field("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
+                Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ], fun ctx _ -> ctx.Arg("schemaName") |> getTables |> Async.RunSynchronously)
                 ]
             )
 
