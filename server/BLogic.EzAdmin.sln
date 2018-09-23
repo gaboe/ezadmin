@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BLogic.EzAdmin.Api", "src\BLogic.EzAdmin.Api\BLogic.EzAdmin.Api.fsproj", "{E440546E-0ECA-416E-A0AE-C52678840269}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "BLogic.EzAdmin.Api", "src\BLogic.EzAdmin.Api\BLogic.EzAdmin.Api.fsproj", "{E440546E-0ECA-416E-A0AE-C52678840269}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BLogic.EzAdmin.Application", "src\BLogic.EzAdmin.Application\BLogic.EzAdmin.Application.fsproj", "{AF844798-1096-4BE4-B878-C352CF317700}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BLogic.EzAdmin.Core", "src\BLogic.EzAdmin.Core\BLogic.EzAdmin.Core.fsproj", "{4D955430-FBFC-4DAF-89C3-B910E8389168}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BLogic.EzAdmin.Data", "src\BLogic.EzAdmin.Data\BLogic.EzAdmin.Data.fsproj", "{6CF65F7C-3A2B-47A0-A4BA-E118BC3AFAB2}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BLogic.EzAdmin.Domain", "src\BLogic.EzAdmin.Domain\BLogic.EzAdmin.Domain.fsproj", "{6E8A4DD9-0DF7-4908-A585-A0BF99AC1DCE}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BLogic.EzAdmin.GraphQL", "src\BLogic.EzAdmin.GraphQL\BLogic.EzAdmin.GraphQL.fsproj", "{8AF670FE-5259-4C41-AD5B-ACD0FBF41392}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,26 @@ Global
 		{E440546E-0ECA-416E-A0AE-C52678840269}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E440546E-0ECA-416E-A0AE-C52678840269}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E440546E-0ECA-416E-A0AE-C52678840269}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF844798-1096-4BE4-B878-C352CF317700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF844798-1096-4BE4-B878-C352CF317700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF844798-1096-4BE4-B878-C352CF317700}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF844798-1096-4BE4-B878-C352CF317700}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D955430-FBFC-4DAF-89C3-B910E8389168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D955430-FBFC-4DAF-89C3-B910E8389168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D955430-FBFC-4DAF-89C3-B910E8389168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D955430-FBFC-4DAF-89C3-B910E8389168}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CF65F7C-3A2B-47A0-A4BA-E118BC3AFAB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CF65F7C-3A2B-47A0-A4BA-E118BC3AFAB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CF65F7C-3A2B-47A0-A4BA-E118BC3AFAB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CF65F7C-3A2B-47A0-A4BA-E118BC3AFAB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E8A4DD9-0DF7-4908-A585-A0BF99AC1DCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E8A4DD9-0DF7-4908-A585-A0BF99AC1DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E8A4DD9-0DF7-4908-A585-A0BF99AC1DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E8A4DD9-0DF7-4908-A585-A0BF99AC1DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AF670FE-5259-4C41-AD5B-ACD0FBF41392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AF670FE-5259-4C41-AD5B-ACD0FBF41392}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AF670FE-5259-4C41-AD5B-ACD0FBF41392}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AF670FE-5259-4C41-AD5B-ACD0FBF41392}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
