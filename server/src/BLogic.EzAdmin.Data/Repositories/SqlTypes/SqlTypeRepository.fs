@@ -15,6 +15,10 @@ module SqlTypeRepository =
                                         Parameters = ["SchemaName", box schemaName]
                                         }
 
+        let getTable tableName = querySingle<SqlTable> {
+                                                Query = "SELECT TOP 1 TABLE_NAME TableName, TABLE_SCHEMA SchemaName FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = @TableName";
+                                                Parameters = ["TableName", box tableName]
+                                                }
 
          
 

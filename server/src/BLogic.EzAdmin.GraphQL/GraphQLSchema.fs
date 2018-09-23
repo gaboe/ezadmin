@@ -53,6 +53,7 @@ module GraphQLSchema =
             name = "Query",
             fields = [
                 Define.Field("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
+                Define.Field("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getTable |> Async.RunSynchronously)
                 Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ], fun ctx _ -> ctx.Arg("schemaName") |> getTables |> Async.RunSynchronously)
                 ]
             )
