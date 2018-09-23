@@ -8,6 +8,7 @@ module GraphQLSchema =
     open FSharp.Data.GraphQL
     open FSharp.Data.GraphQL.Types
     open FSharp.Data.GraphQL.Server.Middlewares
+    open BLogic.EzAdmin.Core.SchemaService
 
     let schemaConfig = SchemaConfig.Default
 
@@ -37,7 +38,7 @@ module GraphQLSchema =
         Define.Object<Root>(
             name = "Query",
             fields = [
-                Define.Field("schemas", ListOf (SchemaType), "Get db schemas", fun _ __ -> schemas)
+                Define.Field("schemas", ListOf (SchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
                 ]
             )
 

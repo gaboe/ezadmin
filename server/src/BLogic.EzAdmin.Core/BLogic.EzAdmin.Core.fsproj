@@ -5,11 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Services\Schemas\SchemaService.fs" />
     <Compile Include="Converters\OptionConverter.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BLogic.EzAdmin.Data\BLogic.EzAdmin.Data.fsproj" />
   </ItemGroup>
 
 </Project>
