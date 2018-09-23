@@ -1,4 +1,5 @@
 ﻿namespace BLogic.EzAdmin.Api.Controllers
+
 open Microsoft.AspNetCore.Mvc
 open BLogic.EzAdmin.Domain.GraphQL
 open BLogic.EzAdmin.GraphQL.QueryProcessor
@@ -10,5 +11,8 @@ type GraphQlController () =
 
     [<HttpPost>]
     member __.Post([<FromBody>] body: UnsafeGraphQlQuery) = 
-            processQuery body
+            let result = processQuery body 
+            match result with 
+                        | Some r -> JsonResult(r)
+                        | None -> JsonResult("")
         

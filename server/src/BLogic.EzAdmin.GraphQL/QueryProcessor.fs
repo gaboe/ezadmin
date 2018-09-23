@@ -2,6 +2,9 @@
 
 module QueryProcessor = 
     open BLogic.EzAdmin.Domain.GraphQL
+    open Newtonsoft.Json
+    open BLogic.EzAdmin.Core.Converters.OptionConverter
+    open FSharp.Data.GraphQL.Execution
 
     let removeSpacesAndNewLines (str : string) = str.Trim().Replace("\r\n", " ")
 
@@ -10,7 +13,27 @@ module QueryProcessor =
                         then None
                         else Some str
 
+    let tee f x =
+        f x
+        x
+    
     let processQuery (body:UnsafeGraphQlQuery) =
+        let jsonSettings =
+                JsonSerializerSettings()
+                |> tee (fun s ->
+                    s.Converters <- [| OptionConverter() :> JsonConverter |]
+                    s.ContractResolver <- Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver())
+  
+        let getResultData =
+                function
+                | Direct (data, _) ->
+                    Some data
+                | Deferred (data, _, deferred) ->
+                    deferred |> Observable.add(fun d -> printfn "Deferred: %s" (JsonConvert.SerializeObject(d, jsonSettings)))
+                    Some data
+                | Stream _ ->
+                    None
+
         let gqlQuery = getOptionString body.Query
         let variables = match System.Object.ReferenceEquals(body.Variables, null) with
                             | true -> None
@@ -33,4 +56,7 @@ module QueryProcessor =
                                 result
             
         printfn "Result metadata: %A" result.Metadata
+
+        getResultData result
+
         

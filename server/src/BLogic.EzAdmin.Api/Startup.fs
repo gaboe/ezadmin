@@ -29,6 +29,8 @@ type Startup private () =
             app.UseHsts() |> ignore
 
         app.UseHttpsRedirection() |> ignore
+
+        app.UseGraphiQl("/graphiql") |> ignore
         app.UseMvc() |> ignore
 
     member val Configuration : IConfiguration = null with get, set

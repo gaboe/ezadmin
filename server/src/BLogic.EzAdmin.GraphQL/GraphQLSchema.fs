@@ -44,8 +44,14 @@ module GraphQLSchema =
     let Subscription =
         Define.SubscriptionObject<Root>(
             name = "Subscription",
-            fields = []
-            )
+            fields = [
+                Define.SubscriptionField(
+                    "watchMoon",
+                    RootType,
+                    SchemaType,
+                    "Fake subscription",
+                    [ Define.Input("id", String) ],
+                    (fun ctx _ (p: DomainSchema) -> if ctx.Arg("id") = p.Name then Some p else None)) ])
 
     let Mutation =
         Define.Object<Root>(
