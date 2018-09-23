@@ -4,4 +4,18 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Include="GraphQLSchema.fs" />
+    <Compile Include="QueryProcessor.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FSharp.Data.GraphQL.Server" Version="0.0.7-beta" />
+    <PackageReference Include="FSharp.Data.GraphQL.Server.Middlewares" Version="0.0.7-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BLogic.EzAdmin.Domain\BLogic.EzAdmin.Domain.fsproj" />
+  </ItemGroup>
+
 </Project>
