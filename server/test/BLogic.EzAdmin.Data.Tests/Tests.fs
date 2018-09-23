@@ -2,11 +2,12 @@
 
 open System
 open Microsoft.VisualStudio.TestTools.UnitTesting
-open BLogic.EzAdmin.Data.Schemas.MsSqlSchemaRepository
+open BLogic.EzAdmin.Data.Repositories.SqlTypes.SqlTypeRepository
+
 [<TestClass>]
 type MsSqlSchemaRepositoryTest () =
 
     [<TestMethod>]
     member this.GetAllSchemas () =
-        let c = get |> Async.RunSynchronously
+        let c = getAllSchemas |> Async.RunSynchronously
         Assert.IsTrue(true);

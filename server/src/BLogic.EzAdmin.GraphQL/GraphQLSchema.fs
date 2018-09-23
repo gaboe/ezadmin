@@ -12,7 +12,7 @@ module GraphQLSchema =
     
     let schemaConfig = SchemaConfig.Default
 
-    let rec SchemaType =
+    let rec SqlSchemaType =
        Define.Object<SqlSchema>(
             name = "SqlSchema",
             description = "",
@@ -21,6 +21,8 @@ module GraphQLSchema =
             [
                 Define.Field("schemaName", String, "Schema name", fun _ (s: SqlSchema) -> s.SchemaName)
             ])
+
+    
     and RootType =
         Define.Object<Root>(
             name = "Root",
@@ -38,7 +40,7 @@ module GraphQLSchema =
         Define.Object<Root>(
             name = "Query",
             fields = [
-                Define.Field("schemas", ListOf (SchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
+                Define.Field("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
                 ]
             )
 
@@ -49,7 +51,7 @@ module GraphQLSchema =
                 Define.SubscriptionField(
                     "watchMoon",
                     RootType,
-                    SchemaType,
+                    SqlSchemaType,
                     "Fake subscription",
                     [ Define.Input("id", String) ],
                     (fun ctx _ (p: SqlSchema) -> if ctx.Arg("id") = p.SchemaName then Some p else None)) ])
@@ -60,7 +62,7 @@ module GraphQLSchema =
             fields = [
                 Define.Field(
                     "setMoon",
-                    Nullable SchemaType,
+                    Nullable SqlSchemaType,
                     "Sets a moon status",
                     [ Define.Input("id", String); Define.Input("ismoon", Boolean) ],
                     fun ctx _ ->
