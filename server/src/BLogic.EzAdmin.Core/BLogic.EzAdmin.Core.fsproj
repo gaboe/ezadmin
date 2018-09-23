@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Services\Schemas\SchemaService.fs" />
+    <Compile Include="Services\SqlTypes\SqlTypeService.fs" />
     <Compile Include="Converters\OptionConverter.fs" />
   </ItemGroup>
 

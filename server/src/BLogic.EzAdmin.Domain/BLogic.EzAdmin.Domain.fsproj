@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Compile Include="Sql\SqlQuery.fs" />
-    <Compile Include="Schema\Schema.fs" />
+    <Compile Include="SqlTypes\SqlTypes.fs" />
     <Compile Include="GraphQL\UnsafeGraphQLQuery.fs" />
   </ItemGroup>
 

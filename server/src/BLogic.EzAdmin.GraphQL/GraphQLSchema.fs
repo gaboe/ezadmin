@@ -2,24 +2,24 @@
 
 type Root =
     { ClientId: string }
-type DomainSchema = BLogic.EzAdmin.Domain.Schema.Schema.Schema
 
 module GraphQLSchema = 
     open FSharp.Data.GraphQL
     open FSharp.Data.GraphQL.Types
     open FSharp.Data.GraphQL.Server.Middlewares
-    open BLogic.EzAdmin.Core.SchemaService
-
+    open BLogic.EzAdmin.Domain.SqlTypes
+    open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
+    
     let schemaConfig = SchemaConfig.Default
 
     let rec SchemaType =
-       Define.Object<DomainSchema>(
-            name = "Schema",
+       Define.Object<SqlSchema>(
+            name = "SqlSchema",
             description = "",
-            isTypeOf = (fun o -> o :? DomainSchema),
+            isTypeOf = (fun o -> o :? SqlSchema),
             fieldsFn = fun () ->
             [
-                Define.Field("name", String, "Schema name", fun _ (s: DomainSchema) -> s.Name)
+                Define.Field("schemaName", String, "Schema name", fun _ (s: SqlSchema) -> s.SchemaName)
             ])
     and RootType =
         Define.Object<Root>(
@@ -31,7 +31,7 @@ module GraphQLSchema =
                 Define.Field("clientid", String, "The ID of the client", fun _ r -> r.ClientId)
             ])
 
-    let _schema: DomainSchema = {Name = "makau"} 
+    let _schema: SqlSchema = {SchemaName = "makau"} 
     let schemas = [ _schema ] |> List.toSeq
 
     let Query =
@@ -52,7 +52,7 @@ module GraphQLSchema =
                     SchemaType,
                     "Fake subscription",
                     [ Define.Input("id", String) ],
-                    (fun ctx _ (p: DomainSchema) -> if ctx.Arg("id") = p.Name then Some p else None)) ])
+                    (fun ctx _ (p: SqlSchema) -> if ctx.Arg("id") = p.SchemaName then Some p else None)) ])
 
     let Mutation =
         Define.Object<Root>(

@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Compile Include="QueryHandler.fs" />
-    <Compile Include="Schemas\SchemaRepository.fs" />
+    <Compile Include="Repositories\SqlTypes\SqlTypeRepository.fs" />
   </ItemGroup>
 
   <ItemGroup>
