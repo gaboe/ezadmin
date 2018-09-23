@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Sql\SqlQuery.fs" />
     <Compile Include="Schema\Schema.fs" />
     <Compile Include="GraphQL\UnsafeGraphQLQuery.fs" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿namespace BLogic.EzAdmin.Domain.Schema
 
 module Schema =
-    type Schema = 
+    type [<CLIMutable>] Schema = 
         {Name: string}
 
