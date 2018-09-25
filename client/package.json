@@ -8,17 +8,21 @@
     "react-scripts-ts": "2.17.0"
   },
   "scripts": {
-    "dev": "yarn start",
+    "dev": "yarn codegen && yarn start",
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "codegen": "yarn get-schema && yarn generate-types",
+    "get-schema": "apollo-codegen introspect-schema http://localhost:7930/graphql/ --output \"./src/generated-types/schema.json\"",
+    "generate-types": "apollo-codegen generate \"./src/graphql/**/*.ts\" --schema \"./src/generated-types/schema.json\" --target typescript --output \"./src/generated-types/types.ts\" --addTypename"
   },
   "devDependencies": {
     "@types/jest": "^23.3.2",
     "@types/node": "^10.11.0",
     "@types/react": "^16.4.14",
     "@types/react-dom": "^16.0.7",
+    "apollo-codegen": "^0.20.2",
     "typescript": "^3.0.3"
   }
 }
