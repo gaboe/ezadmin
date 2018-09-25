@@ -6,5 +6,10 @@
       "node_modules/**/*.ts",
       "coverage/lcov-report/*.js"
     ]
+  },
+  "rules": {
+    "interface-over-type-literal": false,
+    "no-console": false,
+    "jsx-no-lambda": false
   }
 }
