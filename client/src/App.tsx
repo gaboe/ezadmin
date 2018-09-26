@@ -4,9 +4,8 @@ import { HttpLink } from "apollo-link-http";
 import * as React from "react";
 import { ApolloProvider } from "react-apollo";
 import { HashRouter as Router } from "react-router-dom";
-import { Schemas } from "./components/db/Schemas";
-// import { Layout } from "./components/layout/Layout";
-// import { Routes } from "./components/routes/Routes";
+import { Layout } from "./components/Layout/Layout";
+import { Routes } from "./components/Routes/Routes";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -26,14 +25,9 @@ class App extends React.Component {
       <>
         <ApolloProvider client={client}>
           <Router>
-            <Schemas
-              onSchemaClick={e => {
-                console.log(e);
-              }}
-            />
-            {/* <Layout>
+            <Layout>
               <Routes />
-            </Layout> */}
+            </Layout>
           </Router>
         </ApolloProvider>
       </>

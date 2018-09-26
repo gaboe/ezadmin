@@ -9,3 +9,18 @@ export interface GetSchemasQuery {
     schemaName: string,
   } >,
 };
+
+export interface GetTablesBySchemaQueryVariables {
+  schemaName: string,
+};
+
+export interface GetTablesBySchemaQuery {
+  // Get db tables by schema name
+  tables:  Array< {
+    __typename: "SqlTable",
+    // Table name
+    tableName: string,
+    // Schema name
+    schemaName: string,
+  } >,
+};
