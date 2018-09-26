@@ -10,4 +10,6 @@ type [<CLIMutable>] SqlTable =
 type [<CLIMutable>] SqlColumn =
     {ColumnName: string;
     TableName: string;
-    SchemaName: string;}
+    SchemaName: string;
+    DataType: string;
+    IsKey: bool;}

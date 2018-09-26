@@ -34,6 +34,19 @@ module GraphQLSchema =
                 Define.Field("schemaName", String, "Schema name", fun _ (x: SqlTable) -> x.SchemaName)
             ]
         )
+
+    and SqlColumnType = 
+        Define.Object<SqlColumn>(
+            name = "SqlColumn",
+            description = "",
+            isTypeOf = (fun o -> o :? SqlColumn),
+            fieldsFn = fun () ->
+            [
+                Define.Field("columnName", String, "Column name", fun _ (x: SqlColumn) -> x.ColumnName)
+                Define.Field("tableName", String, "Table name", fun _ (x: SqlColumn) -> x.TableName)
+                Define.Field("schemaName", String, "Schema name", fun _ (x: SqlColumn) -> x.SchemaName)
+            ]
+        )
     
     and RootType =
         Define.Object<Root>(
@@ -55,6 +68,7 @@ module GraphQLSchema =
                 Define.Field("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
                 Define.Field("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getTable |> Async.RunSynchronously)
                 Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ], fun ctx _ -> ctx.Arg("schemaName") |> getTables |> Async.RunSynchronously)
+                Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getColumns |> Async.RunSynchronously)
                 ]
             )
 

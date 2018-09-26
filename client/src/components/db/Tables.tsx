@@ -5,8 +5,8 @@ import { GetTablesBySchemaQueryVariables } from "../../generated-types/types";
 import {
   TABLES_BY_SCHEMA_QUERY,
   TablesBySchemaQueryComponent
-} from "../../graphql/queries/db/TableBySchema";
-// import { Columns } from "../columns/Columns";
+} from "../../graphql/queries/db/TableBySchemaQuery";
+import { Columns } from "./Columns";
 
 type Props = {
   schemaName: string;
@@ -61,7 +61,7 @@ class Tables extends React.Component<Props> {
           {this.props.tableName && (
             <>
               <Col sm={6}>
-                {/* <Columns tableName={this.props.tableName} /> */}
+                <Columns tableName={this.props.tableName} />
               </Col>
             </>
           )}

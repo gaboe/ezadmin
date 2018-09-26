@@ -9,3 +9,5 @@ module SqlTypeService =
 
     let getTables schemaName = getTables schemaName
 
+    let getColumns tableName = getColumns tableName
+
