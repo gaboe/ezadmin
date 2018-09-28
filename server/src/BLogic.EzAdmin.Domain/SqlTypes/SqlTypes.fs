@@ -7,9 +7,10 @@ type [<CLIMutable>] SqlTable =
     {TableName: string;
     SchemaName: string;} 
 
+
 type [<CLIMutable>] SqlColumn =
     {ColumnName: string;
     TableName: string;
     SchemaName: string;
     DataType: string;
-    IsKey: bool;}
+    IsPrimaryKey: bool;}

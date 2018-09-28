@@ -1,6 +1,12 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export enum SqlColumnDataType {
+  char = "char",
+  int = "int",
+}
+
+
 export interface GetDbColumnsByTableNameQueryVariables {
   tableName: string,
 };
@@ -63,6 +69,7 @@ export interface GetDbTableDetailQuery {
       tableName: string,
       // Column name
       columnName: string,
+      dataType: SqlColumnDataType,
     } >,
   } | null,
 };

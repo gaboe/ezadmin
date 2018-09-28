@@ -14,6 +14,7 @@ const DB_TABLE_DETAIL_QUERY = gql`
         schemaName
         tableName
         columnName
+        dataType
       }
     }
   }

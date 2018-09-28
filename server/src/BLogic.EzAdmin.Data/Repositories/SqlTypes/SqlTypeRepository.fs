@@ -44,7 +44,7 @@ module SqlTypeRepository =
                                                   THEN 1
                                                     ELSE 0
                                                   END
-                                                 AS BIT) AS IsKey  FROM INFORMATION_SCHEMA.COLUMNS
+                                                 AS BIT) AS IsPrimaryKey  FROM INFORMATION_SCHEMA.COLUMNS
 
                                                  WHERE [TABLE_NAME] = @TableName
                                                 """;

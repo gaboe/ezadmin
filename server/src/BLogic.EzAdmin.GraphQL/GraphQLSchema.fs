@@ -10,7 +10,17 @@ module GraphQLSchema =
     open FSharp.Data.GraphQL.Server.Middlewares
     open BLogic.EzAdmin.Domain.SqlTypes
     open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
+
+    type SqlColumnDataType = Int | Nvarchar
     
+    let SqlColumnDataType =
+        Define.Enum(
+            name = "SqlColumnDataType",
+            options = [
+                Define.EnumValue("int", SqlColumnDataType.Int, "")
+                Define.EnumValue("char", SqlColumnDataType.Nvarchar, "")
+             ])
+
     let schemaConfig = SchemaConfig.Default
 
     let rec SqlSchemaType =
@@ -47,6 +57,7 @@ module GraphQLSchema =
                 Define.Field("columnName", String, "Column name", fun _ (x: SqlColumn) -> x.ColumnName)
                 Define.Field("tableName", String, "Table name", fun _ (x: SqlColumn) -> x.TableName)
                 Define.Field("schemaName", String, "Schema name", fun _ (x: SqlColumn) -> x.SchemaName)
+                Define.Field("dataType", SqlColumnDataType, "", fun _ (h : SqlColumn) -> match  h.DataType with | "Int" -> Int | _ -> Nvarchar)
             ]
         )
     
