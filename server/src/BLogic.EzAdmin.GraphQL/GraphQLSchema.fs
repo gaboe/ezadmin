@@ -11,14 +11,20 @@ module GraphQLSchema =
     open BLogic.EzAdmin.Domain.SqlTypes
     open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
 
-    type SqlColumnDataType = Int | Nvarchar
+    type SqlColumnDataType = Int | Nvarchar | Unknown
     
+    let getSqlColumnDataType sqlDataType = match sqlDataType with 
+                                            | "int" -> Int 
+                                            | "nvarchar" -> Nvarchar 
+                                            | _ -> Unknown
+
     let SqlColumnDataType =
         Define.Enum(
             name = "SqlColumnDataType",
             options = [
-                Define.EnumValue("int", SqlColumnDataType.Int, "")
-                Define.EnumValue("char", SqlColumnDataType.Nvarchar, "")
+                Define.EnumValue("Int", SqlColumnDataType.Int, "")
+                Define.EnumValue("Char", SqlColumnDataType.Nvarchar, "")
+                Define.EnumValue("Unknown", SqlColumnDataType.Unknown, "")
              ])
 
     let schemaConfig = SchemaConfig.Default
@@ -57,7 +63,7 @@ module GraphQLSchema =
                 Define.Field("columnName", String, "Column name", fun _ (x: SqlColumn) -> x.ColumnName)
                 Define.Field("tableName", String, "Table name", fun _ (x: SqlColumn) -> x.TableName)
                 Define.Field("schemaName", String, "Schema name", fun _ (x: SqlColumn) -> x.SchemaName)
-                Define.Field("dataType", SqlColumnDataType, "", fun _ (h : SqlColumn) -> match  h.DataType with | "Int" -> Int | _ -> Nvarchar)
+                Define.Field("dataType", SqlColumnDataType, "", fun _ (h : SqlColumn) -> h.DataType |> getSqlColumnDataType )
             ]
         )
     
