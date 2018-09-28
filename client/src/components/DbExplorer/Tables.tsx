@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Col, Row } from "react-grid-system";
 import { Header, List } from "semantic-ui-react";
-import { GetTablesBySchemaQueryVariables } from "../../generated-types/types";
+import { GetDbTablesBySchemaQueryVariables } from "../../generated-types/types";
 import {
-  TABLES_BY_SCHEMA_QUERY,
-  TablesBySchemaQueryComponent
+  DB_TABLES_BY_SCHEMA_QUERY,
+  DbTablesBySchemaQueryComponent
 } from "../../graphql/queries/DbExplorer/TableBySchemaQuery";
 import { Columns } from "./Columns";
 
@@ -16,15 +16,15 @@ type Props = {
 
 class Tables extends React.Component<Props> {
   public render() {
-    const variables: GetTablesBySchemaQueryVariables = {
+    const variables: GetDbTablesBySchemaQueryVariables = {
       schemaName: this.props.schemaName
     };
     return (
       <>
         <Row>
           <Col sm={6}>
-            <TablesBySchemaQueryComponent
-              query={TABLES_BY_SCHEMA_QUERY}
+            <DbTablesBySchemaQueryComponent
+              query={DB_TABLES_BY_SCHEMA_QUERY}
               variables={variables}
             >
               {response => {
@@ -56,7 +56,7 @@ class Tables extends React.Component<Props> {
                   </>
                 );
               }}
-            </TablesBySchemaQueryComponent>
+            </DbTablesBySchemaQueryComponent>
           </Col>
           {this.props.tableName && (
             <>

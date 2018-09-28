@@ -1,11 +1,11 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
-export interface GetColumnsByTableNameQueryVariables {
+export interface GetDbColumnsByTableNameQueryVariables {
   tableName: string,
 };
 
-export interface GetColumnsByTableNameQuery {
+export interface GetDbColumnsByTableNameQuery {
   // Get table columns by table name
   columns:  Array< {
     __typename: "SqlColumn",
@@ -18,7 +18,7 @@ export interface GetColumnsByTableNameQuery {
   } >,
 };
 
-export interface GetSchemasQuery {
+export interface GetDbSchemasQuery {
   // Get db schemas
   schemas:  Array< {
     __typename: "SqlSchema",
@@ -27,11 +27,11 @@ export interface GetSchemasQuery {
   } >,
 };
 
-export interface GetTablesBySchemaQueryVariables {
+export interface GetDbTablesBySchemaQueryVariables {
   schemaName: string,
 };
 
-export interface GetTablesBySchemaQuery {
+export interface GetDbTablesBySchemaQuery {
   // Get db tables by schema name
   tables:  Array< {
     __typename: "SqlTable",

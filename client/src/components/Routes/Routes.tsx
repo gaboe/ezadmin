@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Route } from "react-router-dom";
 import styled from "styled-components";
+import { Designer } from "../Designer/Designer";
 import { DatabaseExplorer } from "./../DbExplorer/DatabaseExplorer";
 
 const ContenWrapper = styled.div`
@@ -12,12 +13,12 @@ const Routes = () => {
     <>
       <ContenWrapper>
         <Route exact={true} path="/" component={DatabaseExplorer} />
-        {/* <Route
+        <Route
           exact={true}
           path="/:schemaName-:tableName"
           component={DatabaseExplorer}
-        /> */}
-        {/* <Route path="/table/:name/:cid?" component={TableDetail} /> */}
+        />
+        <Route path="/table/:name/:cid?" component={Designer} />
         {/* <Route exact={true} path="/app/:cid?" component={GeneratedApp} /> */}
       </ContenWrapper>
     </>

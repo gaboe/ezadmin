@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Header, List } from "semantic-ui-react";
 import {
-  SCHEMAS_QUERY,
-  SchemasQueryComponent
+  DB_SCHEMAS_QUERY,
+  DbSchemasQueryComponent
 } from "../../graphql/queries/DbExplorer/SchemasQuery";
 
 type Props = {
@@ -13,7 +13,7 @@ class Schemas extends React.Component<Props> {
   public render() {
     return (
       <>
-        <SchemasQueryComponent query={SCHEMAS_QUERY}>
+        <DbSchemasQueryComponent query={DB_SCHEMAS_QUERY}>
           {response => {
             if (!response.loading && response.data) {
               return (
@@ -41,7 +41,7 @@ class Schemas extends React.Component<Props> {
             }
             return null;
           }}
-        </SchemasQueryComponent>
+        </DbSchemasQueryComponent>
       </>
     );
   }

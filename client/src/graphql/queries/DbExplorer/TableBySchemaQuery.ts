@@ -1,12 +1,12 @@
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import {
-  GetTablesBySchemaQuery,
-  GetTablesBySchemaQueryVariables
+  GetDbTablesBySchemaQuery,
+  GetDbTablesBySchemaQueryVariables
 } from "../../../generated-types/types";
 
-const TABLES_BY_SCHEMA_QUERY = gql`
-  query GetTablesBySchema($schemaName: String!) {
+const DB_TABLES_BY_SCHEMA_QUERY = gql`
+  query GetDbTablesBySchema($schemaName: String!) {
     tables(schemaName: $schemaName) {
       tableName
       schemaName
@@ -14,9 +14,9 @@ const TABLES_BY_SCHEMA_QUERY = gql`
   }
 `;
 
-class TablesBySchemaQueryComponent extends Query<
-  GetTablesBySchemaQuery,
-  GetTablesBySchemaQueryVariables
+class DbTablesBySchemaQueryComponent extends Query<
+  GetDbTablesBySchemaQuery,
+  GetDbTablesBySchemaQueryVariables
 > {}
 
-export { TABLES_BY_SCHEMA_QUERY, TablesBySchemaQueryComponent };
+export { DB_TABLES_BY_SCHEMA_QUERY, DbTablesBySchemaQueryComponent };

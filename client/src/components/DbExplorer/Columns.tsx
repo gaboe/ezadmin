@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button, Header, List } from "semantic-ui-react";
-import { GetColumnsByTableNameQueryVariables } from "../../generated-types/types";
+import { GetDbColumnsByTableNameQueryVariables } from "../../generated-types/types";
 import {
-  COLUMNS_BY_TABLE_QUERY,
-  ColumsByTableQueryComponent
+  ColumsByTableQueryComponent,
+  DB_COLUMNS_BY_TABLE_QUERY
 } from "./../../graphql/queries/DbExplorer/ColumnsByTableQuery";
 type Props = {
   tableName: string;
@@ -12,13 +12,13 @@ type Props = {
 
 class Columns extends React.Component<Props> {
   public render() {
-    const variables: GetColumnsByTableNameQueryVariables = {
+    const variables: GetDbColumnsByTableNameQueryVariables = {
       tableName: this.props.tableName
     };
     return (
       <>
         <ColumsByTableQueryComponent
-          query={COLUMNS_BY_TABLE_QUERY}
+          query={DB_COLUMNS_BY_TABLE_QUERY}
           variables={variables}
         >
           {response => {

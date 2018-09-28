@@ -1,15 +1,15 @@
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import { GetSchemasQuery } from "../../../generated-types/types";
+import { GetDbSchemasQuery } from "../../../generated-types/types";
 
-const SCHEMAS_QUERY = gql`
-  query GetSchemas {
+const DB_SCHEMAS_QUERY = gql`
+  query GetDbSchemas {
     schemas {
       schemaName
     }
   }
 `;
 
-class SchemasQueryComponent extends Query<GetSchemasQuery> {}
+class DbSchemasQueryComponent extends Query<GetDbSchemasQuery> {}
 
-export { SCHEMAS_QUERY, SchemasQueryComponent };
+export { DB_SCHEMAS_QUERY, DbSchemasQueryComponent };
