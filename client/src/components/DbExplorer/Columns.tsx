@@ -5,7 +5,7 @@ import { GetColumnsByTableNameQueryVariables } from "../../generated-types/types
 import {
   COLUMNS_BY_TABLE_QUERY,
   ColumsByTableQueryComponent
-} from "./../../graphql/queries/db/ColumnsByTableQuery";
+} from "./../../graphql/queries/DbExplorer/ColumnsByTableQuery";
 type Props = {
   tableName: string;
 };

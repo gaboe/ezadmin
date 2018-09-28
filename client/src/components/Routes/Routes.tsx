@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Route } from "react-router-dom";
 import styled from "styled-components";
-import { DatabaseExplorer } from "./../db/DatabaseExplorer";
+import { DatabaseExplorer } from "./../DbExplorer/DatabaseExplorer";
 
 const ContenWrapper = styled.div`
   margin: 2em;

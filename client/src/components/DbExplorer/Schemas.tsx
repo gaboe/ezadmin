@@ -3,7 +3,7 @@ import { Header, List } from "semantic-ui-react";
 import {
   SCHEMAS_QUERY,
   SchemasQueryComponent
-} from "../../graphql/queries/db/SchemasQuery";
+} from "../../graphql/queries/DbExplorer/SchemasQuery";
 
 type Props = {
   onSchemaClick: (schemaName: string) => void;

@@ -5,7 +5,7 @@ import { GetTablesBySchemaQueryVariables } from "../../generated-types/types";
 import {
   TABLES_BY_SCHEMA_QUERY,
   TablesBySchemaQueryComponent
-} from "../../graphql/queries/db/TableBySchemaQuery";
+} from "../../graphql/queries/DbExplorer/TableBySchemaQuery";
 import { Columns } from "./Columns";
 
 type Props = {
