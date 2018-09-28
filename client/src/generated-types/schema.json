@@ -1,5 +1,5 @@
 {
-  "documentId": -483304351,
+  "documentId": -1264227706,
   "data": {
     "__schema": {
       "queryType": {
@@ -1083,6 +1083,30 @@
           "name": "SqlTable",
           "description": "",
           "fields": [
+            {
+              "name": "columns",
+              "description": "Columns of table",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "SqlColumn",
+                      "ofType": null
+                    }
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
             {
               "name": "schemaName",
               "description": "Schema name",

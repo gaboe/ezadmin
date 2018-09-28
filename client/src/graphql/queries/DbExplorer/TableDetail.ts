@@ -1,35 +1,26 @@
-// import gql from "graphql-tag";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import {
+  GetDbTableDetailQuery,
+  GetDbTableDetailQueryVariables
+} from "../../../generated-types/types";
 
-// const DB_TABLE_DETAIL_QUERY = gql`
-//   query TableDetail($tableName: String!) {
-//     table(tableName: $tableName) {
-//       name
-//       schemaName
-//       columns {
-//         schemaName
-//         tableName
-//         name
-//         dataType
-//         isKey
-//       }
-//       referencing {
-//         referencedSchemaName
-//         referencedTableName
-//         referencedColumnName
-//         referencingSchemaName
-//         referencingTableName
-//         referencingColumnName
-//       }
-//       referenced {
-//         referencedSchemaName
-//         referencedTableName
-//         referencedColumnName
-//         referencingSchemaName
-//         referencingTableName
-//         referencingColumnName
-//       }
-//     }
-//   }
-// `;
+const DB_TABLE_DETAIL_QUERY = gql`
+  query GetDbTableDetail($tableName: String!) {
+    table(tableName: $tableName) {
+      tableName
+      schemaName
+      columns {
+        schemaName
+        tableName
+        columnName
+      }
+    }
+  }
+`;
+class DbTablesDetailQueryComponent extends Query<
+  GetDbTableDetailQuery,
+  GetDbTableDetailQueryVariables
+> {}
 
-// export { DB_TABLE_DETAIL_QUERY };
+export { DB_TABLE_DETAIL_QUERY, DbTablesDetailQueryComponent };

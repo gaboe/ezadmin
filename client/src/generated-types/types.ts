@@ -41,3 +41,28 @@ export interface GetDbTablesBySchemaQuery {
     schemaName: string,
   } >,
 };
+
+export interface GetDbTableDetailQueryVariables {
+  tableName: string,
+};
+
+export interface GetDbTableDetailQuery {
+  // Get db table by table name
+  table:  {
+    __typename: "SqlTable",
+    // Table name
+    tableName: string,
+    // Schema name
+    schemaName: string,
+    // Columns of table
+    columns:  Array< {
+      __typename: "SqlColumn",
+      // Schema name
+      schemaName: string,
+      // Table name
+      tableName: string,
+      // Column name
+      columnName: string,
+    } >,
+  } | null,
+};

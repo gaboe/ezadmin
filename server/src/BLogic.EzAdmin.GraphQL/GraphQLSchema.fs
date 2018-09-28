@@ -1,4 +1,5 @@
 ﻿namespace BLogic.EzAdmin.GraphQL
+#nowarn "40"
 
 type Root =
     { ClientId: string }
@@ -32,6 +33,7 @@ module GraphQLSchema =
             [
                 Define.Field("tableName", String, "Table name", fun _ (x: SqlTable) -> x.TableName)
                 Define.Field("schemaName", String, "Schema name", fun _ (x: SqlTable) -> x.SchemaName)
+                Define.Field("columns", ListOf (SqlColumnType), "Columns of table", fun _ (x: SqlTable) -> getColumns x.TableName |> Async.RunSynchronously)
             ]
         )
 
