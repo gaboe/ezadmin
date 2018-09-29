@@ -5,9 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Schemas\SchemaTypes.fs" />
     <Compile Include="Sql\SqlQuery.fs" />
     <Compile Include="SqlTypes\SqlTypes.fs" />
     <Compile Include="GraphQL\UnsafeGraphQLQuery.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.7.0" />
   </ItemGroup>
 
 </Project>

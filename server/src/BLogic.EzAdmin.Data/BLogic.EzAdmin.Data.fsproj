@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Core\MongoHandler.fs" />
     <Compile Include="QueryHandler.fs" />
+    <Compile Include="Repositories\Schemas\SchemaTypesRepository.fs" />
     <Compile Include="Repositories\SqlTypes\SqlReferenceRepository.fs" />
     <Compile Include="Repositories\SqlTypes\SqlTypeRepository.fs" />
   </ItemGroup>
@@ -13,6 +15,9 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
     <PackageReference Include="FSharp.Data.Dapper" Version="2.0.0" />
+    <PackageReference Include="MongoDB.Bson" Version="2.7.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.7.0" />
+    <PackageReference Include="MongoDB.FSharp" Version="0.1.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
   </ItemGroup>
 
