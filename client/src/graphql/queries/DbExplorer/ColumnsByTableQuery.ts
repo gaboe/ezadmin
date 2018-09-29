@@ -11,6 +11,7 @@ const DB_COLUMNS_BY_TABLE_QUERY = gql`
       columnName
       schemaName
       tableName
+      dataType
     }
   }
 `;

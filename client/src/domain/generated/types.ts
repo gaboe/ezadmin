@@ -22,6 +22,7 @@ export interface GetDbColumnsByTableNameQuery {
     schemaName: string,
     // Table name
     tableName: string,
+    dataType: SqlColumnDataType,
   } >,
 };
 
