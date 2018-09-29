@@ -32,13 +32,30 @@ module GraphQLSchema =
     let rec SqlSchemaType =
        Define.Object<SqlSchema>(
             name = "SqlSchema",
-            description = "",
+            description = "Db schema",
             isTypeOf = (fun o -> o :? SqlSchema),
             fieldsFn = fun () ->
             [
                 Define.Field("schemaName", String, "Schema name", fun _ (x: SqlSchema) -> x.SchemaName)
             ]
-            )
+        )
+
+    and SqlReferenceType = 
+        Define.Object<SqlReference>(
+            name = "SqlReference",
+            description = "Relation between table reference constrains",
+            isTypeOf = (fun o -> o :? SqlReference),
+            fieldsFn = fun () ->
+            [
+                Define.Field("referenceName", String, "Name of reference", fun _ (x: SqlReference) -> x.ReferenceName)
+                Define.Field("fromSchema", String, "", fun _ (x: SqlReference) -> x.FromSchema)
+                Define.Field("fromTable", String, "", fun _ (x: SqlReference) -> x.FromTable)
+                Define.Field("fromColumn", String, "", fun _ (x: SqlReference) -> x.FromColumn)
+                Define.Field("toSchema", String, "", fun _ (x: SqlReference) -> x.ToSchema)
+                Define.Field("toTable", String, "", fun _ (x: SqlReference) -> x.ToTable)
+                Define.Field("toColumn", String, "", fun _ (x: SqlReference) -> x.ToColumn)
+            ]
+         )
 
     and SqlTableType = 
         Define.Object<SqlTable>(
@@ -50,6 +67,8 @@ module GraphQLSchema =
                 Define.Field("tableName", String, "Table name", fun _ (x: SqlTable) -> x.TableName)
                 Define.Field("schemaName", String, "Schema name", fun _ (x: SqlTable) -> x.SchemaName)
                 Define.Field("columns", ListOf (SqlColumnType), "Columns of table", fun _ (x: SqlTable) -> getColumns x.TableName |> Async.RunSynchronously)
+                Define.Field("referencesToTable", ListOf (SqlReferenceType), "Column references to this table", fun _ (x: SqlTable) -> getReferencesToTable x.TableName |> Async.RunSynchronously)
+                Define.Field("referencesFromTable", ListOf (SqlReferenceType), "Column references from this table to other tables", fun _ (x: SqlTable) -> getReferencesFromTable x.TableName |> Async.RunSynchronously)
             ]
         )
 

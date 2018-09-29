@@ -72,5 +72,27 @@ export interface GetDbTableDetailQuery {
       columnName: string,
       dataType: SqlColumnDataType,
     } >,
+    // Column references from this table to other tables
+    referencesFromTable:  Array< {
+      __typename: "SqlReference",
+      // Name of reference
+      referenceName: string,
+      fromSchema: string,
+      fromTable: string,
+      fromColumn: string,
+      toSchema: string,
+      toTable: string,
+    } >,
+    // Column references to this table
+    referencesToTable:  Array< {
+      __typename: "SqlReference",
+      // Name of reference
+      referenceName: string,
+      fromSchema: string,
+      fromTable: string,
+      fromColumn: string,
+      toSchema: string,
+      toTable: string,
+    } >,
   } | null,
 };

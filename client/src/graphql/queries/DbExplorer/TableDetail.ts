@@ -16,6 +16,24 @@ const DB_TABLE_DETAIL_QUERY = gql`
         columnName
         dataType
       }
+      referencesFromTable {
+        referenceName
+        fromSchema
+        fromTable
+        fromColumn
+        toSchema
+        toTable
+        toSchema
+      }
+      referencesToTable {
+        referenceName
+        fromSchema
+        fromTable
+        fromColumn
+        toSchema
+        toTable
+        toSchema
+      }
     }
   }
 `;

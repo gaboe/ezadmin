@@ -50,6 +50,3 @@ module SqlTypeRepository =
                                                 """;
                                                 Parameters = ["TableName", box tableName]
                                                 }
-         
-
-

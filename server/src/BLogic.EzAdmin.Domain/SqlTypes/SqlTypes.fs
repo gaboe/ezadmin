@@ -13,3 +13,12 @@ type [<CLIMutable>] SqlColumn =
     SchemaName: string;
     DataType: string;
     IsPrimaryKey: bool;}
+
+type [<CLIMutable>] SqlReference =
+    {ReferenceName: string;
+    FromSchema: string;
+    FromTable: string;
+    FromColumn: string;
+    ToSchema: string;
+    ToTable: string;
+    ToColumn: string;}
