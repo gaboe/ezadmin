@@ -55,7 +55,7 @@ class Designer extends React.Component<Props, State> {
                             //   this.checkColumnFromPrimaryTable(x, true)
                             // }
                             />
-                            {` [${x.columnName}]: ${x.columnName}`}
+                            {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
                           </List.Item>
                         );
                       })}

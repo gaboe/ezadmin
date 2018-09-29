@@ -2,8 +2,9 @@
 //  This file was automatically generated and should not be edited.
 
 export enum SqlColumnDataType {
-  char = "char",
-  int = "int",
+  Char = "Char",
+  Int = "Int",
+  Unknown = "Unknown",
 }
 
 

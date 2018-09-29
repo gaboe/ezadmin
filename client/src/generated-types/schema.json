@@ -1,5 +1,5 @@
 {
-  "documentId": -542551417,
+  "documentId": -395974949,
   "data": {
     "__schema": {
       "queryType": {
@@ -1076,13 +1076,19 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "int",
+              "name": "Int",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "char",
+              "name": "Char",
+              "description": "",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "Unknown",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
