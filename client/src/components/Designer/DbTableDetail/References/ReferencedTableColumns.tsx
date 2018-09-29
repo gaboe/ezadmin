@@ -3,7 +3,7 @@ import { List } from "semantic-ui-react";
 import {
   ColumsByTableQueryComponent,
   DB_COLUMNS_BY_TABLE_QUERY
-} from "src/graphql/queries/DbExplorer/ColumnsByTableQuery";
+} from "../../../../graphql/queries/DbExplorer/ColumnsByTableQuery";
 import { CheckboxFromReferencedTable } from "./CheckboxFromReferencedTable";
 
 type Props = {

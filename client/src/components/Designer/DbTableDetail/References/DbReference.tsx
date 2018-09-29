@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, List } from "semantic-ui-react";
 import { DbReferenceDirection } from "src/domain/Designer/DesignerTypes";
-import { GetDbTableDetailQuery } from "../../../domain/generated/types";
+import { GetDbTableDetailQuery } from "../../../../domain/generated/types";
 import { DbReferenceDescription } from "./DbReferenceDescription";
 import { ReferencedTableColumns } from "./ReferencedTableColumns";
 

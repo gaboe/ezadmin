@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Header, List } from "semantic-ui-react";
-import { DbReferenceDirection } from "src/domain/Designer/DesignerTypes";
-import { GetDbTableDetailQuery } from "../../../domain/generated/types";
+import { DbReferenceDirection } from "../../../../domain/Designer/DesignerTypes";
+import { GetDbTableDetailQuery } from "../../../../domain/generated/types";
 import { DbReference } from "./DbReference";
 
 type Props = {

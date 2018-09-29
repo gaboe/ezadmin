@@ -1,6 +1,6 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { DbTableDetail } from "./DbTableDetail/DbTableDetail";
+import { DbTableDetail } from "./DbTableDetail/References/DbTableDetail";
 
 type Props = RouteComponentProps<{ name: string }>;
 type State = {};

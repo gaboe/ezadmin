@@ -2,13 +2,13 @@ import * as React from "react";
 import { Col, Row } from "react-grid-system";
 import { Link } from "react-router-dom";
 import { Button, Checkbox, Header, List } from "semantic-ui-react";
-import { DbReferenceDirection } from "../../../domain/Designer/DesignerTypes";
-import { GetDbTableDetailQueryVariables } from "../../../domain/generated/types";
+import { DbReferenceDirection } from "../../../../domain/Designer/DesignerTypes";
+import { GetDbTableDetailQueryVariables } from "../../../../domain/generated/types";
 import {
   DB_TABLE_DETAIL_QUERY,
   DbTablesDetailQueryComponent
-} from "../../../graphql/queries/DbExplorer/TableDetail";
-import { DbReferences } from "./References/DbReferences";
+} from "../../../../graphql/queries/DbExplorer/TableDetail";
+import { DbReferences } from "./DbReferences";
 
 type Props = {
   variables: GetDbTableDetailQueryVariables;

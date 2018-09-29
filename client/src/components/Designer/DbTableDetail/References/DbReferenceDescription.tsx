@@ -1,6 +1,6 @@
 import * as React from "react";
-import { DbReferenceDirection } from "src/domain/Designer/DesignerTypes";
-import { GetDbTableDetailQuery } from "src/domain/generated/types";
+import { DbReferenceDirection } from "../../../../domain/Designer/DesignerTypes";
+import { GetDbTableDetailQuery } from "../../../../domain/generated/types";
 
 type Props = {
   reference: NonNullable<

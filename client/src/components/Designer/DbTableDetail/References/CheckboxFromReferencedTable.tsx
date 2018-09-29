@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Checkbox, Popup } from "semantic-ui-react";
-import { GetDbColumnsByTableNameQuery } from "src/domain/generated/types";
+import { GetDbColumnsByTableNameQuery } from "../../../../domain/generated/types";
 
 type DbColumn = GetDbColumnsByTableNameQuery["columns"][0];
 
@@ -15,7 +15,7 @@ const CheckboxFromReferencedTable: React.SFC<Props> = props => {
     return (
       <Popup
         trigger={<Checkbox disabled={true} readOnly={true} />}
-        content="Column is from primary table cannot by referenced"
+        content="Column is from primary table and cannot by referenced"
       />
     );
   }
