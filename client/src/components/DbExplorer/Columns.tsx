@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button, Header, List } from "semantic-ui-react";
-import { GetDbColumnsByTableNameQueryVariables } from "../../generated-types/types";
+import { GetDbColumnsByTableNameQueryVariables } from "../../domain/generated/types";
 import {
   ColumsByTableQueryComponent,
   DB_COLUMNS_BY_TABLE_QUERY

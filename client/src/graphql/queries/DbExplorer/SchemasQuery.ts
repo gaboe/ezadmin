@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import { GetDbSchemasQuery } from "../../../generated-types/types";
+import { GetDbSchemasQuery } from "../../../domain/generated/types";
 
 const DB_SCHEMAS_QUERY = gql`
   query GetDbSchemas {

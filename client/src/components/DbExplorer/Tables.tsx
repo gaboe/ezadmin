@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Col, Row } from "react-grid-system";
 import { Header, List } from "semantic-ui-react";
-import { GetDbTablesBySchemaQueryVariables } from "../../generated-types/types";
+import { GetDbTablesBySchemaQueryVariables } from "../../domain/generated/types";
 import {
   DB_TABLES_BY_SCHEMA_QUERY,
   DbTablesBySchemaQueryComponent

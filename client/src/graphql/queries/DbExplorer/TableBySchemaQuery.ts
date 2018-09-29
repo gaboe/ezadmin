@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import {
   GetDbTablesBySchemaQuery,
   GetDbTablesBySchemaQueryVariables
-} from "../../../generated-types/types";
+} from "../../../domain/generated/types";
 
 const DB_TABLES_BY_SCHEMA_QUERY = gql`
   query GetDbTablesBySchema($schemaName: String!) {

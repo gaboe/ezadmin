@@ -27,8 +27,8 @@
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "codegen": "yarn get-schema && yarn generate-types",
-    "get-schema": "apollo-codegen introspect-schema http://localhost:7930/graphql/ --output \"./src/generated-types/schema.json\"",
-    "generate-types": "apollo-codegen generate \"./src/graphql/**/*.ts\" --schema \"./src/generated-types/schema.json\" --target typescript --output \"./src/generated-types/types.ts\" --addTypename"
+    "get-schema": "apollo-codegen introspect-schema http://localhost:7930/graphql/ --output \"./src/domain/generated/schema.json\"",
+    "generate-types": "apollo-codegen generate \"./src/graphql/**/*.ts\" --schema \"./src/domain/generated/schema.json\" --target typescript --output \"./src/domain/generated/types.ts\" --addTypename"
   },
   "devDependencies": {
     "@types/graphql": "^14.0.1",

@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import {
   GetDbTableDetailQuery,
   GetDbTableDetailQueryVariables
-} from "../../../generated-types/types";
+} from "../../../domain/generated/types";
 
 const DB_TABLE_DETAIL_QUERY = gql`
   query GetDbTableDetail($tableName: String!) {
@@ -23,7 +23,7 @@ const DB_TABLE_DETAIL_QUERY = gql`
         fromColumn
         toSchema
         toTable
-        toSchema
+        toColumn
       }
       referencesToTable {
         referenceName
@@ -32,7 +32,7 @@ const DB_TABLE_DETAIL_QUERY = gql`
         fromColumn
         toSchema
         toTable
-        toSchema
+        toColumn
       }
     }
   }

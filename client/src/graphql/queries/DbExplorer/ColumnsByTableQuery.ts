@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import {
   GetDbColumnsByTableNameQuery,
   GetDbColumnsByTableNameQueryVariables
-} from "../../../generated-types/types";
+} from "../../../domain/generated/types";
 
 const DB_COLUMNS_BY_TABLE_QUERY = gql`
   query GetDbColumnsByTableName($tableName: String!) {

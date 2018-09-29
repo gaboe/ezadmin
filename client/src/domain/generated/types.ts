@@ -82,6 +82,7 @@ export interface GetDbTableDetailQuery {
       fromColumn: string,
       toSchema: string,
       toTable: string,
+      toColumn: string,
     } >,
     // Column references to this table
     referencesToTable:  Array< {
@@ -93,6 +94,7 @@ export interface GetDbTableDetailQuery {
       fromColumn: string,
       toSchema: string,
       toTable: string,
+      toColumn: string,
     } >,
   } | null,
 };

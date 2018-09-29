@@ -2,11 +2,13 @@ import * as React from "react";
 import { Col, Row } from "react-grid-system";
 import { Link } from "react-router-dom";
 import { Button, Checkbox, Header, List } from "semantic-ui-react";
-import { GetDbTableDetailQueryVariables } from "../../../generated-types/types";
+import { DbReferenceDirection } from "src/domain/Designer/DesignerTypes";
+import { GetDbTableDetailQueryVariables } from "../../../domain/generated/types";
 import {
   DB_TABLE_DETAIL_QUERY,
   DbTablesDetailQueryComponent
 } from "../../../graphql/queries/DbExplorer/TableDetail";
+import { DbReferences } from "./DbReferences";
 
 type Props = {
   variables: GetDbTableDetailQueryVariables;
@@ -61,6 +63,16 @@ class DbTableDetail extends React.Component<Props> {
                         );
                       })}
                     </List>
+                    <DbReferences
+                      direction={DbReferenceDirection.From}
+                      title="Referenced columns from this table"
+                      references={response.data.table.referencesFromTable}
+                    />
+                    <DbReferences
+                      direction={DbReferenceDirection.To}
+                      title="Referencing columns to this table"
+                      references={response.data.table.referencesToTable}
+                    />
                   </Col>
                 </Row>
               </>
