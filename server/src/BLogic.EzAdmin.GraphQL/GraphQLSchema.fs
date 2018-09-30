@@ -10,16 +10,27 @@ module GraphQLSchema =
     open FSharp.Data.GraphQL.Types
     open FSharp.Data.GraphQL.Server.Middlewares
     open BLogic.EzAdmin.Domain.SqlTypes
-    open BLogic.EzAdmin.Domain.SchemaTypes
     open BLogic.EzAdmin.Domain.UiTypes
     open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
-    open MongoDB.Bson
 
     type SqlColumnDataType = Int | Nvarchar | Unknown
 
     type [<CLIMutable>] AppInputType = {hej: string;}
-    type [<CLIMutable>] AppEzType = {hej: string;}
+    type [<CLIMutable>] AppEzType = {hej: string option;}
     
+
+    //type TestInputs with 
+    // static member FromJson (v : TestInputs) =
+    //  match v with
+        
+    let TestInputObject =
+      Define.InputObject<TestInput>(
+        name = "TestInputObject",
+        fields = [
+            Define.Input("a", Nullable String)
+        ])
+
+
     let getSqlColumnDataType sqlDataType = match sqlDataType with 
                                             | "int" -> Int 
                                             | "nvarchar" -> Nvarchar 
@@ -150,20 +161,20 @@ module GraphQLSchema =
             ]
         )
     and AppType = 
-        Define.Object<App>(
+        Define.Object<AppEzType>(
             name = "App",
             description = "",
-            isTypeOf = (fun o -> o :? App),
+            isTypeOf = (fun o -> o :? AppEzType),
             fieldsFn = fun () ->
             [
-                //Define.Field("hej", String, fun _ _ -> "sdsd")
-                Define.Field("pages", ListOf (PageType), "Pages in app", fun _ (x: App) -> x.Pages)
-                Define.Field("menuItems", ListOf (MenuItemType), "Menu items", fun _ (x: App) -> x.MenuItems)
+                Define.Field("menuItems", Nullable String, "Menu items", fun _ (x: AppEzType) -> x.hej)
+                //Define.Field("pages", ListOf (PageType), "Pages in app", fun _ (x: App) -> x.Pages)
+                //Define.Field("menuItems", ListOf (MenuItemType), "Menu items", fun _ (x: App) -> x.MenuItems)
             ]
         )
 
      and AppPreviewInputType = 
-        Define.InputObject<AppInputType>(
+        Define.InputObject<AppEzType>(
             name = "App",
             fieldsFn = fun () ->
             [
@@ -181,7 +192,6 @@ module GraphQLSchema =
                 Define.Field("clientid", String, "The ID of the client", fun _ r -> r.ClientId)
             ])
    
-
     let _schema: SqlSchema = {SchemaName = "makau"} 
     let schemas = [ _schema ] |> List.toSeq
     let _column: Column = {Name = "Hje"; Value = "1100"}
@@ -190,16 +200,18 @@ module GraphQLSchema =
     let _page: Page = {Table = _table}
     let _menuItem = {Rank = 1; Name = "Users"}
     let _app: App = {Pages = [ _page ]; MenuItems = [_menuItem]}
-    let _ezApp: AppEzType = {hej = ",adalada"}
+    let _ezApp: AppEzType = {hej = Some ",adalada"}
+    
     let Query =
         Define.Object<Root>(
             name = "Query",
             fields = [
+                Define.Field("fieldWithObjectInput", AppType, "", [ Define.Input("input", Nullable TestInputObject) ], fun _ __ -> _ezApp)
                 Define.Field("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
                 Define.Field("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getTable |> Async.RunSynchronously)
                 Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ], fun ctx _ -> ctx.Arg("schemaName") |> getTables |> Async.RunSynchronously)
                 Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getColumns |> Async.RunSynchronously)
-                Define.Field("appPreview", AppType, "Return preview of app", fun _ _ -> _app)
+                //Define.Field("appPreview", AppType, "Return preview of app", [ Define.Input("tableName", AppPreviewInputType) ],  fun _ __ -> _ezApp)
                 ]
             )
 

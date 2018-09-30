@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="InputTypeConverter.fs" />
     <Compile Include="GraphQLSchema.fs" />
     <Compile Include="QueryProcessor.fs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Chiron" Version="6.3.0" />
     <PackageReference Include="FSharp.Data.GraphQL.Server" Version="0.0.7-beta" />
     <PackageReference Include="FSharp.Data.GraphQL.Server.Middlewares" Version="0.0.7-beta" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

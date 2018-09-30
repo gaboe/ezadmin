@@ -5,6 +5,10 @@ module QueryProcessor =
     open Newtonsoft.Json
     open BLogic.EzAdmin.Core.Converters.OptionConverter
     open FSharp.Data.GraphQL.Execution
+    open GraphQLSchema
+    open Newtonsoft.Json.Linq
+    open Newtonsoft.Json.Converters
+    open InputTypeConverter
 
     let removeSpacesAndNewLines (str : string) = str.Trim().Replace("\r\n", " ")
 
@@ -21,7 +25,7 @@ module QueryProcessor =
         let jsonSettings =
                 JsonSerializerSettings()
                 |> tee (fun s ->
-                    s.Converters <- [| OptionConverter() :> JsonConverter |]
+                    s.Converters <- [| OptionConverter() :> JsonConverter; DiscriminatedUnionConverter() :> JsonConverter |]
                     s.ContractResolver <- Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver())
   
         let getResultData =
@@ -34,12 +38,44 @@ module QueryProcessor =
                 | Stream _ ->
                     None
 
-        let gqlQuery = getOptionString body.Query
-        let variables = match System.Object.ReferenceEquals(body.Variables, null) with
-                            | true -> None
-                            | false -> Some body.Variables
+        let t: TestInput = { a = "foo";}
+        let params' : Map<string, obj> =
+            Map.ofList ["p", upcast t ]
 
-        let result  = match gqlQuery, variables with
+        let gqlQuery = getOptionString body.Query
+
+
+        let getobject (jObj: obj) =
+            //let ee = jObj.Children |> Seq.iter (fun e -> )
+            let o = jObj |> box
+            
+            let s = JsonConvert.SerializeObject(o, jsonSettings)
+            //let ss = JsonConvert.DeserializeObject<TestInput>(s, jsonSettings)
+            let input = convertInput s
+            //let e: Choice<TestInputs> = s |> Chiron.Parsing.Json.parse|> Chiron.Mapping.Json.tryDeserialize        
+
+            //match o with 
+            //    | :? TestInput -> (downcast o : TestInput) |> box |> TestInputs.TestInput
+            //    | :? TestInput2 -> (downcast o : TestInput2) |> box |> TestInputs.TestInput2
+            //    | _ -> TestInputs.UnknownInput o
+            input
+
+        let getVariables variables = 
+            let e = JsonConvert.SerializeObject(body.Variables, jsonSettings)
+            let d = JsonConvert.DeserializeObject<Map<string, obj>>(e)
+            let c = d |> Seq.map (fun (KeyValue(k,v)) -> k, getobject v) |> Map.ofSeq
+            Some c
+
+        let vvv = match System.Object.ReferenceEquals(body.Variables, null) with
+                            | true -> None
+                            | false -> getVariables body.Variables
+
+
+        //let variables = match System.Object.ReferenceEquals(body.Variables, null) with
+        //                    | true -> None
+        //                    | false -> Some params'
+
+        let result  = match gqlQuery, vvv with
                             | Some query, Some variables ->
                                 printfn "Received query: %s" query
                                 printfn "Received variables: %A" variables
