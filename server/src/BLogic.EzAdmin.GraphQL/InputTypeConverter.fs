@@ -1,18 +1,7 @@
 ﻿namespace BLogic.EzAdmin.GraphQL
 type TestInput = {a: string}
 
-    //type TestInput with 
-    //    static member FromJson (_: TestInput) = Chiron.Builder.json{
-    //        let! n = Chiron.Mapping.Json.read "a"       
-    //        return { a = n }
-    //    }
 type TestInput2 = { b: int }
-
-    //type TestInput2 with 
-    //    static member FromJson (_: TestInput2) = Chiron.Builder.json{
-    //        let! n = Chiron.Mapping.Json.read "b"       
-    //        return { a = n }
-    //    }
 
 type TestInputs = TestInput | TestInput2
 
@@ -29,30 +18,28 @@ module InputTypeConverter =
                     s.MissingMemberHandling <- MissingMemberHandling.Error
                     s.ContractResolver <- Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver())
     
-    type ConversionResult = ConvertedInput of obj * string | Nothing of string
+    type Input = string
+    type ConversionResult = ConvertedInput of obj * Input | Nothing of Input
 
-    let tc<'a> input = 
+    let tryConvert<'a> input = 
         try
-                let e = JsonConvert.DeserializeObject<'a>(input, jsonSettings)
-                ConvertedInput (e, input)
+                let result = JsonConvert.DeserializeObject<'a>(input, jsonSettings)
+                ConvertedInput (result, input)
         with
                 _ -> Nothing input
 
-    let tryConvert<'a>(previousResult: ConversionResult) = 
+    let convert<'a>(previousResult: ConversionResult) = 
         match previousResult with 
             | ConvertedInput _ -> (previousResult)
-            | Nothing input -> (tc<'a> input)
+            | Nothing input -> (tryConvert<'a> input)
         
     
     let convertInput input =
-        let e = tryConvert<TestInput>(input |> ConversionResult.Nothing) 
-                |> tryConvert<TestInput2>
+        let e = convert<TestInput>(input |> ConversionResult.Nothing) 
+                |> convert<TestInput2>
 
-        let o = match e with 
-                | ConvertedInput (x,_) -> x
-                | Nothing _ -> box ""
-        //let result = cases |> Seq.find (fun e -> tryConvert (e, input))
-
-        o
+        match e with 
+            | ConvertedInput (x,_) -> x 
+            | Nothing _ -> box ""
         
 
