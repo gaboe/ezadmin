@@ -4,14 +4,21 @@
 type Root =
     { ClientId: string }
 
+
 module GraphQLSchema = 
     open FSharp.Data.GraphQL
     open FSharp.Data.GraphQL.Types
     open FSharp.Data.GraphQL.Server.Middlewares
     open BLogic.EzAdmin.Domain.SqlTypes
+    open BLogic.EzAdmin.Domain.SchemaTypes
+    open BLogic.EzAdmin.Domain.UiTypes
     open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
+    open MongoDB.Bson
 
     type SqlColumnDataType = Int | Nvarchar | Unknown
+
+    type [<CLIMutable>] AppInputType = {hej: string;}
+    type [<CLIMutable>] AppEzType = {hej: string;}
     
     let getSqlColumnDataType sqlDataType = match sqlDataType with 
                                             | "int" -> Int 
@@ -86,6 +93,84 @@ module GraphQLSchema =
             ]
         )
     
+    and ColumnType = 
+        Define.Object<Column>(
+            name = "Column",
+            description = "",
+            isTypeOf = (fun o -> o :? Column),
+            fieldsFn = fun () ->
+            [
+                Define.Field("name", String, "", fun _ (x: Column) -> x.Name)
+                Define.Field("value", String, "", fun _ (x: Column) -> x.Value)
+            ]
+        )
+
+    and RowType = 
+        Define.Object<Row>(
+            name = "Row",
+            description = "",
+            isTypeOf = (fun o -> o :? Row),
+            fieldsFn = fun () ->
+            [
+                Define.Field("key", String, "Represents unique key of row", fun _ (x: Row) -> x.Key)
+                Define.Field("columns", ListOf (ColumnType), "Multiple properties of record", fun _ (x: Row) -> x.Columns)
+            ]
+        )
+    
+    and TableType = 
+        Define.Object<Table>(
+            name = "Table",
+            description = "",
+            isTypeOf = (fun o -> o :? Table),
+            fieldsFn = fun () ->
+            [
+                Define.Field("rows", ListOf (RowType), "Rows in talbe", fun _ (x: Table) -> x.Rows)
+            ]
+        )
+
+    and PageType = 
+        Define.Object<Page>(
+            name = "Page",
+            description = "",
+            isTypeOf = (fun o -> o :? Page),
+            fieldsFn = fun () ->
+            [
+                Define.Field("table", TableType, "Table on page", fun _ (x: Page) -> x.Table)
+            ]
+        )
+    and MenuItemType = 
+        Define.Object<MenuItem>(
+            name = "MenuItem",
+            description = "",
+            isTypeOf = (fun o -> o :? MenuItem),
+            fieldsFn = fun () ->
+            [
+                Define.Field("name", String, "Table on page", fun _ (x: MenuItem) -> x.Name)
+                Define.Field("rank", SchemaDefinitions.Int, "Table on page", fun _ (x: MenuItem) -> x.Rank)
+            ]
+        )
+    and AppType = 
+        Define.Object<App>(
+            name = "App",
+            description = "",
+            isTypeOf = (fun o -> o :? App),
+            fieldsFn = fun () ->
+            [
+                //Define.Field("hej", String, fun _ _ -> "sdsd")
+                Define.Field("pages", ListOf (PageType), "Pages in app", fun _ (x: App) -> x.Pages)
+                Define.Field("menuItems", ListOf (MenuItemType), "Menu items", fun _ (x: App) -> x.MenuItems)
+            ]
+        )
+
+     and AppPreviewInputType = 
+        Define.InputObject<AppInputType>(
+            name = "App",
+            fieldsFn = fun () ->
+            [
+                Define.Input("hej", String)
+            ]
+        )
+
     and RootType =
         Define.Object<Root>(
             name = "Root",
@@ -95,10 +180,17 @@ module GraphQLSchema =
             [
                 Define.Field("clientid", String, "The ID of the client", fun _ r -> r.ClientId)
             ])
+   
 
     let _schema: SqlSchema = {SchemaName = "makau"} 
     let schemas = [ _schema ] |> List.toSeq
-
+    let _column: Column = {Name = "Hje"; Value = "1100"}
+    let _row: Row = {Key= "1"; Columns= [_column]}
+    let _table: Table = {Rows = [_row]}
+    let _page: Page = {Table = _table}
+    let _menuItem = {Rank = 1; Name = "Users"}
+    let _app: App = {Pages = [ _page ]; MenuItems = [_menuItem]}
+    let _ezApp: AppEzType = {hej = ",adalada"}
     let Query =
         Define.Object<Root>(
             name = "Query",
@@ -107,6 +199,7 @@ module GraphQLSchema =
                 Define.Field("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getTable |> Async.RunSynchronously)
                 Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ], fun ctx _ -> ctx.Arg("schemaName") |> getTables |> Async.RunSynchronously)
                 Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getColumns |> Async.RunSynchronously)
+                Define.Field("appPreview", AppType, "Return preview of app", fun _ _ -> _app)
                 ]
             )
 

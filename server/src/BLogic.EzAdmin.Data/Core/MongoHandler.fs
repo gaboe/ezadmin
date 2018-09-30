@@ -11,5 +11,5 @@ module MongoHandler =
     let getClient() = MongoClient(ConnectionString)
     let getDb() = getClient().GetDatabase(DbName)
 
-    let appCollection() = getDb().GetCollection<App>("apps")
+    let appCollection() = getDb().GetCollection<AppSchema>("apps")
 

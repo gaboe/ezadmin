@@ -6,7 +6,7 @@ open MongoDB.Driver
 
 module SchemaTypesRepository =
 
-    let createApp (app : App ) = 
+    let createApp (app : AppSchema ) = 
             appCollection().InsertOne(app)
             app
 
