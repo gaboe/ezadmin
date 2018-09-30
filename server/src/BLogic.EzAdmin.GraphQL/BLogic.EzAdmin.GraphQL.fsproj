@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="QueryGraphQLTypes.fs" />
+    <Compile Include="InputGraphQLTypes.fs" />
     <Compile Include="GraphQLSchema.fs" />
     <Compile Include="QueryProcessor.fs" />
   </ItemGroup>
