@@ -5,6 +5,8 @@ type TestInput2 = { b: int }
 
 type TestInputs = TestInput | TestInput2
 
+type AppInputType = {schemaName: string; tableName: string;}
+
 module InputTypeConverter = 
     open Newtonsoft.Json
 
@@ -35,11 +37,9 @@ module InputTypeConverter =
         
     
     let convertInput input =
-        let e = convert<TestInput>(input |> ConversionResult.Nothing) 
-                |> convert<TestInput2>
+        let result = convert<AppInputType>(input |> ConversionResult.Nothing) 
+                //|> convert<TestInput2>
 
-        match e with 
-            | ConvertedInput (x,_) -> x 
+        match result with 
+            | ConvertedInput (object,_) -> object 
             | Nothing _ -> box ""
-        
-
