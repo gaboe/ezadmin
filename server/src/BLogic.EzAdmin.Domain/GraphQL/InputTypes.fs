@@ -1,6 +1,12 @@
 ﻿namespace BLogic.EzAdmin.Domain.GraphQL
 
 module InputTypes = 
-    type AppInputType = {schemaName: string; tableName: string;}
+    type ColumnInput = {schemaName: string;
+                        tableName: string;
+                        columnName: string;
+                        isKey: bool;
+                        primaryKeyName: string option;}
+
+    type AppInput = {schemaName: string; tableName: string;}
     
 

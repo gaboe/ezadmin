@@ -28,8 +28,8 @@ module InputTypeConverter =
         
     
     let convertInput input =
-        let result = convert<AppInputType>(input |> ConversionResult.Nothing) 
-                //|> convert<TestInput2>
+        let result = convert<AppInput>(input |> ConversionResult.Nothing) 
+                    |> convert<ColumnInput>
 
         match result with 
             | ConvertedInput (object,_) -> object 
