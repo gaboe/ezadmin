@@ -11,6 +11,7 @@ module GraphQLSchema =
     open BLogic.EzAdmin.Domain.SqlTypes
     open BLogic.EzAdmin.Domain.UiTypes
     open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
+    open BLogic.EzAdmin.Domain.GraphQL.InputTypes
 
     type SqlColumnDataType = Int | Nvarchar | Unknown
         

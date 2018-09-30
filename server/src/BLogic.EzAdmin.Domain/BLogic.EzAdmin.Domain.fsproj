@@ -9,6 +9,7 @@
     <Compile Include="Schemas\SchemaTypes.fs" />
     <Compile Include="Sql\SqlQuery.fs" />
     <Compile Include="SqlTypes\SqlTypes.fs" />
+    <Compile Include="GraphQL\InputTypes.fs" />
     <Compile Include="GraphQL\UnsafeGraphQLQuery.fs" />
   </ItemGroup>
 

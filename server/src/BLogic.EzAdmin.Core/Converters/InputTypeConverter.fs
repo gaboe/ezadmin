@@ -1,20 +1,11 @@
-﻿namespace BLogic.EzAdmin.GraphQL
-type TestInput = {a: string}
+﻿namespace BLogic.EzAdmin.Core.Converters
 
-type TestInput2 = { b: int }
-
-type TestInputs = TestInput | TestInput2
-
-type AppInputType = {schemaName: string; tableName: string;}
+open BLogic.EzAdmin.Core.Utils
+open BLogic.EzAdmin.Domain.GraphQL.InputTypes
+open Newtonsoft.Json
 
 module InputTypeConverter = 
-    open Newtonsoft.Json
-
-    let tee f x =
-        f x
-        x
-
-    let jsonSettings =
+    let strictJsonSettings =
                 JsonSerializerSettings()
                 |> tee (fun s ->
                     s.MissingMemberHandling <- MissingMemberHandling.Error
@@ -25,7 +16,7 @@ module InputTypeConverter =
 
     let tryConvert<'a> input = 
         try
-                let result = JsonConvert.DeserializeObject<'a>(input, jsonSettings)
+                let result = JsonConvert.DeserializeObject<'a>(input, strictJsonSettings)
                 ConvertedInput (result, input)
         with
                 _ -> Nothing input

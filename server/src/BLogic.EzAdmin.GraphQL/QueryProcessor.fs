@@ -4,11 +4,10 @@ module QueryProcessor =
     open BLogic.EzAdmin.Domain.GraphQL
     open Newtonsoft.Json
     open BLogic.EzAdmin.Core.Converters.OptionConverter
+    open BLogic.EzAdmin.Core.Converters.InputTypeConverter
+    open BLogic.EzAdmin.Core.Utils
     open FSharp.Data.GraphQL.Execution
-    open GraphQLSchema
-    open Newtonsoft.Json.Linq
     open Newtonsoft.Json.Converters
-    open InputTypeConverter
 
     let removeSpacesAndNewLines (str : string) = str.Trim().Replace("\r\n", " ")
 
@@ -17,10 +16,6 @@ module QueryProcessor =
                         then None
                         else Some str
 
-    let tee f x =
-        f x
-        x
-    
     let processQuery (body:UnsafeGraphQlQuery) =
         let jsonSettings =
                 JsonSerializerSettings()
@@ -40,14 +35,13 @@ module QueryProcessor =
 
         let gqlQuery = getOptionString body.Query
 
-        let getobject (jObj: obj) =
-            let s = JsonConvert.SerializeObject(box jObj, jsonSettings)
-            convertInput s
+        let getConvertedObject (jObject: obj) =
+            JsonConvert.SerializeObject(jObject, jsonSettings) |> convertInput
 
         let variables = match System.Object.ReferenceEquals(body.Variables, null) with
                             | true -> None
                             | false -> body.Variables 
-                                        |> Seq.map (fun (KeyValue(k,v)) -> k, getobject v) 
+                                        |> Seq.map (fun (KeyValue(k,v)) -> k, getConvertedObject v) 
                                         |> Map.ofSeq 
                                         |> Some
 

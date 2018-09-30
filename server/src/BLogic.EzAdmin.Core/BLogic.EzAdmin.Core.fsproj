@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Utils\Utils.fs" />
     <Compile Include="Services\SqlTypes\SqlTypeService.fs" />
+    <Compile Include="Converters\InputTypeConverter.fs" />
     <Compile Include="Converters\OptionConverter.fs" />
   </ItemGroup>
 
