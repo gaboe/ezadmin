@@ -27,10 +27,10 @@ module InputTypeConverter =
             | Nothing input -> (tryConvert<'a> input)
         
     
-    let convertInput input =
+    let convertToInput input =
         let result = convert<AppInput>(input |> ConversionResult.Nothing) 
                     |> convert<ColumnInput>
 
         match result with 
             | ConvertedInput (object,_) -> object 
-            | Nothing _ -> box ""
+            | Nothing _ -> box input

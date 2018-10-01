@@ -35,13 +35,15 @@ module QueryProcessor =
 
         let gqlQuery = getOptionString body.Query
 
-        let getConvertedObject (jObject: obj) =
-            JsonConvert.SerializeObject(jObject, jsonSettings) |> convertInput
+        let tryConvertToInput (jObject: obj) =
+            match jObject with
+                    | :? string -> jObject
+                    | _ -> JsonConvert.SerializeObject(jObject, jsonSettings) |> convertToInput
 
         let variables = match System.Object.ReferenceEquals(body.Variables, null) with
                             | true -> None
                             | false -> body.Variables 
-                                        |> Seq.map (fun (KeyValue(k,v)) -> k, getConvertedObject v) 
+                                        |> Seq.map (fun (KeyValue(k,v)) -> k, tryConvertToInput v) 
                                         |> Map.ofSeq 
                                         |> Some
 
