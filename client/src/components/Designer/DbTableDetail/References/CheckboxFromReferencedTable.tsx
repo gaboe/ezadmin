@@ -1,17 +1,20 @@
 import * as React from "react";
 import { Checkbox, Popup } from "semantic-ui-react";
-import { GetDbColumnsByTableNameQuery } from "../../../../domain/generated/types";
+import {
+  ColumnInput,
+  GetDbColumnsByTableNameQuery
+} from "../../../../domain/generated/types";
 
 type DbColumn = GetDbColumnsByTableNameQuery["columns"][0];
 
 type Props = {
   column: DbColumn;
-  keyColumn: string;
-  // checkColumn: (column: ColumnInputType) => void;
+  mainTableKeyColumn: string;
+  onCheckboxClick: (column: ColumnInput) => void;
 };
 
 const CheckboxFromReferencedTable: React.SFC<Props> = props => {
-  if (props.column.columnName === props.keyColumn) {
+  if (props.column.columnName === props.mainTableKeyColumn) {
     return (
       <Popup
         trigger={<Checkbox disabled={true} readOnly={true} />}
@@ -21,15 +24,15 @@ const CheckboxFromReferencedTable: React.SFC<Props> = props => {
   }
   return (
     <Checkbox
-    // onClick={() =>
-    //   props.checkColumn({
-    //     columnName: props.column.name,
-    //     isFromPrimaryTable: false,
-    //     tableName: props.column.tableName,
-    //     schemaName: props.column.schemaName,
-    //     isKey: props.column.isKey
-    //   })
-    // }
+      onClick={() =>
+        props.onCheckboxClick({
+          columnName: props.column.columnName,
+          isPrimaryKey: props.column.isPrimaryKey,
+          schemaName: props.column.schemaName,
+          tableName: props.column.tableName,
+          mainTableKeyColumnName: props.mainTableKeyColumn
+        })
+      }
     />
   );
 };

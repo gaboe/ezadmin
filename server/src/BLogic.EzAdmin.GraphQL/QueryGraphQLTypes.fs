@@ -77,6 +77,7 @@ module QueryGraphQLTypes =
             isTypeOf = (fun o -> o :? SqlColumn),
             fieldsFn = fun () ->
             [
+                Define.Field("isPrimaryKey", Boolean, "Column name", fun _ (x: SqlColumn) -> x.IsPrimaryKey)
                 Define.Field("columnName", String, "Column name", fun _ (x: SqlColumn) -> x.ColumnName)
                 Define.Field("tableName", String, "Table name", fun _ (x: SqlColumn) -> x.TableName)
                 Define.Field("schemaName", String, "Schema name", fun _ (x: SqlColumn) -> x.SchemaName)

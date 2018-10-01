@@ -12,6 +12,7 @@ const DB_COLUMNS_BY_TABLE_QUERY = gql`
       schemaName
       tableName
       dataType
+      isPrimaryKey
     }
   }
 `;

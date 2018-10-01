@@ -14,8 +14,8 @@ module InputGraphQLTypes =
                 Define.Input("schemaName", String)
                 Define.Input("tableName", String)
                 Define.Input("columnName", String)
-                Define.Input("isKey", Boolean)
-                Define.Input("primaryKeyName", Nullable String)
+                Define.Input("isPrimaryKey", Boolean)
+                Define.Input("mainTableKeyColumnName", Nullable String)
             ]
         )
     let AppInputType = 

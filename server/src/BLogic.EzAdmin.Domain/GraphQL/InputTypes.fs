@@ -1,12 +1,11 @@
-﻿namespace BLogic.EzAdmin.Domain.GraphQL
+﻿namespace BLogic.EzAdmin.Domain.GraphQL.InputTypes
 
-module InputTypes = 
-    type ColumnInput = {schemaName: string;
+type ColumnInput = {schemaName: string;
                         tableName: string;
                         columnName: string;
-                        isKey: bool;
-                        primaryKeyName: string option;}
+                        isPrimaryKey: bool;
+                        mainTableKeyColumnName: string option;}
 
-    type AppInput = {schemaName: string; tableName: string;}
+type AppInput = {schemaName: string; tableName: string;}
     
 

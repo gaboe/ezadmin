@@ -11,5 +11,3 @@ type [<CLIMutable>] Table = {Rows: Row list}
 type [<CLIMutable>] Page = {Table: Table}
 
 type [<CLIMutable>] App = {Pages: Page list; MenuItems: MenuItem list}
-
-

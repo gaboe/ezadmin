@@ -2,7 +2,10 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button, Checkbox, Header, List } from "semantic-ui-react";
 import { DbReferenceDirection } from "../../../domain/Designer/DesignerTypes";
-import { GetDbTableDetailQueryVariables } from "../../../domain/generated/types";
+import {
+  ColumnInput,
+  GetDbTableDetailQueryVariables
+} from "../../../domain/generated/types";
 import {
   DB_TABLE_DETAIL_QUERY,
   DbTablesDetailQueryComponent
@@ -11,6 +14,8 @@ import { DbReferences } from "./References/DbReferences";
 
 type Props = {
   variables: GetDbTableDetailQueryVariables;
+  isTableNameShown: boolean;
+  onCheckboxClick: (column: ColumnInput) => void;
 };
 
 class DbTableDetail extends React.Component<Props> {
@@ -51,9 +56,14 @@ class DbTableDetail extends React.Component<Props> {
                     return (
                       <List.Item key={x.columnName}>
                         <Checkbox
-                        // onClick={() =>
-                        //   this.checkColumnFromPrimaryTable(x, true)
-                        // }
+                          onClick={() =>
+                            this.props.onCheckboxClick({
+                              schemaName: x.schemaName,
+                              tableName: x.tableName,
+                              columnName: x.columnName,
+                              isPrimaryKey: x.isPrimaryKey
+                            })
+                          }
                         />
                         {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
                       </List.Item>
@@ -61,11 +71,13 @@ class DbTableDetail extends React.Component<Props> {
                   })}
                 </List>
                 <DbReferences
+                  onCheckboxClick={this.props.onCheckboxClick}
                   direction={DbReferenceDirection.From}
                   title="Referenced columns from this table"
                   references={response.data.table.referencesFromTable}
                 />
                 <DbReferences
+                  onCheckboxClick={this.props.onCheckboxClick}
                   direction={DbReferenceDirection.To}
                   title="Referencing columns to this table"
                   references={response.data.table.referencesToTable}

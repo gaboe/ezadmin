@@ -8,6 +8,20 @@ export enum SqlColumnDataType {
 }
 
 
+export interface AppInput {
+  schemaName: string,
+  tableName: string,
+  columns: Array< ColumnInput >,
+};
+
+export interface ColumnInput {
+  schemaName: string,
+  tableName: string,
+  columnName: string,
+  isPrimaryKey: boolean,
+  mainTableKeyColumnName?: string | null,
+};
+
 export interface GetDbColumnsByTableNameQueryVariables {
   tableName: string,
 };
@@ -23,6 +37,8 @@ export interface GetDbColumnsByTableNameQuery {
     // Table name
     tableName: string,
     dataType: SqlColumnDataType,
+    // Column name
+    isPrimaryKey: boolean,
   } >,
 };
 
@@ -72,6 +88,8 @@ export interface GetDbTableDetailQuery {
       // Column name
       columnName: string,
       dataType: SqlColumnDataType,
+      // Column name
+      isPrimaryKey: boolean,
     } >,
     // Column references from this table to other tables
     referencesFromTable:  Array< {
@@ -98,4 +116,23 @@ export interface GetDbTableDetailQuery {
       toColumn: string,
     } >,
   } | null,
+};
+
+export interface AppPreviewQueryVariables {
+  input: AppInput,
+};
+
+export interface AppPreviewQuery {
+  // Return preview of app
+  appPreview:  {
+    __typename: "App",
+    // Menu items
+    menuItems:  Array< {
+      __typename: "MenuItem",
+      // Table on page
+      name: string,
+      // Table on page
+      rank: number,
+    } >,
+  },
 };

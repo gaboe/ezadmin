@@ -1,5 +1,6 @@
 import * as React from "react";
 import { List } from "semantic-ui-react";
+import { ColumnInput } from "src/domain/generated/types";
 import {
   ColumsByTableQueryComponent,
   DB_COLUMNS_BY_TABLE_QUERY
@@ -8,8 +9,9 @@ import { CheckboxFromReferencedTable } from "./CheckboxFromReferencedTable";
 
 type Props = {
   tableName: string;
-  keyColumn: string;
+  mainTableKeyColumn: string;
   areColumnsShown: boolean;
+  onCheckboxClick: (column: ColumnInput) => void;
 };
 
 const ReferencedTableColumns: React.SFC<Props> = props => {
@@ -29,8 +31,8 @@ const ReferencedTableColumns: React.SFC<Props> = props => {
               <List.Item key={x.columnName}>
                 <CheckboxFromReferencedTable
                   column={x}
-                  keyColumn={props.keyColumn}
-                  // checkColumn={props.checkColumn}
+                  mainTableKeyColumn={props.mainTableKeyColumn}
+                  onCheckboxClick={props.onCheckboxClick}
                 />
                 {` [${x.dataType}]: ${x.columnName}`}
               </List.Item>

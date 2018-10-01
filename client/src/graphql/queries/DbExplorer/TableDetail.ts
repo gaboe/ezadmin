@@ -15,6 +15,7 @@ const DB_TABLE_DETAIL_QUERY = gql`
         tableName
         columnName
         dataType
+        isPrimaryKey
       }
       referencesFromTable {
         referenceName

@@ -1,7 +1,10 @@
 import * as React from "react";
 import { Button, List } from "semantic-ui-react";
 import { DbReferenceDirection } from "src/domain/Designer/DesignerTypes";
-import { GetDbTableDetailQuery } from "../../../../domain/generated/types";
+import {
+  ColumnInput,
+  GetDbTableDetailQuery
+} from "../../../../domain/generated/types";
 import { DbReferenceDescription } from "./DbReferenceDescription";
 import { ReferencedTableColumns } from "./ReferencedTableColumns";
 
@@ -10,6 +13,7 @@ type Props = {
     GetDbTableDetailQuery["table"]
   >["referencesToTable"][0];
   direction: DbReferenceDirection;
+  onCheckboxClick: (column: ColumnInput) => void;
 };
 
 type State = {
@@ -28,7 +32,7 @@ class DbReference extends React.Component<Props, State> {
         ? reference.fromTable
         : reference.toTable;
 
-    const key =
+    const mainTableKeyColumn =
       direction === DbReferenceDirection.From
         ? reference.fromColumn
         : reference.toColumn;
@@ -37,9 +41,9 @@ class DbReference extends React.Component<Props, State> {
         <List.Item>
           <DbReferenceDescription reference={reference} direction={direction} />
           <ReferencedTableColumns
-            // checkColumn={this.props.checkColumn}
+            onCheckboxClick={this.props.onCheckboxClick}
             tableName={tableName}
-            keyColumn={key}
+            mainTableKeyColumn={mainTableKeyColumn}
             areColumnsShown={this.state.isChecked}
           />
           <Button

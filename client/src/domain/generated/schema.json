@@ -1,5 +1,5 @@
 {
-  "documentId": 859132362,
+  "documentId": 378185528,
   "data": {
     "__schema": {
       "queryType": {
@@ -1391,7 +1391,7 @@
               "defaultValue": null
             },
             {
-              "name": "isKey",
+              "name": "isPrimaryKey",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -1405,7 +1405,7 @@
               "defaultValue": null
             },
             {
-              "name": "primaryKeyName",
+              "name": "mainTableKeyColumnName",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -1450,6 +1450,22 @@
                 "ofType": {
                   "kind": "ENUM",
                   "name": "SqlColumnDataType",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isPrimaryKey",
+              "description": "Column name",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
                   "ofType": null
                 }
               },
