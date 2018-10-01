@@ -61,7 +61,10 @@ class Tables extends React.Component<Props> {
           {this.props.tableName && (
             <>
               <Col sm={6}>
-                <Columns tableName={this.props.tableName} />
+                <Columns
+                  schemaName={this.props.schemaName}
+                  tableName={this.props.tableName}
+                />
               </Col>
             </>
           )}

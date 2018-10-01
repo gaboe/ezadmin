@@ -6,7 +6,7 @@ import { ColumnInput } from "src/domain/generated/types";
 import { AppPreview } from "../Engine/AppPreview";
 import { DbTableDetail } from "./DbTableDetail/DbTableDetail";
 
-type Props = RouteComponentProps<{ name: string }>;
+type Props = RouteComponentProps<{ name: string; schemaName: string }>;
 type State = {
   activeColumns: ColumnInput[];
 };
@@ -16,7 +16,7 @@ class Designer extends React.Component<Props, State> {
     this.state = { activeColumns: [] };
   }
   public render() {
-    const { name } = this.props.match.params;
+    const { name, schemaName } = this.props.match.params;
 
     return (
       <>
@@ -28,7 +28,13 @@ class Designer extends React.Component<Props, State> {
               isTableNameShown={this.state.activeColumns.length > 0}
             />
           </Col>
-          {this.state.activeColumns.length > 0 && <AppPreview />}
+          {this.state.activeColumns.length > 0 && (
+            <AppPreview
+              tableName={name}
+              schemaName={schemaName}
+              columns={this.state.activeColumns}
+            />
+          )}
         </Row>
       </>
     );

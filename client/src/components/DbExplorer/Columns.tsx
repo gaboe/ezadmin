@@ -8,6 +8,7 @@ import {
 } from "./../../graphql/queries/DbExplorer/ColumnsByTableQuery";
 type Props = {
   tableName: string;
+  schemaName: string;
 };
 
 class Columns extends React.Component<Props> {
@@ -28,7 +29,9 @@ class Columns extends React.Component<Props> {
             return (
               <>
                 <Header content={`Columns of ${this.props.tableName} table`} />
-                <Link to={`table/${this.props.tableName}`}>
+                <Link
+                  to={`table/${this.props.schemaName}/${this.props.tableName}`}
+                >
                   <Button content="Detail" />
                 </Link>
                 <List size="large" divided={true} celled={true}>
