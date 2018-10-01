@@ -29,11 +29,13 @@ class Designer extends React.Component<Props, State> {
             />
           </Col>
           {this.state.activeColumns.length > 0 && (
-            <AppPreview
-              tableName={name}
-              schemaName={schemaName}
-              columns={this.state.activeColumns}
-            />
+            <Col md={6} lg={9}>
+              <AppPreview
+                tableName={name}
+                schemaName={schemaName}
+                columns={this.state.activeColumns}
+              />
+            </Col>
           )}
         </Row>
       </>

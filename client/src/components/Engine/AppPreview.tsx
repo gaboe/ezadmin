@@ -7,6 +7,7 @@ import {
   APP_PREVIEW_QUERY,
   AppPreviewComponent
 } from "src/graphql/queries/Engine/AppPreviewQuery";
+import { Layout } from "./Layout/Layout";
 
 type Props = {
   tableName: string;
@@ -29,7 +30,11 @@ const AppPreview: React.SFC<Props> = props => {
           if (response.loading || !response.data) {
             return <>Loading...</>;
           }
-          return <>Loaded</>;
+          return (
+            <>
+              <Layout menuItems={response.data.appPreview.menuItems} />
+            </>
+          );
         }}
       </AppPreviewComponent>
     </>
