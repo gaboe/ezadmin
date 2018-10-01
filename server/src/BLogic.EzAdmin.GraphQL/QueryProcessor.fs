@@ -47,16 +47,12 @@ module QueryProcessor =
                                         |> Map.ofSeq 
                                         |> Some
 
-
         let result  = match gqlQuery, variables with
                             | Some query, Some variables ->
-                                printfn "Received query: %s" query
-                                printfn "Received variables: %A" variables
                                 let query = query |> removeSpacesAndNewLines
                                 let result = GraphQLSchema.executor.AsyncExecute(query, variables = variables, data = GraphQLSchema.root) |> Async.RunSynchronously
                                 result
                             | Some query, None ->
-                                printfn "Received query: %s" query
                                 let query = query |> removeSpacesAndNewLines
                                 let result = GraphQLSchema.executor.AsyncExecute(query) |> Async.RunSynchronously
                                 result
@@ -64,8 +60,6 @@ module QueryProcessor =
                                 let result = GraphQLSchema.executor.AsyncExecute(FSharp.Data.GraphQL.Introspection.introspectionQuery) |> Async.RunSynchronously
                                 result
             
-        printfn "Result metadata: %A" result.Metadata
-
         getResultData result
 
         
