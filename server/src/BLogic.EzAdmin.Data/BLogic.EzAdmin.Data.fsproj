@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Engines\DynamicQueryBuilder.fs" />
     <Compile Include="Engines\EngineRepository.fs" />
     <Compile Include="Core\MongoHandler.fs" />
     <Compile Include="QueryHandler.fs" />

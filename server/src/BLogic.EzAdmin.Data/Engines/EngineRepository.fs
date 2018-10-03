@@ -7,7 +7,6 @@ open BLogic.EzAdmin.Domain.SchemaTypes
 
 module EngineRepository =
     open System.Data
-    open System.Text
 
     [<Literal>]
     let connectionString = "Data Source=localhost;Initial Catalog=eza;Integrated Security=True"
@@ -38,55 +37,9 @@ module EngineRepository =
           };
         ]} 
     
-    let getColumnName column = 
-        column.ColumnName
-
-    let appendColumn (columnName: string) (sb: StringBuilder) = 
-        sb.Append(",") |> ignore
-        sb.AppendLine(columnName) |> ignore
-    
-    let appendFrom (table: TableSchema) (sb: StringBuilder) =
-        sb.Append("FROM ") |> ignore
-        sb.Append(table.SchemaName) |> ignore
-        sb.Append(".") |> ignore
-        sb.AppendLine(table.TableName) |> ignore
-    
-    let isPrimaryKey (column: ColumnSchema) =
-        column.KeyType = KeyType.PrimaryKey
-
-    let isNotPrimaryKey (column: ColumnSchema) =
-        isPrimaryKey column |> not
-    
-    let getPrimaryTableMainKey table =
-        table.Columns 
-            |> Seq.find isPrimaryKey 
-            |> getColumnName 
-
-    let getColumnNamesOtherColumnNames table = 
-        let isFromMainTable (column: ColumnSchema) =
-            column.SchemaName = table.SchemaName 
-            && column.TableName = table.TableName
-        
-        table.Columns 
-            |> Seq.filter isFromMainTable
-            |> Seq.filter isNotPrimaryKey
-            |> Seq.map getColumnName 
-
-    let buildQuery table = 
-        let sb = StringBuilder()
-        "SELECT " |> sb.AppendLine |> ignore
-
-        getPrimaryTableMainKey table |> sb.AppendLine |> ignore
-        
-        getColumnNamesOtherColumnNames table |> Seq.iter (fun e -> appendColumn e sb)  
-
-        appendFrom table sb
-
-        sb.ToString()
-
     let getDataFromDb = seq { 
       let table = getTable         
-      let query = buildQuery table  //"SELECT UserID, FirstName, LastName FROM dbo.Users"
+      let query = DynamicQueryBuilder.buildQuery table  //"SELECT UserID, FirstName, LastName FROM dbo.Users"
         
       use conn = new SqlConnection(connectionString)
       use cmd = new SqlCommand(query, conn)
