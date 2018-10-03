@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Engines\Engine.fs" />
     <Compile Include="Utils\Utils.fs" />
     <Compile Include="Services\SqlTypes\SqlTypeService.fs" />
     <Compile Include="Converters\InputTypeConverter.fs" />

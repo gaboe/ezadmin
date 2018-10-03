@@ -9,6 +9,7 @@ export enum SqlColumnDataType {
 
 
 export interface AppInput {
+  tableTitle: string,
   schemaName: string,
   tableName: string,
   columns: Array< ColumnInput >,

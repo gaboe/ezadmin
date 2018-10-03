@@ -1,4 +1,4 @@
-﻿namespace BLogic.EzAdmin.Domain.GraphQL.InputTypes
+﻿namespace BLogic.EzAdmin.Domain.GraphQL
 
 type ColumnInput = {schemaName: string;
                         tableName: string;
@@ -7,5 +7,4 @@ type ColumnInput = {schemaName: string;
                         mainTableKeyColumnName: string option;}
 
 type AppInput = {schemaName: string; tableName: string;}
-    
 

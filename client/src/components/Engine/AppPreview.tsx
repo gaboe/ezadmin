@@ -8,8 +8,8 @@ import {
   AppPreviewComponent
 } from "src/graphql/queries/Engine/AppPreviewQuery";
 import { Layout } from "./Layout/Layout";
-
 type Props = {
+  tableTitle: string;
   tableName: string;
   schemaName: string;
   columns: ColumnInput[];
@@ -18,6 +18,7 @@ type Props = {
 const AppPreview: React.SFC<Props> = props => {
   const variables: AppPreviewQueryVariables = {
     input: {
+      tableTitle: props.tableTitle,
       schemaName: props.schemaName,
       tableName: props.tableName,
       columns: props.columns

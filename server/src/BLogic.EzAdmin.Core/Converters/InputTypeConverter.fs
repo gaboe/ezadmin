@@ -1,7 +1,7 @@
 ﻿namespace BLogic.EzAdmin.Core.Converters
 
 open BLogic.EzAdmin.Core.Utils
-open BLogic.EzAdmin.Domain.GraphQL.InputTypes
+open BLogic.EzAdmin.Domain.GraphQL
 open Newtonsoft.Json
 
 module InputTypeConverter = 

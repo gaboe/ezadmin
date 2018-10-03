@@ -2,7 +2,7 @@
 
 open FSharp.Data.GraphQL.Types
 
-open BLogic.EzAdmin.Domain.GraphQL.InputTypes
+open BLogic.EzAdmin.Domain.GraphQL
 
 module InputGraphQLTypes = 
     
@@ -23,6 +23,7 @@ module InputGraphQLTypes =
             name = "AppInput",
             fieldsFn = fun () ->
             [
+                Define.Input("tableTitle", String)
                 Define.Input("schemaName", String)
                 Define.Input("tableName", String)
                 Define.Input("columns", ListOf(ColumnInputType))

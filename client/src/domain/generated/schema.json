@@ -1,5 +1,5 @@
 {
-  "documentId": 378185528,
+  "documentId": -2000497106,
   "data": {
     "__schema": {
       "queryType": {
@@ -1287,6 +1287,20 @@
           "description": null,
           "fields": null,
           "inputFields": [
+            {
+              "name": "tableTitle",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
             {
               "name": "schemaName",
               "description": null,
