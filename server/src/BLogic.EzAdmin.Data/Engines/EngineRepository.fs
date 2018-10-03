@@ -22,7 +22,7 @@ module EngineRepository =
       let easyRow = {KeyName = "UserID"; ColumnNames = ["FirstName"; "LastName"]}
 
       let readRow (reader: SqlDataReader) = 
-        let getRow name = {Name = name; Value = (unbox (reader.[name])).ToString()}
+        let getRow name = {Name = name; Value = reader.[name] |> unbox |> string}
         getRow
 
       // Run the command and read results into an F# record
@@ -31,7 +31,7 @@ module EngineRepository =
       while reader.Read() do
         let toRow = readRow reader
         yield { 
-                Key = (unbox (reader.[easyRow.KeyName])).ToString()  
+                Key = reader.[easyRow.KeyName] |> unbox |> string 
                 Columns = easyRow.ColumnNames |> Seq.map toRow |> Seq.toList
                }
         }     
