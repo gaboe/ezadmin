@@ -28,6 +28,7 @@ module EngineRepository =
     //                PhotoCaption = unbox (reader.["Caption"])} }
     //    }
     type U=  {UserID: int; FirstName: string; LastName: string}
+    type ExpectedRow = {KeyName: string; ColumnNames: string list}
     let getDataFromDb = seq { 
       let query = "SELECT UserID, FirstName, LastName FROM dbo.Users"
         
@@ -36,15 +37,18 @@ module EngineRepository =
       use cmd = new SqlCommand(query, conn)
       cmd.CommandType <- CommandType.Text
 
-    
+      let easyRow = {KeyName = "UserID"; ColumnNames = ["FirstName"; "LastName"]}
+      let readRow (reader: SqlDataReader) = 
+        let getRow name = {Name = name; Value = (unbox (reader.[name])).ToString()}
+        getRow
+
       // Run the command and read results into an F# record
       conn.Open()
       use reader = cmd.ExecuteReader()
       while reader.Read() do
-        yield { Key = (unbox (reader.["UserID"])).ToString()  
-                Columns = [{Name = "FirstName"; Value = (unbox (reader.["FirstName"])).ToString() };
-                {Name = "LastName"; Value = (unbox (reader.["LastName"])).ToString()};
-                ]
+        let toRow = readRow reader
+        yield { Key = (unbox (reader.[easyRow.KeyName])).ToString()  
+                Columns = easyRow.ColumnNames |> Seq.map toRow |> Seq.toList
                }
         }
         //async {
