@@ -7,11 +7,10 @@ open BLogic.EzAdmin.Domain.SchemaTypes
 
 module EngineRepository =
     open System.Data
+    open BLogic.EzAdmin.Data.Engines
 
     [<Literal>]
     let connectionString = "Data Source=localhost;Initial Catalog=eza;Integrated Security=True"
-
-    type RowResultHeader = {KeyName: string; ColumnNames: string list}
 
     let getTable = {SchemaName = "dbo"; TableName = "Users"; Columns = [
           {
@@ -45,8 +44,8 @@ module EngineRepository =
       use cmd = new SqlCommand(query, conn)
       cmd.CommandType <- CommandType.Text
 
-      let easyRow = {KeyName = "UserID"; ColumnNames = ["FirstName"; "LastName"]}
-
+      //let easyRow = {KeyName = "UserID"; ColumnNames = ["FirstName"; "LastName"]}
+      let headers = DynamicQueryBuilder.getHeaders table
       let readRow (reader: SqlDataReader) = 
         let getRow name = {Name = name; Value = reader.[name] |> unbox |> string}
         getRow
@@ -56,8 +55,8 @@ module EngineRepository =
       while reader.Read() do
         let toRow = readRow reader
         yield { 
-                Key = reader.[easyRow.KeyName] |> unbox |> string 
-                Columns = easyRow.ColumnNames |> Seq.map toRow |> Seq.toList
+                Key = reader.[headers.KeyName] |> unbox |> string 
+                Columns = headers.ColumnNames |> Seq.map toRow |> Seq.toList
                }
         }     
 

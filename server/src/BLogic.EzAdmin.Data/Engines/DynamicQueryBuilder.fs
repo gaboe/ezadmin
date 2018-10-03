@@ -1,7 +1,7 @@
 ﻿namespace BLogic.EzAdmin.Data.Engines
 
 open BLogic.EzAdmin.Domain.SchemaTypes
-
+open BLogic.EzAdmin.Domain.Engines
 
 module DynamicQueryBuilder =
     open System.Text
@@ -51,4 +51,10 @@ module DynamicQueryBuilder =
         appendFrom table sb
 
         sb.ToString()
+
+    let getHeaders table =
+        {
+         KeyName = getPrimaryTableMainKey table;
+         ColumnNames = getColumnNamesOtherColumnNames table |> Seq.toList
+        }
 
