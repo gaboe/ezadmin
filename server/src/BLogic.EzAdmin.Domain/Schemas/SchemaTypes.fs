@@ -7,12 +7,15 @@ type [<CLIMutable>] MenuItemSchema =
             Name: string;
             Rank: int;} 
 
+type KeyType = PrimaryKey | ForeignKey | None
+
 type [<CLIMutable>] ColumnSchema = 
             {[<DefaultValue>] ColumnID : BsonObjectId;
             ColumnName: string;
             TableName: string;
             SchemaName: string;
-            Reference: ColumnSchema option
+            KeyType: KeyType;
+            Reference: ColumnSchema option;
             } 
 
 type [<CLIMutable>] TableSchema = 
