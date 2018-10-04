@@ -8,6 +8,7 @@ open BLogic.EzAdmin.Domain.SchemaTypes
 module EngineRepository =
     open System.Data
     open BLogic.EzAdmin.Data.Engines
+    open BLogic.EzAdmin.Domain.Engines
 
     [<Literal>]
     let connectionString = "Data Source=localhost;Initial Catalog=eza;Integrated Security=True"
@@ -35,17 +36,11 @@ module EngineRepository =
             Reference = Option.None;
           };
         ]} 
-    
-    let getDataFromDb = seq { 
-      let table = getTable         
-      let query = DynamicQueryBuilder.buildQuery table  //"SELECT UserID, FirstName, LastName FROM dbo.Users"
-        
+    let getDataFromDb query (headers: RowResultHeader) = seq { 
       use conn = new SqlConnection(connectionString)
       use cmd = new SqlCommand(query, conn)
       cmd.CommandType <- CommandType.Text
 
-      //let easyRow = {KeyName = "UserID"; ColumnNames = ["FirstName"; "LastName"]}
-      let headers = DynamicQueryBuilder.getHeaders table
       let readRow (reader: SqlDataReader) = 
         let getRow name = {Name = name; Value = reader.[name] |> unbox |> string}
         getRow
@@ -59,4 +54,12 @@ module EngineRepository =
                 Columns = headers.ColumnNames |> Seq.map toRow |> Seq.toList
                }
         }     
+    let getDynamicQueryResults table =
+      let query = DynamicQueryBuilder.buildQuery table 
+      let headers = DynamicQueryBuilder.getHeaders table
+      
+      let data = getDataFromDb query headers
+      data
+
+       
 

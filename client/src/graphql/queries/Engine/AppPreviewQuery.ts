@@ -12,6 +12,17 @@ const APP_PREVIEW_QUERY = gql`
         name
         rank
       }
+      pages {
+        table {
+          rows {
+            columns {
+              name
+              value
+            }
+            key
+          }
+        }
+      }
     }
   }
 `;

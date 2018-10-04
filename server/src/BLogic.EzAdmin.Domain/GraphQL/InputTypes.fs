@@ -6,5 +6,8 @@ type ColumnInput = {schemaName: string;
                         isPrimaryKey: bool;
                         mainTableKeyColumnName: string option;}
 
-type AppInput = {schemaName: string; tableName: string;}
+type AppInput = {tableTitle: string;
+                schemaName: string;
+                tableName: string;
+                columns: ColumnInput list}
 
