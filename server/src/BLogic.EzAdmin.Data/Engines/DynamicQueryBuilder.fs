@@ -55,6 +55,8 @@ module DynamicQueryBuilder =
     let getHeaders table =
         {
          KeyName = getPrimaryTableMainKey table;
-         ColumnNames = getColumnNamesOtherColumnNames table |> Seq.toList
+         ColumnNames = getColumnNamesOtherColumnNames table 
+                         |> Seq.append [getPrimaryTableMainKey table]
+                         |> Seq.toList
         }
 

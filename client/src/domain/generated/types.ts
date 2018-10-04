@@ -135,5 +135,25 @@ export interface AppPreviewQuery {
       // Table on page
       rank: number,
     } >,
+    // Pages in app
+    pages:  Array< {
+      __typename: "Page",
+      // Table on page
+      table:  {
+        __typename: "Table",
+        // Rows in talbe
+        rows:  Array< {
+          __typename: "Row",
+          // Multiple properties of record
+          columns:  Array< {
+            __typename: "Column",
+            name: string,
+            value: string,
+          } >,
+          // Represents unique key of row
+          key: string,
+        } >,
+      },
+    } >,
   },
 };

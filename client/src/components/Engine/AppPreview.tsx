@@ -33,7 +33,7 @@ const AppPreview: React.SFC<Props> = props => {
           }
           return (
             <>
-              <Layout menuItems={response.data.appPreview.menuItems} />
+              <Layout preview={response.data.appPreview} />
             </>
           );
         }}

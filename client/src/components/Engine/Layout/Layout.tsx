@@ -3,8 +3,9 @@ import { Segment, Sidebar } from "semantic-ui-react";
 import { AppPreviewQuery } from "src/domain/generated/types";
 import styled from "styled-components";
 import { MenuItems } from "../MenuItems";
+import { Page } from "../Page/Page";
 
-type Props = { menuItems: AppPreviewQuery["appPreview"]["menuItems"] };
+type Props = { preview: AppPreviewQuery["appPreview"] };
 const Pushable = styled.div`
   min-height: calc(85vh);
 `;
@@ -14,9 +15,11 @@ class Layout extends React.Component<Props> {
       <>
         <Sidebar.Pushable as={Segment}>
           <Pushable>
-            <MenuItems menuItems={this.props.menuItems} />
+            <MenuItems menuItems={this.props.preview.menuItems} />
             <Sidebar.Pusher>
-              <Segment basic={true}>{this.props.children}</Segment>
+              <Segment basic={true}>
+                <Page page={this.props.preview.pages[0]} />
+              </Segment>
             </Sidebar.Pusher>
           </Pushable>
         </Sidebar.Pushable>
