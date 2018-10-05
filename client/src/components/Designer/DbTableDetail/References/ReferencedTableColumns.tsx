@@ -1,11 +1,10 @@
 import * as React from "react";
-import { List } from "semantic-ui-react";
 import { ColumnInput } from "src/domain/generated/types";
 import {
-  ColumsByTableQueryComponent,
-  DB_COLUMNS_BY_TABLE_QUERY
-} from "../../../../graphql/queries/DbExplorer/ColumnsByTableQuery";
-import { CheckboxFromReferencedTable } from "./CheckboxFromReferencedTable";
+  DB_TABLE_DETAIL_QUERY,
+  DbTablesDetailQueryComponent
+} from "src/graphql/queries/DbExplorer/TableDetail";
+import { MiniTableDetail } from "./MiniTableDetail";
 
 type Props = {
   tableName: string;
@@ -20,28 +19,23 @@ const ReferencedTableColumns: React.SFC<Props> = props => {
   }
   const variables = { tableName: props.tableName };
   return (
-    <ColumsByTableQueryComponent
-      query={DB_COLUMNS_BY_TABLE_QUERY}
+    <DbTablesDetailQueryComponent
+      query={DB_TABLE_DETAIL_QUERY}
       variables={variables}
     >
       {response => {
-        if (!response.loading && response.data && response.data.columns) {
-          return response.data.columns.map(x => {
-            return (
-              <List.Item key={x.columnName}>
-                <CheckboxFromReferencedTable
-                  column={x}
-                  mainTableKeyColumn={props.mainTableKeyColumn}
-                  onCheckboxClick={props.onCheckboxClick}
-                />
-                {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
-              </List.Item>
-            );
-          });
+        if (!response.loading && response.data && response.data.table) {
+          return (
+            <MiniTableDetail
+              table={response.data.table}
+              mainTableKeyColumn={props.mainTableKeyColumn}
+              onCheckboxClick={props.onCheckboxClick}
+            />
+          );
         }
         return null;
       }}
-    </ColumsByTableQueryComponent>
+    </DbTablesDetailQueryComponent>
   );
 };
 
