@@ -30,7 +30,8 @@ const CheckboxFromReferencedTable: React.SFC<Props> = props => {
           isPrimaryKey: props.column.isPrimaryKey,
           schemaName: props.column.schemaName,
           tableName: props.column.tableName,
-          mainTableKeyColumnName: props.mainTableKeyColumn
+          mainTableKeyColumnName: props.mainTableKeyColumn,
+          isHidden: false
         })
       }
     />

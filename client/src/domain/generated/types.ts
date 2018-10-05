@@ -20,6 +20,7 @@ export interface ColumnInput {
   tableName: string,
   columnName: string,
   isPrimaryKey: boolean,
+  isHidden: boolean,
   mainTableKeyColumnName?: string | null,
 };
 

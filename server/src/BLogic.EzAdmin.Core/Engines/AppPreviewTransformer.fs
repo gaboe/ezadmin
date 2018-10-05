@@ -19,6 +19,7 @@ module AppPreviewTransformer =
             TableName = col.tableName;
             SchemaName = col.schemaName;
             KeyType = getKeyType col;
+            IsHidden = col.isHidden;
             Reference = Option.None}
 
         let columns = input.columns |> Seq.map toColumnSchema |> Seq.toList

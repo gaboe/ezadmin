@@ -4,6 +4,7 @@ type ColumnInput = {schemaName: string;
                         tableName: string;
                         columnName: string;
                         isPrimaryKey: bool;
+                        isHidden: bool;
                         mainTableKeyColumnName: string option;}
 
 type AppInput = {tableTitle: string;

@@ -15,6 +15,7 @@ module InputGraphQLTypes =
                 Define.Input("tableName", String)
                 Define.Input("columnName", String)
                 Define.Input("isPrimaryKey", Boolean)
+                Define.Input("isHidden", Boolean)
                 Define.Input("mainTableKeyColumnName", Nullable String)
             ]
         )

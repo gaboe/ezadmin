@@ -15,7 +15,7 @@ import { DbReferences } from "./References/DbReferences";
 type Props = {
   variables: GetDbTableDetailQueryVariables;
   isTableNameShown: boolean;
-  onCheckboxClick: (column: ColumnInput) => void;
+  onCheckboxClick: (column: ColumnInput, primaryColumn: ColumnInput) => void;
 };
 
 class DbTableDetail extends React.Component<Props> {
@@ -36,7 +36,17 @@ class DbTableDetail extends React.Component<Props> {
                 </>
               );
             }
-
+            const primaryColumn: ColumnInput = response.data.table.columns
+              .filter(e => e.isPrimaryKey)
+              .map(x => {
+                return {
+                  schemaName: x.schemaName,
+                  tableName: x.tableName,
+                  columnName: x.columnName,
+                  isPrimaryKey: x.isPrimaryKey,
+                  isHidden: true
+                };
+              })[0];
             return (
               <>
                 <Header as="h4">
@@ -57,12 +67,16 @@ class DbTableDetail extends React.Component<Props> {
                       <List.Item key={x.columnName}>
                         <Checkbox
                           onClick={() =>
-                            this.props.onCheckboxClick({
-                              schemaName: x.schemaName,
-                              tableName: x.tableName,
-                              columnName: x.columnName,
-                              isPrimaryKey: x.isPrimaryKey
-                            })
+                            this.props.onCheckboxClick(
+                              {
+                                schemaName: x.schemaName,
+                                tableName: x.tableName,
+                                columnName: x.columnName,
+                                isPrimaryKey: x.isPrimaryKey,
+                                isHidden: false
+                              },
+                              primaryColumn
+                            )
                           }
                         />
                         {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
@@ -71,13 +85,17 @@ class DbTableDetail extends React.Component<Props> {
                   })}
                 </List>
                 <DbReferences
-                  onCheckboxClick={this.props.onCheckboxClick}
+                  onCheckboxClick={e =>
+                    this.props.onCheckboxClick(e, primaryColumn)
+                  }
                   direction={DbReferenceDirection.From}
                   title="Referenced columns from this table"
                   references={response.data.table.referencesFromTable}
                 />
                 <DbReferences
-                  onCheckboxClick={this.props.onCheckboxClick}
+                  onCheckboxClick={e =>
+                    this.props.onCheckboxClick(e, primaryColumn)
+                  }
                   direction={DbReferenceDirection.To}
                   title="Referencing columns to this table"
                   references={response.data.table.referencesToTable}

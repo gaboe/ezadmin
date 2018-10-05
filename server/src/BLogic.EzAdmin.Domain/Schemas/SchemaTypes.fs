@@ -15,6 +15,7 @@ type [<CLIMutable>] ColumnSchema =
             TableName: string;
             SchemaName: string;
             KeyType: KeyType;
+            IsHidden: bool;
             Reference: ColumnSchema option;
             } 
 

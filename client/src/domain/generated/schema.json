@@ -1,5 +1,5 @@
 {
-  "documentId": -51657474,
+  "documentId": -1574953159,
   "data": {
     "__schema": {
       "queryType": {
@@ -1406,6 +1406,20 @@
             },
             {
               "name": "isPrimaryKey",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "isHidden",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
