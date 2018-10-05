@@ -34,7 +34,7 @@ const ReferencedTableColumns: React.SFC<Props> = props => {
                   mainTableKeyColumn={props.mainTableKeyColumn}
                   onCheckboxClick={props.onCheckboxClick}
                 />
-                {` [${x.dataType}]: ${x.columnName}`}
+                {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
               </List.Item>
             );
           });

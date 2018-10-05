@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button, List } from "semantic-ui-react";
 import { DbReferenceDirection } from "src/domain/Designer/DesignerTypes";
+import styled from "styled-components";
 import {
   ColumnInput,
   GetDbTableDetailQuery
@@ -19,6 +20,10 @@ type Props = {
 type State = {
   isChecked: boolean;
 };
+
+const ButtonWrapper = styled.div`
+  margin-top: 1em;
+`;
 
 class DbReference extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -46,11 +51,15 @@ class DbReference extends React.Component<Props, State> {
             mainTableKeyColumn={mainTableKeyColumn}
             areColumnsShown={this.state.isChecked}
           />
-          <Button
-            size="mini"
-            content={`${this.state.isChecked ? "Hide" : "Show"} columns`}
-            onClick={() => this.setState({ isChecked: !this.state.isChecked })}
-          />
+          <ButtonWrapper>
+            <Button
+              size="mini"
+              content={`${this.state.isChecked ? "Hide" : "Show"} columns`}
+              onClick={() =>
+                this.setState({ isChecked: !this.state.isChecked })
+              }
+            />
+          </ButtonWrapper>
         </List.Item>
       </>
     );
