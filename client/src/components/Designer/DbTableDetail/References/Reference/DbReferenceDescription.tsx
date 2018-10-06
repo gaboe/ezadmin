@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Header } from "semantic-ui-react";
 import { DbReferenceDirection } from "../../../../../domain/Designer/DesignerTypes";
 import { GetDbTableDetailQuery } from "../../../../../domain/generated/types";
 
@@ -13,26 +14,20 @@ const DbReferenceDescription: React.SFC<Props> = props => {
   switch (props.direction) {
     case DbReferenceDirection.From: {
       return (
-        <div>
-          To
-          <strong>{` ${props.reference.fromColumn} `}</strong>
+        <Header as="h4">
+          {`${props.reference.fromColumn} `}
           in
-          <strong>{` ${props.reference.fromSchema}.${
-            props.reference.fromTable
-          } `}</strong>
-        </div>
+          {` ${props.reference.fromSchema}.${props.reference.fromTable} `}
+        </Header>
       );
     }
     case DbReferenceDirection.To: {
       return (
-        <div>
-          From
-          <strong>{` ${props.reference.toColumn} `}</strong>
+        <Header as="h4">
+          {` ${props.reference.toColumn} `}
           in
-          <strong>{` ${props.reference.toSchema}.${
-            props.reference.toTable
-          } `}</strong>
-        </div>
+          {` ${props.reference.toSchema}.${props.reference.toTable} `}
+        </Header>
       );
     }
   }

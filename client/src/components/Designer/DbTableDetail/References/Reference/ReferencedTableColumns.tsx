@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ColumnInput } from "src/domain/generated/types";
 import styled from "styled-components";
-import { DbTableDetail } from "../../DbTableDetail";
+import { DbReferencedTableDetail } from "../../DbReferencedTableDetail";
 
 type Props = {
   tableName: string;
@@ -22,7 +22,7 @@ const ReferencedTableColumns: React.SFC<Props> = props => {
   const variables = { tableName: props.tableName };
   return (
     <Wrapper>
-      <DbTableDetail
+      <DbReferencedTableDetail
         variables={variables}
         isTableNameShown={true}
         onCheckboxClick={e => props.onCheckboxClick(e)}
