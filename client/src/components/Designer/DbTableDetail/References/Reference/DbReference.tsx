@@ -5,7 +5,7 @@ import styled from "styled-components";
 import {
   ColumnInput,
   GetDbTableDetailQuery
-} from "../../../../domain/generated/types";
+} from "../../../../../domain/generated/types";
 import { DbReferenceDescription } from "./DbReferenceDescription";
 import { ReferencedTableColumns } from "./ReferencedTableColumns";
 

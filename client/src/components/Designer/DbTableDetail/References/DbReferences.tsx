@@ -5,7 +5,7 @@ import {
   ColumnInput,
   GetDbTableDetailQuery
 } from "../../../../domain/generated/types";
-import { DbReference } from "./DbReference";
+import { DbReference } from "./Reference/DbReference";
 
 type Props = {
   title: string;
