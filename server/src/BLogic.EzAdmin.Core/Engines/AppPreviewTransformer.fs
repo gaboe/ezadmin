@@ -3,7 +3,7 @@ open BLogic.EzAdmin.Domain.GraphQL
 module AppPreviewTransformer = 
     open BLogic.EzAdmin.Domain.SchemaTypes
 
-    let tranformToSchema input = 
+    let tranformToSchema input : TableSchema= 
         let getKeyType (col: ColumnInput) =
             let isFromPrimary = col.schemaName = input.schemaName && col.tableName = input.tableName
             match isFromPrimary with 
@@ -14,7 +14,7 @@ module AppPreviewTransformer =
                                 | Some _ -> KeyType.ForeignKey
                                 | _ -> KeyType.None
 
-        let toColumnSchema (col: ColumnInput) =
+        let toColumnSchema (col: ColumnInput):ColumnSchema =
             {ColumnName = col.columnName;
             TableName = col.tableName;
             SchemaName = col.schemaName;

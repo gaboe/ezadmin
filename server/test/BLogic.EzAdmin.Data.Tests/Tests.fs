@@ -2,18 +2,56 @@
 
 open System
 open Microsoft.VisualStudio.TestTools.UnitTesting
-open BLogic.EzAdmin.Data.Repositories.SqlTypes.SqlTypeRepository
 open BLogic.EzAdmin.Data.Engines.EngineRepository
+open BLogic.EzAdmin.Domain.SchemaTypes
+open BLogic.EzAdmin.Core.Engines.SchemaTypeToQueryDescriptionConverter
 
 [<TestClass>]
 type MsSqlSchemaRepositoryTest () =
-
-    [<TestMethod>]
-    member this.GetAllSchemas () =
-        let c = getAllSchemas |> Async.RunSynchronously
-        Assert.IsTrue(true);
+    let table: TableSchema = {SchemaName = "dbo"; TableName = "Users"; Columns = [
+                      {
+                        ColumnName = "UserID";
+                        TableName = "Users";
+                        SchemaName = "dbo";
+                        KeyType = KeyType.PrimaryKey;
+                        Reference = Option.None;
+                        IsHidden = false;
+                      };
+                      {
+                        ColumnName = "FirstName";
+                        TableName = "Users";
+                        SchemaName = "dbo";
+                        KeyType = KeyType.None;
+                        Reference = Option.None;
+                        IsHidden = false;
+                      };
+                      {
+                        ColumnName = "LastName";
+                        TableName = "Users";
+                        SchemaName = "dbo";
+                        KeyType = KeyType.None;
+                        Reference = Option.None;
+                        IsHidden = false;
+                      };
+                      {
+                        ColumnName = "ApplicationID";
+                        TableName = "UserApplications";
+                        SchemaName = "dbo";
+                        KeyType = KeyType.ForeignKey;
+                        Reference = Some {
+                            ColumnName = "UserID";
+                            TableName = "Users";
+                            SchemaName = "dbo";
+                            KeyType = KeyType.PrimaryKey;
+                            Reference = Option.None;
+                            IsHidden = false;
+                          };
+                        IsHidden = false;
+                      }
+                    ]}
 
     [<TestMethod>]
     member this.ExecuteDynamicQuery () =
-        let c = getDataFromDb |> Seq.toArray //|> Async.RunSynchronously
-        Assert.IsTrue(true);
+        let c = table |> convert |> getDynamicQueryResults |> Seq.toList
+        Assert.IsTrue(c.Length > 0);
+        Assert.AreEqual(4, c.Head.Columns.Length);

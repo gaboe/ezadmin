@@ -35,3 +35,17 @@ type [<CLIMutable>] AppSchema =
             MenuItems: MenuItemSchema list;
             Pages: PageSchema list} 
 
+type ColumnQueryDescription = { TableAlias: string;
+                                Column: ColumnSchema
+                              }
+
+type TableQueryDescriptionType = Primary | Foreign
+
+type TableQueryDescription = {  TableAlias: string;
+                                Table: TableSchema;
+                                Type: TableQueryDescriptionType;
+                                Columns: ColumnQueryDescription list;
+                              }
+
+type QueryDescription = {TableQueryDescriptions: TableQueryDescription list;}
+

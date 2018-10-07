@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Engines\EngineTypes.fs" />
     <Compile Include="Ui\UiTypes.fs" />
     <Compile Include="Schemas\SchemaTypes.fs" />
+    <Compile Include="Engines\EngineTypes.fs" />
     <Compile Include="Sql\SqlQuery.fs" />
     <Compile Include="SqlTypes\SqlTypes.fs" />
     <Compile Include="GraphQL\InputTypes.fs" />

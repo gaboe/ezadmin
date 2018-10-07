@@ -29,6 +29,7 @@ module Engine =
 
         let rows = input 
                     |> AppPreviewTransformer.tranformToSchema 
+                    |> SchemaTypeToQueryDescriptionConverter.convert
                     |> EngineRepository.getDynamicQueryResults
                     |> Seq.map hideColumns
                     |> Seq.toList
