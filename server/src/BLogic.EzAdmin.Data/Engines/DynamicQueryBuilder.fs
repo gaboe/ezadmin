@@ -44,7 +44,6 @@ module DynamicQueryBuilder =
 
     let private getPrimaryTableMainKey table =
         table.Columns
-            //|> Seq.map (fun e -> e.Column)
             |> Seq.map flattenColumns
             |> Seq.collect (fun e -> e)
             |> Seq.find isPrimaryKey
