@@ -6,7 +6,7 @@ open BLogic.EzAdmin.Domain.GraphQL
 
 module InputGraphQLTypes = 
     
-    let ColumnInputType = 
+    let rec ColumnInputType = 
         Define.InputObject<ColumnInput>(
             name = "ColumnInput",
             fieldsFn = fun () ->
@@ -16,7 +16,7 @@ module InputGraphQLTypes =
                 Define.Input("columnName", String)
                 Define.Input("isPrimaryKey", Boolean)
                 Define.Input("isHidden", Boolean)
-                Define.Input("mainTableKeyColumnName", Nullable String)
+                Define.Input("keyReference", Nullable(ColumnInputType))
             ]
         )
     let AppInputType = 

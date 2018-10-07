@@ -9,12 +9,12 @@ type DbColumn = GetDbColumnsByTableNameQuery["columns"][0];
 
 type Props = {
   column: DbColumn;
-  mainTableKeyColumn: string;
+  keyReference: ColumnInput;
   onCheckboxClick: (column: ColumnInput) => void;
 };
 
 const CheckboxFromReferencedTable: React.SFC<Props> = props => {
-  if (props.column.columnName === props.mainTableKeyColumn) {
+  if (props.column.columnName === props.keyReference.columnName) {
     return (
       <Popup
         trigger={<Checkbox disabled={true} readOnly={true} />}
@@ -30,7 +30,7 @@ const CheckboxFromReferencedTable: React.SFC<Props> = props => {
           isPrimaryKey: props.column.isPrimaryKey,
           schemaName: props.column.schemaName,
           tableName: props.column.tableName,
-          mainTableKeyColumnName: props.mainTableKeyColumn,
+          keyReference: props.keyReference,
           isHidden: false
         })
       }

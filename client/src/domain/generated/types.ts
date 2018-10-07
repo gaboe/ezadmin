@@ -21,7 +21,7 @@ export interface ColumnInput {
   columnName: string,
   isPrimaryKey: boolean,
   isHidden: boolean,
-  mainTableKeyColumnName?: string | null,
+  keyReference?: ColumnInput | null,
 };
 
 export interface GetDbColumnsByTableNameQueryVariables {

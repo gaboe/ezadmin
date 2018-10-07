@@ -24,7 +24,7 @@ class Designer extends React.Component<Props, State> {
           <Col md={6} lg={3}>
             <DbTableDetail
               variables={{ tableName: name }}
-              onCheckboxClick={(e, p) => this.toggleColumn(e, p)}
+              onCheckboxClick={this.toggleColumn}
               isTableNameShown={this.state.activeColumns.length > 0}
             />
           </Col>
@@ -43,10 +43,7 @@ class Designer extends React.Component<Props, State> {
     );
   }
 
-  public toggleColumn = (
-    column: ColumnInput,
-    primaryColumn: ColumnInput
-  ): void => {
+  public toggleColumn = (column: ColumnInput): void => {
     const isColumnInArray = this.areColumnsEqual(column);
     const columns = this.state.activeColumns.filter(e => !e.isHidden);
 
@@ -54,11 +51,7 @@ class Designer extends React.Component<Props, State> {
       ? R.filter(e => !isColumnInArray(e), columns)
       : R.append(column, columns);
 
-    if (activeColumns.length > 0) {
-      this.setState({ activeColumns: R.append(primaryColumn, activeColumns) });
-    } else {
-      this.setState({ activeColumns });
-    }
+    this.setState({ activeColumns });
   };
 
   public areColumnsEqual = (column1: ColumnInput) => (column2: ColumnInput) =>

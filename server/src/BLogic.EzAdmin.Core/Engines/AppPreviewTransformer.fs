@@ -10,17 +10,20 @@ module AppPreviewTransformer =
                 | true -> match col.isPrimaryKey with
                             | true -> KeyType.PrimaryKey
                             | false -> KeyType.None
-                | false -> match col.mainTableKeyColumnName with 
+                | false -> match col.keyReference with 
                                 | Some _ -> KeyType.ForeignKey
                                 | _ -> KeyType.None
 
-        let toColumnSchema (col: ColumnInput):ColumnSchema =
+        let rec toColumnSchema (col: ColumnInput) : ColumnSchema =
             {ColumnName = col.columnName;
             TableName = col.tableName;
             SchemaName = col.schemaName;
-            KeyType = getKeyType col;
             IsHidden = col.isHidden;
-            Reference = Option.None}
+            KeyType = getKeyType col;
+            Reference = match col.keyReference with
+                            | Some r -> toColumnSchema r |> Some
+                            | Option.None -> Option.None
+            }
 
         let columns = input.columns |> Seq.map toColumnSchema |> Seq.toList
         {

@@ -1,5 +1,5 @@
 {
-  "documentId": -829615685,
+  "documentId": -1239247826,
   "data": {
     "__schema": {
       "queryType": {
@@ -1433,11 +1433,11 @@
               "defaultValue": null
             },
             {
-              "name": "mainTableKeyColumnName",
+              "name": "keyReference",
               "description": null,
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "INPUT_OBJECT",
+                "name": "ColumnInput",
                 "ofType": null
               },
               "defaultValue": null
