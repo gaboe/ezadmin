@@ -28,13 +28,10 @@ module DynamicQueryBuilder =
     let private isPrimaryKey column =
         column.Column.KeyType = KeyType.PrimaryKey
 
-    let private isPrimaryKey2 column =
-        column.KeyType = KeyType.PrimaryKey
-
     let private isNotPrimaryKey column =
         isPrimaryKey column |> not
     
-    let rec flattenColumns col: ColumnQueryDescription list = 
+    let rec flattenColumns col = 
         match col.Column.Reference with 
             | Some r ->  flattenColumns {TableAlias= col.TableAlias; Column = r} 
                         |> Seq.collect (fun c -> [c])
@@ -101,7 +98,7 @@ module DynamicQueryBuilder =
         getColumnsFromTable tables filter (fun c -> c.TableAlias + "." + c.Column.ColumnName)
 
     let private appendColumnNames (sb: SB) names =
-        names |> Seq.iter (fun n -> sb.Append(",") |> ignore; sb.AppendLine(n) |> ignore)
+        names |> Seq.iter (fun n -> appendColumn n sb |> ignore)
 
     let private getTables description t =
          description.TableQueryDescriptions 
