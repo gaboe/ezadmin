@@ -42,7 +42,8 @@ type ColumnQueryDescription = { TableAlias: string;
 type TableQueryDescriptionType = Primary | Foreign
 
 type TableQueryDescription = {  TableAlias: string;
-                                Table: TableSchema;
+                                SchemaName: string;
+                                TableName: string;
                                 Type: TableQueryDescriptionType;
                                 Columns: ColumnQueryDescription list;
                               }

@@ -21,7 +21,8 @@ module SchemaTypeToQueryDescriptionConverter =
                        |> Seq.toList
         {
             TableAlias = alias;
-            Table = tableSchema
+            TableName = column.TableName;
+            SchemaName = column.SchemaName;
             Columns = columns;
             Type = TableQueryDescriptionType.Foreign;
 
@@ -31,7 +32,8 @@ module SchemaTypeToQueryDescriptionConverter =
     let convert (tableSchema: TableSchema) =
         let primaryTable: TableQueryDescription = {
             TableAlias = "MainTable";
-            Table = tableSchema;
+            TableName = tableSchema.TableName;
+            SchemaName = tableSchema.SchemaName;
             Columns = tableSchema |> getMainTableColumns;
             Type = Primary;
             }

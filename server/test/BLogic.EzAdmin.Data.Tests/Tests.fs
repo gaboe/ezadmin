@@ -34,7 +34,7 @@ type MsSqlSchemaRepositoryTest () =
                         IsHidden = false;
                       };
                       {
-                        ColumnName = "ApplicationID";
+                        ColumnName = "UserID";
                         TableName = "UserApplications";
                         SchemaName = "dbo";
                         KeyType = KeyType.ForeignKey;
@@ -47,11 +47,34 @@ type MsSqlSchemaRepositoryTest () =
                             IsHidden = false;
                           };
                         IsHidden = false;
-                      }
+                      };
+                      {
+                        ColumnName = "ApplicationID";
+                        TableName = "Applications";
+                        SchemaName = "dbo";
+                        KeyType = KeyType.ForeignKey;
+                        Reference = Some {
+                            ColumnName = "ApplicationID";
+                            TableName = "UserApplications";
+                            SchemaName = "dbo";
+                            KeyType = KeyType.None;
+                            Reference = Option.None;
+                            IsHidden = false;
+                          };
+                          IsHidden = false;
+                      };
+                      {
+                        ColumnName = "Name";
+                        TableName = "Applications";
+                        SchemaName = "dbo";
+                        KeyType = KeyType.None;
+                        Reference = Option.None;
+                        IsHidden = false;
+                      };
                     ]}
 
     [<TestMethod>]
     member this.ExecuteDynamicQuery () =
         let c = table |> convert |> getDynamicQueryResults |> Seq.toList
         Assert.IsTrue(c.Length > 0);
-        Assert.AreEqual(4, c.Head.Columns.Length);
+        Assert.AreEqual(6, c.Head.Columns.Length);

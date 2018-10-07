@@ -21,9 +21,9 @@ module DynamicQueryBuilder =
     
     let appendFrom table (sb: StringBuilder) =
         sb.Append("FROM ") |> ignore
-        sb.Append(table.Table.SchemaName) |> ignore
+        sb.Append(table.SchemaName) |> ignore
         sb.Append(".") |> ignore
-        sb.Append(table.Table.TableName) |> ignore
+        sb.Append(table.TableName) |> ignore
         sb.Append(" AS ") |> ignore
         sb.AppendLine(table.TableAlias) |> ignore
     
@@ -36,38 +36,40 @@ module DynamicQueryBuilder =
     let getPrimaryTableMainKey table =
         table.Columns 
             |> Seq.find isPrimaryKey 
+    
+    let appendJoin 
+                    (sb: StringBuilder)
+                    (resolveAlias: _ -> string)
+                    (col: ColumnQueryDescription) =
 
-    let appendJoin (sb: StringBuilder) (col: ColumnQueryDescription) =
+        let (schema, table, column) = match col.Column.Reference with
+                                        | Some e -> (e.SchemaName, e.TableName, e.ColumnName)
+                                        | Option.None -> ("","","")
+
         "JOIN " |> sb.Append |> ignore
         col.Column.SchemaName |> sb.Append |> ignore
         "." |> sb.Append |> ignore
         col.Column.TableName |> sb.Append |> ignore
         " " |> sb.Append |> ignore
         col.TableAlias |> sb.Append |> ignore
-        " ON MainTable.UserID = " |> sb.Append |> ignore
+        " ON " |> sb.Append |> ignore
+        (schema, table) |> resolveAlias |> sb.Append |> ignore
+        "." |> sb.Append |> ignore
+        column |> sb.Append |> ignore
+        " = " |> sb.Append |> ignore
         col.TableAlias |> sb.Append |> ignore
         "." |> sb.Append |> ignore
-        col.Column.ColumnName |> sb.Append |> ignore
+        col.Column.ColumnName |> sb.AppendLine |> ignore
 
-        //let appendPrimaryColumn col primaryCol =
-        //    col.SchemaName |> sb.Append |> ignore
-        //    "." |> sb.Append |> ignore
-        //    col.TableName |> sb.Append |> ignore
-        //    " = " |> sb.Append |> ignore
-        
-        //match col.Reference with
-        //    | Some r -> p |> 
-        //col.Reference |> sb.Append |> ignore
-
-
-    let appendJoins (foreignTables: seq<TableQueryDescription>) (sb: StringBuilder) = 
+    let appendJoins (foreignTables: seq<TableQueryDescription>) (sb: StringBuilder) resolveAlias = 
         let foreignColumns = foreignTables 
                             |> Seq.collect
                                 (fun e -> e.Columns 
-                                            |> Seq.filter (fun c -> c.Column.KeyType = KeyType.ForeignKey))
+                                            |> Seq.filter (fun c -> c.Column.Reference.IsSome 
+                                                                    && c.Column.KeyType = KeyType.ForeignKey))
 
         let appendJoinToStringBuilder =
-            appendJoin sb
+            appendJoin sb resolveAlias
 
         foreignColumns |> Seq.iter appendJoinToStringBuilder
     
@@ -99,6 +101,12 @@ module DynamicQueryBuilder =
 
     let getForeignTables description =
         getTables description TableQueryDescriptionType.Foreign
+    
+    let resolveAlias tables (schemaName, tableName) =
+        let table = tables
+                    |> Seq.find (fun e -> e.SchemaName = schemaName
+                                        && e.TableName = tableName)
+        table.TableAlias                                        
 
     let buildQuery (description: QueryDescription) = 
         let sb = StringBuilder()
@@ -112,11 +120,13 @@ module DynamicQueryBuilder =
             |> ignore
 
         let names = description.TableQueryDescriptions 
-                    |> getColumnNamesWithAliasesExeptPriamary   
+                    |> getColumnNamesWithAliasesExeptPriamary
+                    
+        let resAlias = resolveAlias description.TableQueryDescriptions
         appendColumnNames sb names
 
         appendFrom mainTable sb
-        appendJoins (getForeignTables description) sb
+        appendJoins (getForeignTables description) sb resAlias
         sb.ToString()
 
     let getHeaders description =
