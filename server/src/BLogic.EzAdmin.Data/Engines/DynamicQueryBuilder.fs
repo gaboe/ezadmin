@@ -82,11 +82,12 @@ module DynamicQueryBuilder =
             |> Seq.toList
 
     let getColumnNamesExeptPrimary (tables: TableQueryDescription list) = 
-        getColumnsFromTable tables isNotPrimaryKey (fun c -> c.Column.ColumnName)
-       
+        let filter col = isNotPrimaryKey col && not col.Column.IsHidden
+        getColumnsFromTable tables filter (fun c -> c.Column.ColumnName)
 
-    let getColumnNamesWithAliasesExeptPriamary (tables: TableQueryDescription list) = 
-        getColumnsFromTable tables isNotPrimaryKey (fun c -> c.TableAlias + "." + c.Column.ColumnName)
+    let getColumnNamesWithAliasesExeptPrimary (tables: TableQueryDescription list) = 
+        let filter col = isNotPrimaryKey col && not col.Column.IsHidden
+        getColumnsFromTable tables filter (fun c -> c.TableAlias + "." + c.Column.ColumnName)
 
     let appendColumnNames (sb: SB) names =
         names |> Seq.iter (fun n -> sb.Append(",") |> ignore; sb.AppendLine(n) |> ignore)
@@ -120,13 +121,14 @@ module DynamicQueryBuilder =
             |> ignore
 
         let names = description.TableQueryDescriptions 
-                    |> getColumnNamesWithAliasesExeptPriamary
-                    
-        let resAlias = resolveAlias description.TableQueryDescriptions
+                    |> getColumnNamesWithAliasesExeptPrimary
         appendColumnNames sb names
 
         appendFrom mainTable sb
+
+        let resAlias = resolveAlias description.TableQueryDescriptions
         appendJoins (getForeignTables description) sb resAlias
+
         sb.ToString()
 
     let getHeaders description =

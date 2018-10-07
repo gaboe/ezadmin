@@ -61,7 +61,7 @@ type MsSqlSchemaRepositoryTest () =
                             Reference = Option.None;
                             IsHidden = false;
                           };
-                          IsHidden = false;
+                        IsHidden = true;
                       };
                       {
                         ColumnName = "Name";
@@ -77,4 +77,4 @@ type MsSqlSchemaRepositoryTest () =
     member this.ExecuteDynamicQuery () =
         let c = table |> convert |> getDynamicQueryResults |> Seq.toList
         Assert.IsTrue(c.Length > 0);
-        Assert.AreEqual(6, c.Head.Columns.Length);
+        Assert.AreEqual(5, c.Head.Columns.Length);
