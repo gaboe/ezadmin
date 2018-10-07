@@ -4,7 +4,7 @@ open System
 open Microsoft.VisualStudio.TestTools.UnitTesting
 open BLogic.EzAdmin.Data.Engines.EngineRepository
 open BLogic.EzAdmin.Domain.SchemaTypes
-open BLogic.EzAdmin.Core.Engines.SchemaTypeToQueryDescriptionConverter
+open BLogic.EzAdmin.Core.Engines.DescriptionConverter
 
 [<TestClass>]
 type MsSqlSchemaRepositoryTest () =
@@ -75,6 +75,6 @@ type MsSqlSchemaRepositoryTest () =
 
     [<TestMethod>]
     member this.ExecuteDynamicQuery () =
-        let c = table |> convert |> getDynamicQueryResults |> Seq.toList
+        let c = table |> convertToDescription |> getDynamicQueryResults |> Seq.toList
         Assert.IsTrue(c.Length > 0);
         Assert.AreEqual(5, c.Head.Columns.Length);

@@ -35,7 +35,7 @@ module EngineRepository =
       let headers = DynamicQueryBuilder.getHeaders table
       
       let data = getDataFromDb query headers
-      data
+      data |> Seq.toList
 
        
 

@@ -5,31 +5,22 @@ module Engine =
     open BLogic.EzAdmin.Data.Engines
     open BLogic.EzAdmin.Domain.GraphQL
 
-    let _column: Column = {Name = "Hje"; Value = "1100"}
-    let _row: Row = {Key= "1"; Columns= [_column]}
-    let _table: Table = {Rows = [_row]}
-    let _page: Page = {Table = _table}
-    let _menuItem = {Rank = 1; Name = "Users"}
-    let _app: App = {Pages = [ _page ]; MenuItems = [_menuItem]}
-
     let getAppPreview (input: AppInput) =
 
-        let allowedColumns =
+        let isInAllowedColumns column =
             input.columns 
                 |> Seq.filter (fun e -> e.isHidden |> not) 
-                |> Seq.toList
-
-        let isInAllowedColumns column =
-                allowedColumns
                 |> Seq.exists (fun e -> e.columnName = column.Name)
 
         let hideColumns row = 
-            let columns = row.Columns |> Seq.filter isInAllowedColumns |> Seq.toList
+            let columns = row.Columns 
+                            |> Seq.filter isInAllowedColumns 
+                            |> Seq.toList
             { Key = row.Key; Columns = columns }
 
         let rows = input 
                     |> AppPreviewTransformer.tranformToSchema 
-                    |> SchemaTypeToQueryDescriptionConverter.convert
+                    |> DescriptionConverter.convertToDescription
                     |> EngineRepository.getDynamicQueryResults
                     |> Seq.map hideColumns
                     |> Seq.toList

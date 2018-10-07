@@ -7,19 +7,17 @@ open System.Text
 type SB = StringBuilder
 
 module DynamicQueryBuilder =
-    open System.Text
-
-    let getColumnName (column: ColumnQueryDescription) = 
+    let private getColumnName (column: ColumnQueryDescription) = 
         column.Column.ColumnName
 
-    let getColumnNameWithAlias (column: ColumnQueryDescription) = 
+    let private getColumnNameWithAlias (column: ColumnQueryDescription) = 
         column.TableAlias + "." + column.Column.ColumnName
 
-    let appendColumn columnName (sb: StringBuilder) = 
+    let private appendColumn columnName (sb: StringBuilder) = 
         sb.Append(",") |> ignore
         sb.AppendLine(columnName) |> ignore
     
-    let appendFrom table (sb: StringBuilder) =
+    let private appendFrom table (sb: StringBuilder) =
         sb.Append("FROM ") |> ignore
         sb.Append(table.SchemaName) |> ignore
         sb.Append(".") |> ignore
@@ -27,17 +25,17 @@ module DynamicQueryBuilder =
         sb.Append(" AS ") |> ignore
         sb.AppendLine(table.TableAlias) |> ignore
     
-    let isPrimaryKey column =
+    let private isPrimaryKey column =
         column.Column.KeyType = KeyType.PrimaryKey
 
-    let isNotPrimaryKey column =
+    let private isNotPrimaryKey column =
         isPrimaryKey column |> not
     
-    let getPrimaryTableMainKey table =
+    let private getPrimaryTableMainKey table =
         table.Columns 
             |> Seq.find isPrimaryKey 
     
-    let appendJoin 
+    let private appendJoin 
                     (sb: StringBuilder)
                     (resolveAlias: _ -> string)
                     (col: ColumnQueryDescription) =
@@ -61,7 +59,7 @@ module DynamicQueryBuilder =
         "." |> sb.Append |> ignore
         col.Column.ColumnName |> sb.AppendLine |> ignore
 
-    let appendJoins (foreignTables: seq<TableQueryDescription>) (sb: StringBuilder) resolveAlias = 
+    let private appendJoins (foreignTables: seq<TableQueryDescription>) (sb: StringBuilder) resolveAlias = 
         let foreignColumns = foreignTables 
                             |> Seq.collect
                                 (fun e -> e.Columns 
@@ -74,36 +72,36 @@ module DynamicQueryBuilder =
         foreignColumns |> Seq.iter appendJoinToStringBuilder
     
     
-    let getColumnsFromTable tables filter map =
+    let private getColumnsFromTable tables filter map =
          tables
             |> Seq.collect (fun e -> e.Columns 
                                     |> Seq.filter filter
                                     |> Seq.map map)
             |> Seq.toList
 
-    let getColumnNamesExeptPrimary (tables: TableQueryDescription list) = 
+    let private getColumnNamesExeptPrimary (tables: TableQueryDescription list) = 
         let filter col = isNotPrimaryKey col && not col.Column.IsHidden
         getColumnsFromTable tables filter (fun c -> c.Column.ColumnName)
 
-    let getColumnNamesWithAliasesExeptPrimary (tables: TableQueryDescription list) = 
+    let private getColumnNamesWithAliasesExeptPrimary (tables: TableQueryDescription list) = 
         let filter col = isNotPrimaryKey col && not col.Column.IsHidden
         getColumnsFromTable tables filter (fun c -> c.TableAlias + "." + c.Column.ColumnName)
 
-    let appendColumnNames (sb: SB) names =
+    let private appendColumnNames (sb: SB) names =
         names |> Seq.iter (fun n -> sb.Append(",") |> ignore; sb.AppendLine(n) |> ignore)
 
-    let getTables description t =
+    let private getTables description t =
          description.TableQueryDescriptions 
             |> Seq.filter (fun e -> e.Type = t)
 
-    let getMainTable description =
+    let private getMainTable description =
         getTables description TableQueryDescriptionType.Primary
         |> Seq.head
 
-    let getForeignTables description =
+    let private getForeignTables description =
         getTables description TableQueryDescriptionType.Foreign
     
-    let resolveAlias tables (schemaName, tableName) =
+    let private resolveAlias tables (schemaName, tableName) =
         let table = tables
                     |> Seq.find (fun e -> e.SchemaName = schemaName
                                         && e.TableName = tableName)

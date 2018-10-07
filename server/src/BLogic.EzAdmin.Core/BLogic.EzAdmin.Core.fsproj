@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Engines\SchemaTypeToQueryDescriptionConverter.fs" />
+    <Compile Include="Engines\DescriptionConverter.fs" />
     <Compile Include="Engines\AppPreviewTransformer.fs" />
     <Compile Include="Engines\Engine.fs" />
     <Compile Include="Utils\Utils.fs" />

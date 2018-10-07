@@ -1,7 +1,7 @@
 ﻿namespace BLogic.EzAdmin.Core.Engines
 open BLogic.EzAdmin.Domain.SchemaTypes
 
-module SchemaTypeToQueryDescriptionConverter =
+module DescriptionConverter =
 
     let getColumnsFromTable tableName schemaName (columns: seq<ColumnSchema>) =
         columns 
@@ -29,8 +29,8 @@ module SchemaTypeToQueryDescriptionConverter =
         }: TableQueryDescription
 
 
-    let convert (tableSchema: TableSchema) =
-        let primaryTable: TableQueryDescription = {
+    let convertToDescription (tableSchema: TableSchema) =
+        let primaryTable = {
             TableAlias = "MainTable";
             TableName = tableSchema.TableName;
             SchemaName = tableSchema.SchemaName;
@@ -46,7 +46,9 @@ module SchemaTypeToQueryDescriptionConverter =
                             |> Seq.mapi toColumnSchema
                             |> Seq.toList
         {
-            TableQueryDescriptions= joinedTables |> Seq.append [primaryTable] |> Seq.toList
+            TableQueryDescriptions = joinedTables 
+                                    |> Seq.append [primaryTable]
+                                    |> Seq.toList
         }
 
 
