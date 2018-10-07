@@ -8,6 +8,7 @@ module InputTypeConverter =
     let strictJsonSettings =
                 JsonSerializerSettings()
                 |> tee (fun s ->
+                    s.Converters <- [| OptionConverter.OptionConverter2() :> JsonConverter;|]
                     s.MissingMemberHandling <- MissingMemberHandling.Error
                     s.ContractResolver <- Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver())
     

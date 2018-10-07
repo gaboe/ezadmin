@@ -28,12 +28,26 @@ module DynamicQueryBuilder =
     let private isPrimaryKey column =
         column.Column.KeyType = KeyType.PrimaryKey
 
+    let private isPrimaryKey2 column =
+        column.KeyType = KeyType.PrimaryKey
+
     let private isNotPrimaryKey column =
         isPrimaryKey column |> not
     
+    let rec flattenColumns col: ColumnQueryDescription list = 
+        match col.Column.Reference with 
+            | Some r ->  flattenColumns {TableAlias= col.TableAlias; Column = r} 
+                        |> Seq.collect (fun c -> [c])
+                        |> Seq.append [col]
+                        |> Seq.toList
+            | Option.None -> [col] |> Seq.toList
+
     let private getPrimaryTableMainKey table =
-        table.Columns 
-            |> Seq.find isPrimaryKey 
+        table.Columns
+            //|> Seq.map (fun e -> e.Column)
+            |> Seq.map flattenColumns
+            |> Seq.collect (fun e -> e)
+            |> Seq.find isPrimaryKey
     
     let private appendJoin 
                     (sb: StringBuilder)
