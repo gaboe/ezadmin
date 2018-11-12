@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FSharp.Data.GraphQL.Server" Version="0.0.7-beta" />
-    <PackageReference Include="FSharp.Data.GraphQL.Server.Middlewares" Version="0.0.7-beta" />
+    <PackageReference Include="FSharp.Data.GraphQL.Server" Version="0.0.9" />
+    <PackageReference Include="FSharp.Data.GraphQL.Server.Middlewares" Version="0.0.9" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
