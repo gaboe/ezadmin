@@ -12,7 +12,7 @@ const httpLink = onError(({ graphQLErrors }) => {
   if (
     graphQLErrors &&
     graphQLErrors.length > 0 &&
-    any(e => e.message === "AUTHORISED_ERROR", graphQLErrors)
+    any(e => e.message === "AUTHORISATION_ERROR", graphQLErrors)
   ) {
     console.log(graphQLErrors);
   }
