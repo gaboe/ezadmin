@@ -14,6 +14,7 @@ module GraphQLSchema =
     open BLogic.EzAdmin.GraphQL.InputGraphQLTypes
     open BLogic.EzAdmin.GraphQL.QueryGraphQLTypes
     open BLogic.EzAdmin.Core.Engines
+    open DefineExtensions
 
     let schemaConfig = SchemaConfig.Default
     
@@ -36,12 +37,12 @@ module GraphQLSchema =
     let _menuItem = {Rank = 1; Name = "Users"}
     let _app: App = {Pages = [ _page ]; MenuItems = [_menuItem]}
     //let _ezApp: AppEzType = {hej = Some ",adalada"}
-    
+    let ekg = fun _ __ -> getAllSchemas |> Async.RunSynchronously
     let Query =
         Define.Object<Root>(
             name = "Query",
             fields = [
-                Define.Field("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
+                Define.AuthorizedField("schemas", ListOf (SqlSchemaType), "Get db schemas", ekg)
                 Define.Field("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getTable |> Async.RunSynchronously)
                 Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ], fun ctx _ -> ctx.Arg("schemaName") |> getTables |> Async.RunSynchronously)
                 Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getColumns |> Async.RunSynchronously)
