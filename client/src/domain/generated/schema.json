@@ -1,5 +1,5 @@
 {
-  "documentId": -549721070,
+  "documentId": 2013468158,
   "data": {
     "__schema": {
       "queryType": {
@@ -1882,11 +1882,11 @@
           "description": null,
           "fields": [
             {
-              "name": "setMoon",
-              "description": "Sets a moon status",
+              "name": "signIn",
+              "description": "If succesfull returns token",
               "args": [
                 {
-                  "name": "id",
+                  "name": "email",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
@@ -1900,7 +1900,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "ismoon",
+                  "name": "password",
                   "description": null,
                   "type": {
                     "kind": "NON_NULL",
@@ -1915,8 +1915,35 @@
                 }
               ],
               "type": {
-                "kind": "OBJECT",
-                "name": "SqlSchema",
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "SignInResult",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "SignInResult",
+          "description": "",
+          "fields": [
+            {
+              "name": "token",
+              "description": "Token",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,

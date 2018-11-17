@@ -12,12 +12,13 @@ import { Routes } from "./components/Routes/Routes";
 
 const authLink = setContext((_, o) => {
   // get the authentication token from local storage if it exists
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   // return the headers to the context so httpLink can read them
   const h = {
     headers: {
       ...o.headers,
-      authorization: token ? `Bearer ${token}` : "Bearer test"
+      authorization:
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDI0ODY2ODEsImF1dGgiOiJtYWRhcmEiLCJhYSI6ImhlaiJ9.6TuwMPgAVFcbNa3BnXWhdZT_4dtC5hXidGEtS98_kVY"
     }
   };
   return h;

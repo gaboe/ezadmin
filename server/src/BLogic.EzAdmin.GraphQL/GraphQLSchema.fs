@@ -10,6 +10,7 @@ module GraphQLSchema =
     open BLogic.EzAdmin.GraphQL.QueryGraphQLTypes
     open DefineExtensions
     open BLogic.EzAdmin.Domain.GraphQL
+    open BLogic.EzAdmin.Core.Service.Security.TokenService
 
     let schemaConfig = SchemaConfig.Default
     
@@ -46,18 +47,21 @@ module GraphQLSchema =
                     "Fake subscription",
                     [ Define.Input("id", String) ],
                     (fun ctx _ (p: SqlSchema) -> if ctx.Arg("id") = p.SchemaName then Some p else None)) ])
-
+    
     let Mutation =
         Define.Object<Root>(
             name = "Mutation",
             fields = [
                 Define.Field(
-                    "setMoon",
-                    Nullable SqlSchemaType,
-                    "Sets a moon status",
-                    [ Define.Input("id", String); Define.Input("ismoon", Boolean) ],
-                    fun ctx _ ->
-                        Some {SchemaName = "schemaTest"} 
+                    "signIn",
+                    SignInResult,
+                    "If succesfull returns token",
+                    [ Define.Input("email", String); Define.Input("password", Boolean) ],
+                    fun ctx _ ->  
+                            let email = ctx.Arg("email") 
+                            let pass = ctx.Arg("password") 
+                            TokenService.createToken email pass 
+                            |> (fun e -> {Token = "Bearer " + e |> Some})
     )])
 
     let schema = Schema(Query, Mutation, Subscription, schemaConfig)
