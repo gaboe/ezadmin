@@ -8,11 +8,12 @@ import { ApolloProvider } from "react-apollo";
 import { HashRouter as Router } from "react-router-dom";
 import { Layout } from "./components/Layout/Layout";
 import { Routes } from "./components/Routes/Routes";
+
 const httpLink = onError(({ graphQLErrors }) => {
   if (
     graphQLErrors &&
     graphQLErrors.length > 0 &&
-    any(e => e.message === "AUTHORISATION_ERROR", graphQLErrors)
+    any(e => e.message === "AUTHORIZATION_ERROR", graphQLErrors)
   ) {
     console.log(graphQLErrors);
   }

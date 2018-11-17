@@ -8,12 +8,9 @@ module GraphQLSchema =
     open FSharp.Data.GraphQL.Types
     open FSharp.Data.GraphQL.Server.Middlewares
     open BLogic.EzAdmin.Domain.SqlTypes
-    open BLogic.EzAdmin.Domain.UiTypes
     open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
-    open BLogic.EzAdmin.Core.Engines
     open BLogic.EzAdmin.GraphQL.InputGraphQLTypes
     open BLogic.EzAdmin.GraphQL.QueryGraphQLTypes
-    open BLogic.EzAdmin.Core.Engines
     open DefineExtensions
 
     let schemaConfig = SchemaConfig.Default
@@ -28,21 +25,11 @@ module GraphQLSchema =
                 Define.Field("clientid", String, "The ID of the client", fun _ r -> r.ClientId)
             ])
    
-    let _schema: SqlSchema = {SchemaName = "makau"} 
-    let schemas = [ _schema ] |> List.toSeq
-    let _column: Column = {Name = "Hje"; Value = "1100"}
-    let _row: Row = {Key= "1"; Columns= [_column]}
-    let _table: Table = {Rows = [_row]}
-    let _page: Page = {Table = _table}
-    let _menuItem = {Rank = 1; Name = "Users"}
-    let _app: App = {Pages = [ _page ]; MenuItems = [_menuItem]}
-    //let _ezApp: AppEzType = {hej = Some ",adalada"}
-    let ekg = fun _ __ -> getAllSchemas |> Async.RunSynchronously
     let Query =
         Define.Object<Root>(
             name = "Query",
             fields = [
-                Define.AuthorizedField("schemas", ListOf (SqlSchemaType), "Get db schemas", ekg)
+                Define.AuthorizedField("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
                 Define.Field("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getTable |> Async.RunSynchronously)
                 Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ], fun ctx _ -> ctx.Arg("schemaName") |> getTables |> Async.RunSynchronously)
                 Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getColumns |> Async.RunSynchronously)
@@ -72,7 +59,7 @@ module GraphQLSchema =
                     "Sets a moon status",
                     [ Define.Input("id", String); Define.Input("ismoon", Boolean) ],
                     fun ctx _ ->
-                        Some _schema
+                        Some {SchemaName = "schemaTest"} 
     )])
 
     let schema = Schema(Query, Mutation, Subscription, schemaConfig)
