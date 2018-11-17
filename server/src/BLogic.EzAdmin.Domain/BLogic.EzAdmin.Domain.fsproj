@@ -10,6 +10,7 @@
     <Compile Include="Engines\EngineTypes.fs" />
     <Compile Include="Sql\SqlQuery.fs" />
     <Compile Include="SqlTypes\SqlTypes.fs" />
+    <Compile Include="GraphQL\RootType.fs" />
     <Compile Include="GraphQL\InputTypes.fs" />
     <Compile Include="GraphQL\UnsafeGraphQLQuery.fs" />
   </ItemGroup>

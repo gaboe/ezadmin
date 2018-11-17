@@ -8,6 +8,7 @@ module QueryProcessor =
     open BLogic.EzAdmin.Core.Utils
     open FSharp.Data.GraphQL.Execution
     open Newtonsoft.Json.Converters
+    open System.Collections.Generic
 
     let removeSpacesAndNewLines (str : string) = str.Trim().Replace("\r\n", " ")
 
@@ -16,7 +17,7 @@ module QueryProcessor =
                         then None
                         else Some str
 
-    let processQuery (body:UnsafeGraphQlQuery) =
+    let processQuery (body:UnsafeGraphQlQuery) token =
         let jsonSettings =
                 JsonSerializerSettings()
                 |> tee (fun s ->
@@ -50,7 +51,7 @@ module QueryProcessor =
         let result  = match gqlQuery, variables with
                             | Some query, Some variables ->
                                 let query = query |> removeSpacesAndNewLines
-                                let result = GraphQLSchema.executor.AsyncExecute(query, variables = variables, data = GraphQLSchema.root) |> Async.RunSynchronously
+                                let result = GraphQLSchema.executor.AsyncExecute(query, variables = variables, data = {Token = token}) |> Async.RunSynchronously
                                 result
                             | Some query, None ->
                                 let query = query |> removeSpacesAndNewLines

@@ -1,8 +1,5 @@
 ﻿namespace BLogic.EzAdmin.GraphQL
 
-type Root =
-    { ClientId: string }
-
 module GraphQLSchema = 
     open FSharp.Data.GraphQL
     open FSharp.Data.GraphQL.Types
@@ -12,6 +9,7 @@ module GraphQLSchema =
     open BLogic.EzAdmin.GraphQL.InputGraphQLTypes
     open BLogic.EzAdmin.GraphQL.QueryGraphQLTypes
     open DefineExtensions
+    open BLogic.EzAdmin.Domain.GraphQL
 
     let schemaConfig = SchemaConfig.Default
     
@@ -22,7 +20,7 @@ module GraphQLSchema =
             isTypeOf = (fun o -> o :? Root),
             fieldsFn = fun () ->
             [
-                Define.Field("clientid", String, "The ID of the client", fun _ r -> r.ClientId)
+                Define.Field("token", String, "Token of the client", fun _ r -> match r.Token with Some v -> v | None -> "")
             ])
    
     let Query =
@@ -70,4 +68,4 @@ module GraphQLSchema =
 
     let executor = Executor(schema, middlewares)
 
-    let root = { ClientId = "5" }
+    let root = { Token = Option.None }

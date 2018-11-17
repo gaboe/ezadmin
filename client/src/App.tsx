@@ -1,5 +1,6 @@
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloClient } from "apollo-client";
+import { setContext } from "apollo-link-context";
 import { onError } from "apollo-link-error";
 import { HttpLink } from "apollo-link-http";
 import { any } from "ramda";
@@ -9,6 +10,19 @@ import { HashRouter as Router } from "react-router-dom";
 import { Layout } from "./components/Layout/Layout";
 import { Routes } from "./components/Routes/Routes";
 
+const authLink = setContext((_, o) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem("token");
+  // return the headers to the context so httpLink can read them
+  const h = {
+    headers: {
+      ...o.headers,
+      authorization: token ? `Bearer ${token}` : "Bearer test"
+    }
+  };
+  return h;
+});
+
 const httpLink = onError(({ graphQLErrors }) => {
   if (
     graphQLErrors &&
@@ -17,11 +31,13 @@ const httpLink = onError(({ graphQLErrors }) => {
   ) {
     console.log(graphQLErrors);
   }
-}).concat(
-  new HttpLink({
-    uri: "http://localhost:7930/graphql/"
-  })
-);
+})
+  .concat(authLink)
+  .concat(
+    new HttpLink({
+      uri: "http://localhost:7930/graphql/"
+    })
+  );
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),

@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="graphiql" Version="1.1.0" />
+    <PackageReference Include="JWT" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

@@ -1,14 +1,24 @@
 ﻿module DefineExtensions
 
+open BLogic.EzAdmin.Core.Service.Security.TokenService
+open BLogic.EzAdmin.Domain.GraphQL
 open FSharp.Data.GraphQL.Types
 open System
 
-    type Define with 
+    let isAuthorized root = 
+        match root.Token with 
+            | Some t -> TokenService.isValid t
+            | None -> false
+
+        type Define with 
         static member AuthorizedField(name : string,
                                       typedef : #OutputDef<'Res>,
                                       description : string,
-                                      resolve) : FieldDef<'Val> = 
+                                      resolve) : FieldDef<Root> = 
 
-            Define.Field(name, typedef, description, fun ctx root -> match 4 with | 4 -> raise (Exception("AUTHORIZATION_ERROR")) | _ -> resolve ctx root)
+            Define.Field(name, typedef, description, 
+                            fun ctx root -> match isAuthorized root with
+                                                    | true -> resolve ctx root
+                                                    | false -> raise (Exception("AUTHORIZATION_ERROR"))) 
     
 
