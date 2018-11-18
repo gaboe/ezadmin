@@ -11,7 +11,7 @@ open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
 module QueryGraphQLTypes = 
     open BLogic.EzAdmin.Domain.UiTypes
 
-    type SignInResult = {Token: string option}
+    type LoginResult = {Token: string option}
 
     type SqlColumnDataType = Int | Nvarchar | Unknown
         
@@ -154,14 +154,14 @@ module QueryGraphQLTypes =
                 Define.Field("menuItems", ListOf (MenuItemType), "Menu items", fun _ (x: App) -> x.MenuItems)
             ]
         )
-    and SignInResult = 
-        Define.Object<SignInResult>(
-            name = "SignInResult",
+    and LoginResult = 
+        Define.Object<LoginResult>(
+            name = "LoginResult",
             description = "",
-            isTypeOf = (fun o -> o :? SignInResult),
+            isTypeOf = (fun o -> o :? LoginResult),
             fieldsFn = fun () ->
             [
-                Define.Field("token", Nullable(String), "Token", fun _ (x: SignInResult) -> x.Token)
+                Define.Field("token", Nullable(String), "Token", fun _ (x: LoginResult) -> x.Token)
             ]
         )
 

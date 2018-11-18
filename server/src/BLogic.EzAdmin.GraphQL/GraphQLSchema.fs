@@ -53,8 +53,8 @@ module GraphQLSchema =
             name = "Mutation",
             fields = [
                 Define.Field(
-                    "signIn",
-                    SignInResult,
+                    "login",
+                    LoginResult,
                     "If succesfull returns token",
                     [ Define.Input("email", String); Define.Input("password", Boolean) ],
                     fun ctx _ ->  

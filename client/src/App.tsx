@@ -30,7 +30,8 @@ const httpLink = onError(({ graphQLErrors }) => {
     graphQLErrors.length > 0 &&
     any(e => e.message === "AUTHORIZATION_ERROR", graphQLErrors)
   ) {
-    console.log(graphQLErrors);
+    console.log("AUTHORIZATION_ERROR");
+    sessionStorage.removeItem("AUTHORIZATION_TOKEN");
   }
 })
   .concat(authLink)

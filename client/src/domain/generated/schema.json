@@ -1,5 +1,5 @@
 {
-  "documentId": 2013468158,
+  "documentId": -2009156396,
   "data": {
     "__schema": {
       "queryType": {
@@ -1882,7 +1882,7 @@
           "description": null,
           "fields": [
             {
-              "name": "signIn",
+              "name": "login",
               "description": "If succesfull returns token",
               "args": [
                 {
@@ -1919,7 +1919,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "SignInResult",
+                  "name": "LoginResult",
                   "ofType": null
                 }
               },
@@ -1934,7 +1934,7 @@
         },
         {
           "kind": "OBJECT",
-          "name": "SignInResult",
+          "name": "LoginResult",
           "description": "",
           "fields": [
             {
