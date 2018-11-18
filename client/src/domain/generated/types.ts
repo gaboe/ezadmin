@@ -24,6 +24,20 @@ export interface ColumnInput {
   keyReference?: ColumnInput | null,
 };
 
+export interface LoginMutationVariables {
+  email: string,
+  password: string,
+};
+
+export interface LoginMutation {
+  // If succesfull returns token
+  login:  {
+    __typename: "LoginResult",
+    // Token
+    token: string | null,
+  },
+};
+
 export interface GetDbColumnsByTableNameQueryVariables {
   tableName: string,
 };

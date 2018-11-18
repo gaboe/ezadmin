@@ -1,5 +1,5 @@
 {
-  "documentId": -2009156396,
+  "documentId": 274932422,
   "data": {
     "__schema": {
       "queryType": {
@@ -1907,7 +1907,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "Boolean",
+                      "name": "String",
                       "ofType": null
                     }
                   },

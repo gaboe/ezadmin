@@ -56,7 +56,7 @@ module GraphQLSchema =
                     "login",
                     LoginResult,
                     "If succesfull returns token",
-                    [ Define.Input("email", String); Define.Input("password", Boolean) ],
+                    [ Define.Input("email", String); Define.Input("password", String) ],
                     fun ctx _ ->  
                             let email = ctx.Arg("email") 
                             let pass = ctx.Arg("password") 

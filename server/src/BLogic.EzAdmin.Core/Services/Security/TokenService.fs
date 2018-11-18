@@ -5,7 +5,7 @@ module TokenService =
     open JWT.Algorithms
     open System
 
-    let secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
+    let secret = "14356465asd32ad1s32as1d32as1d32asd1as1dqwe";
 
     let validate token =
         try
@@ -22,7 +22,8 @@ module TokenService =
                             .WithSecret(secret)
                             .AddClaim("exp", DateTimeOffset.UtcNow.AddHours(float 1).ToUnixTimeSeconds())
                             .AddClaim("auth", name)
-                            .AddClaim("aa", pass)
-                            .Build();
-        token    
+
+        let t = token.Build()
+
+        match validate t with Ok _ -> t | Error e -> t
 

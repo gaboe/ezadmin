@@ -17,8 +17,7 @@ const authLink = setContext((_, o) => {
   const h = {
     headers: {
       ...o.headers,
-      authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDI0ODY2ODEsImF1dGgiOiJtYWRhcmEiLCJhYSI6ImhlaiJ9.6TuwMPgAVFcbNa3BnXWhdZT_4dtC5hXidGEtS98_kVY"
+      authorization: sessionStorage.getItem("AUTHORIZATION_TOKEN")
     }
   };
   return h;

@@ -1,21 +1,20 @@
 import * as React from "react";
 
 import { Formik, FormikProps } from "formik";
+import { Mutation } from "react-apollo";
 import { Col, Row } from "react-grid-system";
 import { Button, Form } from "semantic-ui-react";
-import * as Yup from "yup";
+import { LoginMutation } from "src/domain/generated/types";
+import { LOGIN_MUTATION } from "src/graphql/mutations/Auth/LoginMutation";
+import * as yup from "yup";
 type UserLogin = { email: string; password: string };
 const initialUser: UserLogin = { email: "", password: "" };
-
-const submitForm = (model: UserLogin) => {
-  console.log(model);
-};
 
 const LoginForm = (props: FormikProps<UserLogin>) => {
   return (
     <>
       <Form>
-        <Form.Field error={props.errors.email !== undefined}>
+        <Form.Field error={props.dirty && props.errors.email !== undefined}>
           <label>Email</label>
           <input
             value={props.values.email}
@@ -25,7 +24,7 @@ const LoginForm = (props: FormikProps<UserLogin>) => {
             placeholder="email"
           />
         </Form.Field>
-        <Form.Field error={props.errors.password !== undefined}>
+        <Form.Field error={props.dirty && props.errors.password !== undefined}>
           <label>Password</label>
           <input
             value={props.values.password}
@@ -44,25 +43,44 @@ const LoginForm = (props: FormikProps<UserLogin>) => {
 };
 
 const Login = () => (
-  <Row>
-    <Col offset={{ lg: 4 }} lg={4}>
-      <Formik
-        initialValues={initialUser}
-        onSubmit={values => {
-          submitForm(values);
-        }}
-        render={LoginForm}
-        validationSchema={Yup.object<UserLogin>({
-          password: Yup.string()
-            .min(2, "Too Short!")
-            .required("Required"),
-          email: Yup.string()
-            .email("Invalid email")
-            .required("Required")
-        })}
-      />
-    </Col>
-  </Row>
+  <Mutation mutation={LOGIN_MUTATION}>
+    {login => (
+      <Row>
+        <Col offset={{ lg: 4 }} lg={4}>
+          <Formik
+            initialValues={initialUser}
+            onSubmit={values => {
+              login({
+                variables: { email: values.email, password: values.password }
+              }).then(loginResult => {
+                console.log(loginResult);
+                if (
+                  loginResult &&
+                  loginResult.data &&
+                  (loginResult.data as LoginMutation).login.token
+                ) {
+                  const token = (loginResult.data as LoginMutation).login
+                    .token as string;
+                  sessionStorage.setItem("AUTHORIZATION_TOKEN", token);
+                }
+              });
+            }}
+            render={LoginForm}
+            validationSchema={yup.object<UserLogin>({
+              password: yup
+                .string()
+                .min(2, "Too Short!")
+                .required("Required"),
+              email: yup
+                .string()
+                .email("Invalid email")
+                .required("Required")
+            })}
+          />
+        </Col>
+      </Row>
+    )}
+  </Mutation>
 );
 
 export { Login };
