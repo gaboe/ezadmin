@@ -11,10 +11,13 @@ type UserLogin = { email: string; password: string };
 const initialUser: UserLogin = { email: "", password: "" };
 
 const LoginForm = (props: FormikProps<UserLogin>) => {
+  console.log(props);
   return (
     <>
       <Form>
-        <Form.Field error={props.dirty && props.errors.email !== undefined}>
+        <Form.Field
+          error={props.touched.email && props.errors.email !== undefined}
+        >
           <label>Email</label>
           <input
             value={props.values.email}
@@ -24,7 +27,9 @@ const LoginForm = (props: FormikProps<UserLogin>) => {
             placeholder="email"
           />
         </Form.Field>
-        <Form.Field error={props.dirty && props.errors.password !== undefined}>
+        <Form.Field
+          error={props.touched.password && props.errors.password !== undefined}
+        >
           <label>Password</label>
           <input
             value={props.values.password}

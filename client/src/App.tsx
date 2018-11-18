@@ -11,9 +11,6 @@ import { Layout } from "./components/Layout/Layout";
 import { Routes } from "./components/Routes/Routes";
 
 const authLink = setContext((_, o) => {
-  // get the authentication token from local storage if it exists
-  // const token = localStorage.getItem("token");
-  // return the headers to the context so httpLink can read them
   const h = {
     headers: {
       ...o.headers,
