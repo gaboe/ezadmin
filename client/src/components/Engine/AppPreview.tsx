@@ -1,8 +1,5 @@
 import * as React from "react";
-import {
-  AppPreviewQueryVariables,
-  ColumnInput
-} from "src/domain/generated/types";
+import { AppPreviewVariables, ColumnInput } from "src/domain/generated/types";
 import {
   APP_PREVIEW_QUERY,
   AppPreviewComponent
@@ -16,7 +13,7 @@ type Props = {
 };
 
 const AppPreview: React.SFC<Props> = props => {
-  const variables: AppPreviewQueryVariables = {
+  const variables: AppPreviewVariables = {
     input: {
       tableTitle: props.tableTitle,
       schemaName: props.schemaName,

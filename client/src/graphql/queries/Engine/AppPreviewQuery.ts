@@ -1,9 +1,6 @@
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import {
-  AppPreviewQuery,
-  AppPreviewQueryVariables
-} from "src/domain/generated/types";
+import { AppPreview, AppPreviewVariables } from "src/domain/generated/types";
 
 const APP_PREVIEW_QUERY = gql`
   query AppPreview($input: AppInput!) {
@@ -26,8 +23,5 @@ const APP_PREVIEW_QUERY = gql`
     }
   }
 `;
-class AppPreviewComponent extends Query<
-  AppPreviewQuery,
-  AppPreviewQueryVariables
-> {}
+class AppPreviewComponent extends Query<AppPreview, AppPreviewVariables> {}
 export { APP_PREVIEW_QUERY, AppPreviewComponent };

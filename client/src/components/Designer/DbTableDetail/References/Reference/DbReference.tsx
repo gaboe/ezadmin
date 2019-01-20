@@ -4,15 +4,13 @@ import { DbReferenceDirection } from "src/domain/Designer/DesignerTypes";
 import styled from "styled-components";
 import {
   ColumnInput,
-  GetDbTableDetailQuery
+  GetDbTableDetail_table_referencesToTable
 } from "../../../../../domain/generated/types";
 import { DbReferenceDescription } from "./DbReferenceDescription";
 import { ReferencedTableColumns } from "./ReferencedTableColumns";
 
 type Props = {
-  reference: NonNullable<
-    GetDbTableDetailQuery["table"]
-  >["referencesToTable"][0];
+  reference: GetDbTableDetail_table_referencesToTable;
   direction: DbReferenceDirection;
   onCheckboxClick: (column: ColumnInput) => void;
 };

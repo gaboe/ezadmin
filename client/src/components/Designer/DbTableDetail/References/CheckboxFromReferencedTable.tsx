@@ -2,13 +2,11 @@ import * as React from "react";
 import { Checkbox, Popup } from "semantic-ui-react";
 import {
   ColumnInput,
-  GetDbColumnsByTableNameQuery
+  GetDbColumnsByTableName_columns
 } from "../../../../domain/generated/types";
 
-type DbColumn = GetDbColumnsByTableNameQuery["columns"][0];
-
 type Props = {
-  column: DbColumn;
+  column: GetDbColumnsByTableName_columns;
   keyReference: ColumnInput;
   onCheckboxClick: (column: ColumnInput) => void;
 };

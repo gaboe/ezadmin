@@ -5,7 +5,7 @@ import { Mutation } from "react-apollo";
 import { Col, Row } from "react-grid-system";
 import { RouteComponentProps } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
-import { LoginMutation } from "src/domain/generated/types";
+import { Login as LoginMutation } from "src/domain/generated/types";
 import { LOGIN_MUTATION } from "src/graphql/mutations/Auth/LoginMutation";
 import * as yup from "yup";
 

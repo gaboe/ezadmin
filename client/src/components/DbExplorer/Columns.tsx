@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button, Header, List } from "semantic-ui-react";
-import { GetDbColumnsByTableNameQueryVariables } from "../../domain/generated/types";
+import { GetDbColumnsByTableNameVariables } from "../../domain/generated/types";
 import {
   ColumsByTableQueryComponent,
   DB_COLUMNS_BY_TABLE_QUERY
@@ -13,7 +13,7 @@ type Props = {
 
 class Columns extends React.Component<Props> {
   public render() {
-    const variables: GetDbColumnsByTableNameQueryVariables = {
+    const variables: GetDbColumnsByTableNameVariables = {
       tableName: this.props.tableName
     };
     return (

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Col, Row } from "react-grid-system";
 import { Header, List } from "semantic-ui-react";
-import { GetDbTablesBySchemaQueryVariables } from "../../domain/generated/types";
+import { GetDbTablesBySchemaVariables } from "../../domain/generated/types";
 import {
   DB_TABLES_BY_SCHEMA_QUERY,
   DbTablesBySchemaQueryComponent
@@ -16,7 +16,7 @@ type Props = {
 
 class Tables extends React.Component<Props> {
   public render() {
-    const variables: GetDbTablesBySchemaQueryVariables = {
+    const variables: GetDbTablesBySchemaVariables = {
       schemaName: this.props.schemaName
     };
     return (

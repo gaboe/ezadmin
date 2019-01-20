@@ -3,13 +3,13 @@ import { Header, List } from "semantic-ui-react";
 import { DbReferenceDirection } from "../../../../domain/Designer/DesignerTypes";
 import {
   ColumnInput,
-  GetDbTableDetailQuery
+  GetDbTableDetail_table_referencesToTable
 } from "../../../../domain/generated/types";
 import { DbReference } from "./Reference/DbReference";
 
 type Props = {
   title: string;
-  references: NonNullable<GetDbTableDetailQuery["table"]>["referencesToTable"];
+  references: GetDbTableDetail_table_referencesToTable[];
   direction: DbReferenceDirection;
   onCheckboxClick: (column: ColumnInput) => void;
 };

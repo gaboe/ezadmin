@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import {
-  GetDbColumnsByTableNameQuery,
-  GetDbColumnsByTableNameQueryVariables
+  GetDbColumnsByTableName,
+  GetDbColumnsByTableNameVariables
 } from "../../../domain/generated/types";
 
 const DB_COLUMNS_BY_TABLE_QUERY = gql`
@@ -18,8 +18,8 @@ const DB_COLUMNS_BY_TABLE_QUERY = gql`
 `;
 
 class ColumsByTableQueryComponent extends Query<
-  GetDbColumnsByTableNameQuery,
-  GetDbColumnsByTableNameQueryVariables
+  GetDbColumnsByTableName,
+  GetDbColumnsByTableNameVariables
 > {}
 
 export { DB_COLUMNS_BY_TABLE_QUERY, ColumsByTableQueryComponent };

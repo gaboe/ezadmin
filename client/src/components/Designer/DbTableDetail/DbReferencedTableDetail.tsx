@@ -3,7 +3,7 @@ import { Checkbox, Header, List } from "semantic-ui-react";
 import { DbReferenceDirection } from "../../../domain/Designer/DesignerTypes";
 import {
   ColumnInput,
-  GetDbTableDetailQueryVariables
+  GetDbTableDetailVariables
 } from "../../../domain/generated/types";
 import {
   DB_TABLE_DETAIL_QUERY,
@@ -12,7 +12,7 @@ import {
 import { DbReferences } from "./References/DbReferences";
 
 type Props = {
-  variables: GetDbTableDetailQueryVariables;
+  variables: GetDbTableDetailVariables;
   isTableNameShown: boolean;
   onCheckboxClick: (column: ColumnInput, primaryColumn: ColumnInput) => void;
 };

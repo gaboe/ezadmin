@@ -1,14 +1,14 @@
 import * as R from "ramda";
 import * as React from "react";
 import { Menu, Sidebar } from "semantic-ui-react";
-import { AppPreviewQuery } from "src/domain/generated/types";
+import { AppPreview_appPreview_menuItems as menuItem } from "src/domain/generated/types";
 import { nameof } from "src/utils/Utils";
 
-type Props = { menuItems: AppPreviewQuery["appPreview"]["menuItems"] };
-type MenuItemType = Props["menuItems"][0];
+type Props = { menuItems: menuItem[] };
+type MenuItemType = menuItem;
 
-const sortMenuItems = (menuItems: Props["menuItems"]) => {
-  const rankName: string = nameof<Props["menuItems"][0]>("rank");
+const sortMenuItems = (menuItems: menuItem[]) => {
+  const rankName: string = nameof<menuItem>("rank");
   const rankSort = R.sortWith<MenuItemType>([R.ascend(R.prop(rankName))]);
   return rankSort(menuItems);
 };

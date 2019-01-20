@@ -30,8 +30,8 @@
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "codegen": "yarn get-schema && yarn generate-types",
-    "get-schema": "apollo-codegen introspect-schema http://localhost:7930/graphql/ --output \"./src/domain/generated/schema.json\"",
-    "generate-types": "apollo-codegen generate \"./src/graphql/**/*.ts\" --schema \"./src/domain/generated/schema.json\" --target typescript --output \"./src/domain/generated/types.ts\" --addTypename"
+    "get-schema": "apollo schema:download --endpoint http://localhost:7930/graphql/ \"./src/domain/generated/schema.json\"",
+    "generate-types": "apollo client:codegen --includes=\"./src/graphql/**/*.ts\" --localSchemaFile=\"./src/domain/generated/schema.json\" --target=typescript --addTypename --outputFlat \"./src/domain/generated/types.ts\" "
   },
   "devDependencies": {
     "@types/graphql": "^14.0.5",
@@ -43,7 +43,7 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/styled-components": "^4.1.6",
     "@types/yup": "^0.26.5",
-    "apollo-codegen": "^0.19.0",
-    "typescript": "^3.2.4"
+    "typescript": "^3.2.4",
+    "apollo": "^2.3.0"
   }
 }
