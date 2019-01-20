@@ -17,11 +17,15 @@
 
   <ItemGroup>
     <PackageReference Include="JWT" Version="4.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BLogic.EzAdmin.Data\BLogic.EzAdmin.Data.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.5.4" />
   </ItemGroup>
 
 </Project>

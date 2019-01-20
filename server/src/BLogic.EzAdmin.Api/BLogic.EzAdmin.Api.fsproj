@@ -21,4 +21,8 @@
     <ProjectReference Include="..\BLogic.EzAdmin.GraphQL\BLogic.EzAdmin.GraphQL.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.5.4" />
+  </ItemGroup>
+
 </Project>

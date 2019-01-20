@@ -15,12 +15,16 @@
   <ItemGroup>
     <PackageReference Include="FSharp.Data.GraphQL.Server" Version="0.0.9" />
     <PackageReference Include="FSharp.Data.GraphQL.Server.Middlewares" Version="0.0.9" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BLogic.EzAdmin.Core\BLogic.EzAdmin.Core.fsproj" />
     <ProjectReference Include="..\BLogic.EzAdmin.Domain\BLogic.EzAdmin.Domain.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.5.4" />
   </ItemGroup>
 
 </Project>
