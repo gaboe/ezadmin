@@ -15,7 +15,7 @@ const AuthorizedComponent = (
 ) => {
   const { component: Component, ...rest } = o;
   const isAuthenticated = () =>
-    sessionStorage.getItem("AUTHORIZATION_TOKEN") !== null;
+    localStorage.getItem("AUTHORIZATION_TOKEN") !== null;
 
   return (
     <Route

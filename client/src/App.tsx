@@ -14,7 +14,7 @@ const authLink = setContext((_, o) => {
   const h = {
     headers: {
       ...o.headers,
-      authorization: sessionStorage.getItem("AUTHORIZATION_TOKEN")
+      authorization: localStorage.getItem("AUTHORIZATION_TOKEN")
     }
   };
   return h;
@@ -27,7 +27,7 @@ const httpLink = onError(({ graphQLErrors }) => {
     any(e => e.message === "AUTHORIZATION_ERROR", graphQLErrors)
   ) {
     console.log("AUTHORIZATION_ERROR");
-    sessionStorage.removeItem("AUTHORIZATION_TOKEN");
+    localStorage.removeItem("AUTHORIZATION_TOKEN");
   }
 })
   .concat(authLink)

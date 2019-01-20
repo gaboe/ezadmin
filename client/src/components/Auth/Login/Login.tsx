@@ -3,15 +3,16 @@ import * as React from "react";
 import { Formik, FormikProps } from "formik";
 import { Mutation } from "react-apollo";
 import { Col, Row } from "react-grid-system";
+import { RouteComponentProps } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
 import { LoginMutation } from "src/domain/generated/types";
 import { LOGIN_MUTATION } from "src/graphql/mutations/Auth/LoginMutation";
 import * as yup from "yup";
+
 type UserLogin = { email: string; password: string };
 const initialUser: UserLogin = { email: "", password: "" };
 
 const LoginForm = (props: FormikProps<UserLogin>) => {
-  console.log(props);
   return (
     <>
       <Form>
@@ -47,7 +48,7 @@ const LoginForm = (props: FormikProps<UserLogin>) => {
   );
 };
 
-const Login = () => (
+const Login = (props: RouteComponentProps<{}>) => (
   <Mutation mutation={LOGIN_MUTATION}>
     {login => (
       <Row>
@@ -58,7 +59,6 @@ const Login = () => (
               login({
                 variables: { email: values.email, password: values.password }
               }).then(loginResult => {
-                console.log(loginResult);
                 if (
                   loginResult &&
                   loginResult.data &&
@@ -66,7 +66,8 @@ const Login = () => (
                 ) {
                   const token = (loginResult.data as LoginMutation).login
                     .token as string;
-                  sessionStorage.setItem("AUTHORIZATION_TOKEN", token);
+                  localStorage.setItem("AUTHORIZATION_TOKEN", token);
+                  props.history.push("/");
                 }
               });
             }}
