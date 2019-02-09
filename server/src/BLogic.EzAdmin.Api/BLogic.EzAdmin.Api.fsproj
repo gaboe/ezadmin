@@ -2,27 +2,26 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <DebugType>portable</DebugType>
+    <AssemblyName>BLogic.EzAdmin.Api</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Controllers\GraphQLController.fs" />
-    <Compile Include="Startup.fs" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.*" />
+    <PackageReference Include="Giraffe" Version="3.4.*" />
+    <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Models.fs" />
+    <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="graphiql" Version="1.1.0" />
-    <PackageReference Include="JWT" Version="4.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BLogic.EzAdmin.Domain\BLogic.EzAdmin.Domain.fsproj" />
-    <ProjectReference Include="..\BLogic.EzAdmin.GraphQL\BLogic.EzAdmin.GraphQL.fsproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.5.4" />
+    <None Include="web.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

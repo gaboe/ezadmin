@@ -1,25 +1,72 @@
-namespace BLogic.EzAdmin.Api
+module BLogic.EzAdmin.Api.App
 
 open System
-open System.Collections.Generic
-open System.IO
-open System.Linq
-open System.Threading.Tasks
-open Microsoft.AspNetCore
+open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.AspNetCore.Hosting
-open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.Logging
+open Microsoft.Extensions.DependencyInjection
+open Giraffe
+open BLogic.EzAdmin.Api.HttpHandlers
 
-module Program =
-    let exitCode = 0
+// ---------------------------------
+// Web app
+// ---------------------------------
 
-    let CreateWebHostBuilder args =
-        WebHost
-            .CreateDefaultBuilder(args)
-            .UseStartup<Startup>();
+let webApp =
+    choose [
+        subRoute "/api"
+            (choose [
+                GET >=> choose [
+                    route "/hello" >=> handleGetHello
+                ]
+            ])
+        setStatusCode 404 >=> text "Not Found" ]
 
-    [<EntryPoint>]
-    let main args =
-        CreateWebHostBuilder(args).Build().Run()
+// ---------------------------------
+// Error handler
+// ---------------------------------
 
-        exitCode
+let errorHandler (ex : Exception) (logger : ILogger) =
+    logger.LogError(ex, "An unhandled exception has occurred while executing the request.")
+    clearResponse >=> setStatusCode 500 >=> text ex.Message
+
+// ---------------------------------
+// Config and Main
+// ---------------------------------
+
+let configureCors (builder : CorsPolicyBuilder) =
+    builder.WithOrigins("http://localhost:8080")
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           |> ignore
+
+let configureApp (app : IApplicationBuilder) =
+    let env = app.ApplicationServices.GetService<IHostingEnvironment>()
+    (match env.IsDevelopment() with
+    | true  -> app.UseDeveloperExceptionPage()
+    | false -> app.UseGiraffeErrorHandler errorHandler)
+        .UseHttpsRedirection()
+        .UseCors(configureCors)
+        .UseGiraffe(webApp)
+
+let configureServices (services : IServiceCollection) =
+    services.AddCors()    |> ignore
+    services.AddGiraffe() |> ignore
+
+let configureLogging (builder : ILoggingBuilder) =
+    builder.AddFilter(fun l -> l.Equals LogLevel.Error)
+           .AddConsole()
+           .AddDebug() |> ignore
+
+[<EntryPoint>]
+let main _ =
+    WebHostBuilder()
+        .UseKestrel()
+        .UseIISIntegration()
+        .Configure(Action<IApplicationBuilder> configureApp)
+        .ConfigureServices(configureServices)
+        .ConfigureLogging(configureLogging)
+        .Build()
+        .Run()
+    0
