@@ -1,5 +1,6 @@
 ﻿namespace BLogic.EzAdmin.Domain.GraphQL
 
+[<CLIMutable>]
 type UnsafeGraphQlQuery =
         { OperationName: string 
           NamedQuery: string

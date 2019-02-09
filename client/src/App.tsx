@@ -33,7 +33,7 @@ const httpLink = onError(({ graphQLErrors }) => {
   .concat(authLink)
   .concat(
     new HttpLink({
-      uri: "http://localhost:7930/graphql/"
+      uri: "http://localhost:12355/graphql/"
     })
   );
 

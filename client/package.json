@@ -30,7 +30,7 @@
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "codegen": "yarn get-schema && yarn generate-types",
-    "get-schema": "apollo schema:download --endpoint http://localhost:7930/graphql/ \"./src/domain/generated/schema.json\"",
+    "get-schema": "apollo schema:download --endpoint http://localhost:12355/graphql/ \"./src/domain/generated/schema.json\"",
     "generate-types": "apollo client:codegen --includes=\"./src/graphql/**/*.ts\" --localSchemaFile=\"./src/domain/generated/schema.json\" --target=typescript --addTypename --outputFlat \"./src/domain/generated/types.ts\" "
   },
   "devDependencies": {

@@ -9,12 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FSharp.Data.GraphQL.Server" Version="0.0.18-beta" />
+    <PackageReference Include="FSharp.Data.GraphQL.Server.Middlewares" Version="0.0.18-beta" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.*" />
     <PackageReference Include="Giraffe" Version="3.4.*" />
     <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Schema.fs" />
+    <Compile Include="JsonConverters.fs" />
+    <Compile Include="Helpers.fs" />
     <Compile Include="Models.fs" />
     <Compile Include="HttpHandlers.fs" />
     <Compile Include="Program.fs" />
@@ -22,6 +27,11 @@
 
   <ItemGroup>
     <None Include="web.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BLogic.EzAdmin.Domain\BLogic.EzAdmin.Domain.fsproj" />
+    <ProjectReference Include="..\BLogic.EzAdmin.GraphQL\BLogic.EzAdmin.GraphQL.fsproj" />
   </ItemGroup>
 
 </Project>
