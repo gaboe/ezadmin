@@ -12,6 +12,7 @@
     "formik": "^1.5.0",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
+    "lodash": "^4.17.11",
     "ramda": "^0.26.1",
     "react": "^16.8.1",
     "react-apollo": "^2.4.0",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@types/graphql": "^14.0.5",
     "@types/jest": "^24.0.0",
+    "@types/lodash": "^4.14.120",
     "@types/node": "^10.12.24",
     "@types/ramda": "^0.25.48",
     "@types/react": "^16.8.2",
@@ -43,7 +45,7 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/styled-components": "^4.1.8",
     "@types/yup": "^0.26.9",
-    "typescript": "^3.3.3",
-    "apollo": "^2.3.0"
+    "apollo": "^2.3.0",
+    "typescript": "^3.3.3"
   }
 }

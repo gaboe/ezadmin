@@ -11,12 +11,14 @@ import {
   DB_TABLE_DETAIL_QUERY,
   DbTablesDetailQueryComponent
 } from "../../../graphql/queries/DbExplorer/TableDetail";
+import { NameInput } from "./NameInput";
 import { DbReferences } from "./References/DbReferences";
 
 type Props = {
   variables: GetDbTableDetailVariables;
   isTableNameShown: boolean;
   onCheckboxClick: (column: ColumnInput) => void;
+  onNameChange: (name: string) => void;
 };
 
 class DbTableDetail extends React.Component<Props> {
@@ -95,6 +97,7 @@ class DbTableDetail extends React.Component<Props> {
                   title="Referencing columns to this table"
                   references={response.data.table.referencesToTable}
                 />
+                <NameInput onChange={this.props.onNameChange} />
               </>
             );
           }}

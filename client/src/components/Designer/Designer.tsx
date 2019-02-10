@@ -9,11 +9,12 @@ import { DbTableDetail } from "./DbTableDetail/DbTableDetail";
 type Props = RouteComponentProps<{ name: string; schema: string }>;
 type State = {
   activeColumns: ColumnInput[];
+  tableTitle: string;
 };
 class Designer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { activeColumns: [] };
+    this.state = { activeColumns: [], tableTitle: "" };
   }
   public render() {
     const { name, schema } = this.props.match.params;
@@ -26,12 +27,13 @@ class Designer extends React.Component<Props, State> {
               variables={{ tableName: name }}
               onCheckboxClick={this.toggleColumn}
               isTableNameShown={this.state.activeColumns.length > 0}
+              onNameChange={e => this.setState({ tableTitle: e })}
             />
           </Col>
           {this.state.activeColumns.length > 0 && (
             <Col md={6} lg={9}>
               <AppPreview
-                tableTitle={"test tabulky"}
+                tableTitle={this.state.tableTitle}
                 tableName={name}
                 schemaName={schema}
                 columns={this.state.activeColumns}
@@ -42,7 +44,6 @@ class Designer extends React.Component<Props, State> {
       </>
     );
   }
-
   public toggleColumn = (column: ColumnInput): void => {
     const isColumnInArray = this.areColumnsEqual(column);
     const columns = this.state.activeColumns.filter(e => !e.isHidden);
