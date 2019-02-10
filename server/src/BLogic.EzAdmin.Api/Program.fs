@@ -17,7 +17,7 @@ let webApp =
     choose [
         subRoute "/graphql"
             (choose [
-                POST >=> BLogic.EzAdmin.Api.HttpHandlers.graphiQL 
+                POST >=> graphql 
             ])
         setStatusCode 404 >=> text "Not Found" ]
 
