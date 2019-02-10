@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="FSharp.Data.GraphQL.Server" Version="0.0.18-beta" />
     <PackageReference Include="FSharp.Data.GraphQL.Server.Middlewares" Version="0.0.18-beta" />
+    <PackageReference Include="GraphiQL" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.*" />
     <PackageReference Include="Giraffe" Version="3.4.*" />
     <PackageReference Include="TaskBuilder.fs" Version="2.1.*" />
