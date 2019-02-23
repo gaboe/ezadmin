@@ -16,36 +16,34 @@ module DynamicQueryBuilder =
     let private getPrimaryKey table =
         table.Columns |> Seq.find (fun e -> e.Column.ColumnType = ColumnType.PrimaryKey)
     
-    let private resolveAlias alltables (schemaName, tableName) =
+    let private resolveAlias schemaName tableName alltables =
         let table = alltables
                     |> Seq.find (fun e -> e.SchemaName = schemaName
                                         && e.TableName = tableName)
         table.TableAlias  
         
-    let private appendJoin alltables col =
-
-        let (schema, table, column) = match col.Column.Reference with
-                                        | Some e -> (e.SchemaName, e.TableName, e.ColumnName)
-                                        | Option.None -> ("","","")
-        let alias = (schema, table) |> resolveAlias alltables
+    let private appendJoin alltables col (reference: ColumnSchema) =
+        let alias = resolveAlias reference.SchemaName reference.TableName alltables
 
         let join = sprintf "JOIN %s.%s %s " col.Column.SchemaName col.Column.TableName col.TableAlias
                     + sprintf "ON "
-                    + sprintf "%s.%s = %s.%s" alias column col.TableAlias col.Column.ColumnName 
+                    + sprintf "%s.%s = %s.%s" alias reference.ColumnName col.TableAlias col.Column.ColumnName 
 
         join 
 
     let private appendJoins (foreignTables: TableQueryDescription list) (sb: SB) allTables = 
-        let foreignColumns = foreignTables 
+        let joins = foreignTables 
                             |> Seq.collect
                                 (fun e -> e.Columns 
                                             |> Seq.filter 
                                                 (fun c -> c.Column.Reference.IsSome 
                                                           && c.Column.ColumnType = ColumnType.ForeignKey))
                             |> Seq.distinct
-                            |> Seq.toList
+                            |> Seq.map (fun e -> match e.Column.Reference with
+                                                                | Some r -> appendJoin allTables e r
+                                                                | None -> "")
+                            |> Seq.where (fun e -> not (System.String.IsNullOrEmpty e))
 
-        let joins = foreignColumns |> Seq.map (fun e -> appendJoin allTables e)
         appendLines sb joins 
     
     let private getColumnsFromTable tables filter map =
@@ -99,4 +97,3 @@ module DynamicQueryBuilder =
                          |> Seq.append [mainKey]
                          |> Seq.toList
         }
-

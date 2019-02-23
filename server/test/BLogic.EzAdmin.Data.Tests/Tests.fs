@@ -106,7 +106,7 @@ type MsSqlSchemaRepositoryTest () =
         Assert.AreEqual(3, c.Head.Columns.Length);
 
     [<TestMethod>]
-    member this.ExecuteDynamicQuery_Joined_TwoColumns () =
+    member this.ExecuteDynamicQuery_OneJoin_TwoColumns () =
         let table: TableSchema = {SchemaName = "dbo"; TableName = "UserApplications"; Columns = [
                       {
                         ColumnName = "UserID";
@@ -145,7 +145,7 @@ type MsSqlSchemaRepositoryTest () =
         Assert.AreEqual(2, c.Head.Columns.Length);
 
     [<TestMethod>]
-    member this.ExecuteDynamicQuery_Joined_ThreeColumn () =
+    member this.ExecuteDynamicQuery_OneJoin_ThreeColumns () =
         let table: TableSchema = {SchemaName = "dbo"; TableName = "UserApplications"; Columns = [
                       {
                         ColumnName = "UserID";
