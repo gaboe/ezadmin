@@ -45,8 +45,6 @@ module DynamicQueryBuilder =
             |> Seq.collect (fun e -> e)
             |> Seq.find isPrimaryKey
 
-    //TODO there should be that complex reference resolver
-    //denormalize, take foreign and priamry, then revert and that should be it
     let private appendJoin 
                     (sb: StringBuilder)
                     (resolveAlias: _ -> string)
@@ -55,36 +53,25 @@ module DynamicQueryBuilder =
         let (schema, table, column) = match col.Column.Reference with
                                         | Some e -> (e.SchemaName, e.TableName, e.ColumnName)
                                         | Option.None -> ("","","")
+        let alias = (schema, table) |> resolveAlias
 
-        "JOIN " |> sb.Append |> ignore
-        col.Column.SchemaName |> sb.Append |> ignore
-        "." |> sb.Append |> ignore
-        col.Column.TableName |> sb.Append |> ignore
-        " " |> sb.Append |> ignore
-        col.TableAlias |> sb.Append |> ignore
-        " ON " |> sb.Append |> ignore
-        (schema, table) |> resolveAlias |> sb.Append |> ignore
-        "." |> sb.Append |> ignore
-        column |> sb.Append |> ignore
-        " = " |> sb.Append |> ignore
-        col.TableAlias |> sb.Append |> ignore
-        "." |> sb.Append |> ignore
-        col.Column.ColumnName |> sb.AppendLine |> ignore
+        let join = sprintf "JOIN %s.%s %s " col.Column.SchemaName col.Column.TableName col.TableAlias
+                    + sprintf "ON "
+                    + sprintf "%s.%s = %s.%s" alias column col.TableAlias col.Column.ColumnName 
+
+        join |> sb.AppendLine |> ignore 
 
     let private appendJoins (foreignTables: TableQueryDescription list) (sb: StringBuilder) resolveAlias = 
         let foreignColumns = foreignTables 
                             |> Seq.collect
                                 (fun e -> e.Columns 
-                                            //|> Seq.filter (fun c -> c.Column.Reference.IsSome 
-                                            //                        && c.Column.ColumnType = ColumnType.ForeignKey)
-                                                                    )
+                                            |> Seq.filter 
+                                                (fun c -> c.Column.Reference.IsSome 
+                                                          && c.Column.ColumnType = ColumnType.ForeignKey))
+                            |> Seq.distinct
                             |> Seq.toList
 
-        let appendJoinToStringBuilder =
-            appendJoin sb resolveAlias
-
-        foreignColumns |> Seq.iter appendJoinToStringBuilder
-    
+        foreignColumns |> Seq.iter (fun e -> appendJoin sb resolveAlias e)
     
     let private getColumnsFromTable tables filter map =
          tables
@@ -119,15 +106,15 @@ module DynamicQueryBuilder =
             |> getColumnNameWithAlias
             |> sb.AppendLine
             |> ignore
+        let allTables = description.MainTable :: description.JoinedTables
 
-        let columnNames = description.MainTable :: description.JoinedTables  
-                            |> getColumnNamesWithAliasesExeptPrimary
+        let columnNames = allTables |> getColumnNamesWithAliasesExeptPrimary
 
         appendColumnNames sb columnNames
 
         appendFrom description.MainTable sb
 
-        let resAlias = resolveAlias description.JoinedTables
+        let resAlias = resolveAlias allTables
         appendJoins description.JoinedTables sb resAlias
 
         sb.ToString()

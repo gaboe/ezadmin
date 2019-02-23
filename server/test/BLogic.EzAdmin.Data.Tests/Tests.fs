@@ -178,7 +178,7 @@ type MsSqlSchemaRepositoryTest () =
                         IsHidden = false;
                       };
                       {
-                        ColumnName = "SecondName";
+                        ColumnName = "LastName";
                         TableName = "Users";
                         SchemaName = "dbo";
                         ColumnType = ColumnType.Column;
@@ -203,4 +203,4 @@ type MsSqlSchemaRepositoryTest () =
 
         let c = table |> convertToDescription |> getDynamicQueryResults |> Seq.toList
         Assert.IsTrue(c.Length > 0);
-        Assert.AreEqual(2, c.Head.Columns.Length);
+        Assert.AreEqual(3, c.Head.Columns.Length);
