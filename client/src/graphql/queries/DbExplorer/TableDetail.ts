@@ -6,8 +6,8 @@ import {
 } from "../../../domain/generated/types";
 
 const DB_TABLE_DETAIL_QUERY = gql`
-  query GetDbTableDetail($tableName: String!) {
-    table(tableName: $tableName) {
+  query GetDbTableDetail($schemaName: String!, $tableName: String!) {
+    table(schemaName: $schemaName, tableName: $tableName) {
       tableName
       schemaName
       columns {

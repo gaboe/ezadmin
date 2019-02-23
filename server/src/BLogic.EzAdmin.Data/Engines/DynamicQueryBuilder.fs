@@ -43,6 +43,7 @@ module DynamicQueryBuilder =
                                                                 | Some r -> appendJoin allTables e r
                                                                 | None -> "")
                             |> Seq.where (fun e -> not (System.String.IsNullOrEmpty e))
+                            |> Seq.toList
 
         appendLines sb joins 
     

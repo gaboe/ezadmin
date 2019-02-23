@@ -4,8 +4,14 @@ open BLogic.EzAdmin.Domain.SchemaTypes
 module DescriptionConverter =
     type OtherTable = {Alias: string; SchemaName: string; TableName: string}
 
+    let rec denormalizeColumns (col: ColumnSchema) (denormalized: ColumnSchema list): ColumnSchema list = 
+        match col.Reference with 
+            | Some r ->  denormalizeColumns r (denormalized @ [col])
+            | None -> denormalized @ [col]
+
     let getColumnsFromTable tableName schemaName (columns: seq<ColumnSchema>) =
         columns 
+            |> Seq.collect (fun e -> denormalizeColumns e List.empty)
             |> Seq.filter (fun e -> e.TableName = tableName && e.SchemaName = schemaName)
             |> Seq.toList
 
@@ -27,11 +33,6 @@ module DescriptionConverter =
             Columns = columns;
             Type = TableQueryDescriptionType.Foreign;
         }: TableQueryDescription
-    
-    let rec denormalizeColumns (col: ColumnSchema) (denormalized: ColumnSchema list): ColumnSchema list = 
-        match col.Reference with 
-            | Some r ->  denormalizeColumns r (denormalized @ [col])
-            | None -> denormalized @ [col]
 
     let convertToDescription (tableSchema: TableSchema): QueryDescription =
         let primaryTable = {

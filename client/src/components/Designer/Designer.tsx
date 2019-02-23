@@ -24,7 +24,7 @@ class Designer extends React.Component<Props, State> {
         <Row>
           <Col md={6} lg={3}>
             <DbTableDetail
-              variables={{ tableName: name }}
+              variables={{ schemaName: schema, tableName: name }}
               onCheckboxClick={this.toggleColumn}
               isTableNameShown={this.state.activeColumns.length > 0}
               onNameChange={e => this.setState({ tableTitle: e })}

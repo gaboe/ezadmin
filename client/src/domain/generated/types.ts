@@ -204,6 +204,7 @@ export interface GetDbTableDetail {
 }
 
 export interface GetDbTableDetailVariables {
+  schemaName: string;
   tableName: string;
 }
 

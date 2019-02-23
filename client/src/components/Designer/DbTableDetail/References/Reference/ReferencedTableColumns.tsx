@@ -1,9 +1,13 @@
 import * as React from "react";
-import { ColumnInput } from "src/domain/generated/types";
+import {
+  ColumnInput,
+  GetDbTableDetailVariables
+} from "src/domain/generated/types";
 import styled from "styled-components";
 import { DbReferencedTableDetail } from "../../DbReferencedTableDetail";
 
 type Props = {
+  schemaName: string;
   tableName: string;
   mainTableKeyColumn: string;
   areColumnsShown: boolean;
@@ -20,7 +24,10 @@ const ReferencedTableColumns: React.SFC<Props> = props => {
   if (!props.areColumnsShown) {
     return null;
   }
-  const variables = { tableName: props.tableName };
+  const variables: GetDbTableDetailVariables = {
+    schemaName: props.schemaName,
+    tableName: props.tableName
+  };
   return (
     <Wrapper>
       <DbReferencedTableDetail

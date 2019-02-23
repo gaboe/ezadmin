@@ -23,6 +23,35 @@ const ButtonWrapper = styled.div`
   margin-top: 1em;
 `;
 
+const getParentReference = (props: Props) => {
+  const { direction, reference } = props;
+
+  const schemaName =
+    direction === DbReferenceDirection.From
+      ? reference.toSchema
+      : reference.fromSchema;
+
+  const tableName =
+    direction === DbReferenceDirection.From
+      ? reference.toTable
+      : reference.fromTable;
+
+  const mainTableKeyColumn =
+    direction === DbReferenceDirection.From
+      ? reference.toColumn
+      : reference.fromColumn;
+
+  const parentReference: ColumnInput = {
+    schemaName,
+    tableName,
+    columnName: mainTableKeyColumn,
+    isHidden: true,
+    isPrimaryKey: true
+  };
+
+  return parentReference;
+};
+
 class DbReference extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -45,24 +74,17 @@ class DbReference extends React.Component<Props, State> {
         ? reference.fromColumn
         : reference.toColumn;
 
-    const parentReference: ColumnInput = {
-      schemaName,
-      tableName,
-      columnName: mainTableKeyColumn,
-      isHidden: true,
-      isPrimaryKey: true
-    };
-
     return (
       <>
         <List.Item>
           <DbReferenceDescription reference={reference} direction={direction} />
           <ReferencedTableColumns
             onCheckboxClick={this.props.onCheckboxClick}
+            schemaName={schemaName}
             tableName={tableName}
             mainTableKeyColumn={mainTableKeyColumn}
             areColumnsShown={this.state.isChecked}
-            parentReference={parentReference}
+            parentReference={getParentReference(this.props)}
           />
           <ButtonWrapper>
             <Button

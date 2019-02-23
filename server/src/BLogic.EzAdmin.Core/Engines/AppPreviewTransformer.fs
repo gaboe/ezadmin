@@ -3,6 +3,12 @@ open BLogic.EzAdmin.Domain.GraphQL
 module AppPreviewTransformer = 
     open BLogic.EzAdmin.Domain.SchemaTypes
 
+    let isForeignKey (col: ColumnInput) (reference: ColumnInput option) = 
+        let isFromSameTable (r:ColumnInput) = col.schemaName = r.schemaName && col.tableName = r.tableName
+        match reference with 
+            | Some r -> isFromSameTable r
+            | None -> true
+
     let tranformToSchema input : TableSchema= 
         let getKeyType (col: ColumnInput) =
             let isFromPrimary = col.schemaName = input.schemaName && col.tableName = input.tableName
@@ -11,8 +17,10 @@ module AppPreviewTransformer =
                             | true -> ColumnType.PrimaryKey
                             | false -> ColumnType.Column
                 | false -> match col.keyReference with 
-                                | Some _ -> ColumnType.ForeignKey
-                                | _ -> ColumnType.Column
+                                | Some r -> match (r.schemaName = col.schemaName && r.tableName = col.tableName && not(isForeignKey col r.keyReference)) with 
+                                            | true -> ColumnType.Column
+                                            | false -> ColumnType.ForeignKey
+                                | None -> ColumnType.Column
 
         let rec toColumnSchema (col: ColumnInput) : ColumnSchema =
             {ColumnName = col.columnName;
@@ -20,19 +28,14 @@ module AppPreviewTransformer =
             SchemaName = col.schemaName;
             IsHidden = col.isHidden;
             ColumnType = getKeyType col;
+            //todo use bind
             Reference = match col.keyReference with
                             | Some r -> toColumnSchema r |> Some
-                            | Option.None -> Option.None
+                            | None -> None
             }
-
-        let rec denormalize (columnSchema: ColumnSchema): ColumnSchema list = 
-            match columnSchema.Reference with 
-                | Option.Some r -> denormalize r @ [columnSchema]
-                | Option.None -> [columnSchema]
 
         let columns = input.columns 
                         |> Seq.map toColumnSchema
-                        //|> Seq.collect denormalize
                         |> Seq.toList
 
         {
