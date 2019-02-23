@@ -52,6 +52,8 @@ class Designer extends React.Component<Props, State> {
       ? R.filter(e => !isColumnInArray(e), columns)
       : R.append(column, columns);
 
+    console.log(activeColumns);
+
     this.setState({ activeColumns });
   };
 

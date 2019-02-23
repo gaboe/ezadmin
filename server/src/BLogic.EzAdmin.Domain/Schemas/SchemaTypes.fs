@@ -7,14 +7,14 @@ type [<CLIMutable>] MenuItemSchema =
             Name: string;
             Rank: int;} 
 
-type KeyType = PrimaryKey | ForeignKey | None
+type ColumnType = PrimaryKey | ForeignKey | Column
 
 type [<CLIMutable>] ColumnSchema = 
             {[<DefaultValue>] ColumnID : BsonObjectId;
             ColumnName: string;
             TableName: string;
             SchemaName: string;
-            KeyType: KeyType;
+            ColumnType: ColumnType;
             IsHidden: bool;
             Reference: ColumnSchema option;
             } 
@@ -35,9 +35,7 @@ type [<CLIMutable>] AppSchema =
             MenuItems: MenuItemSchema list;
             Pages: PageSchema list} 
 
-type ColumnQueryDescription = { TableAlias: string;
-                                Column: ColumnSchema
-                              }
+type ColumnQueryDescription = { TableAlias: string; Column: ColumnSchema;}
 
 type TableQueryDescriptionType = Primary | Foreign
 

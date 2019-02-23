@@ -8,24 +8,33 @@ module AppPreviewTransformer =
             let isFromPrimary = col.schemaName = input.schemaName && col.tableName = input.tableName
             match isFromPrimary with 
                 | true -> match col.isPrimaryKey with
-                            | true -> KeyType.PrimaryKey
-                            | false -> KeyType.None
+                            | true -> ColumnType.PrimaryKey
+                            | false -> ColumnType.Column
                 | false -> match col.keyReference with 
-                                | Some _ -> KeyType.ForeignKey
-                                | _ -> KeyType.None
+                                | Some _ -> ColumnType.ForeignKey
+                                | _ -> ColumnType.Column
 
         let rec toColumnSchema (col: ColumnInput) : ColumnSchema =
             {ColumnName = col.columnName;
             TableName = col.tableName;
             SchemaName = col.schemaName;
             IsHidden = col.isHidden;
-            KeyType = getKeyType col;
+            ColumnType = getKeyType col;
             Reference = match col.keyReference with
                             | Some r -> toColumnSchema r |> Some
                             | Option.None -> Option.None
             }
 
-        let columns = input.columns |> Seq.map toColumnSchema |> Seq.toList
+        let rec denormalize (columnSchema: ColumnSchema): ColumnSchema list = 
+            match columnSchema.Reference with 
+                | Option.Some r -> denormalize r @ [columnSchema]
+                | Option.None -> [columnSchema]
+
+        let columns = input.columns 
+                        |> Seq.map toColumnSchema
+                        //|> Seq.collect denormalize
+                        |> Seq.toList
+
         {
             SchemaName = input.schemaName;
             TableName = input.tableName;

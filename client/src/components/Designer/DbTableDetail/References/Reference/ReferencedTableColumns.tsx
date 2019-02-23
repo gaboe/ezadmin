@@ -8,6 +8,7 @@ type Props = {
   mainTableKeyColumn: string;
   areColumnsShown: boolean;
   onCheckboxClick: (column: ColumnInput) => void;
+  parentReference: ColumnInput;
 };
 
 const Wrapper = styled.div`
@@ -26,6 +27,7 @@ const ReferencedTableColumns: React.SFC<Props> = props => {
         variables={variables}
         isTableNameShown={true}
         onCheckboxClick={e => props.onCheckboxClick(e)}
+        parentReference={props.parentReference}
       />
     </Wrapper>
   );

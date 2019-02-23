@@ -26,7 +26,7 @@ module DynamicQueryBuilder =
         sb.AppendLine(table.TableAlias) |> ignore
     
     let private isPrimaryKey column =
-        column.Column.KeyType = KeyType.PrimaryKey
+        column.Column.ColumnType = ColumnType.PrimaryKey
 
     let private isNotPrimaryKey column =
         isPrimaryKey column |> not
@@ -44,7 +44,9 @@ module DynamicQueryBuilder =
             |> Seq.map flattenColumns
             |> Seq.collect (fun e -> e)
             |> Seq.find isPrimaryKey
-    
+
+    //TODO there should be that complex reference resolver
+    //denormalize, take foreign and priamry, then revert and that should be it
     let private appendJoin 
                     (sb: StringBuilder)
                     (resolveAlias: _ -> string)
@@ -69,12 +71,14 @@ module DynamicQueryBuilder =
         "." |> sb.Append |> ignore
         col.Column.ColumnName |> sb.AppendLine |> ignore
 
-    let private appendJoins (foreignTables: seq<TableQueryDescription>) (sb: StringBuilder) resolveAlias = 
+    let private appendJoins (foreignTables: TableQueryDescription list) (sb: StringBuilder) resolveAlias = 
         let foreignColumns = foreignTables 
                             |> Seq.collect
                                 (fun e -> e.Columns 
-                                            |> Seq.filter (fun c -> c.Column.Reference.IsSome 
-                                                                    && c.Column.KeyType = KeyType.ForeignKey))
+                                            //|> Seq.filter (fun c -> c.Column.Reference.IsSome 
+                                            //                        && c.Column.ColumnType = ColumnType.ForeignKey)
+                                                                    )
+                            |> Seq.toList
 
         let appendJoinToStringBuilder =
             appendJoin sb resolveAlias
@@ -103,6 +107,7 @@ module DynamicQueryBuilder =
     let private getTables description t =
          description.TableQueryDescriptions 
             |> Seq.filter (fun e -> e.Type = t)
+            |> Seq.toList
 
     let private getMainTable description =
         getTables description TableQueryDescriptionType.Primary

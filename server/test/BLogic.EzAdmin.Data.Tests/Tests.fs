@@ -8,12 +8,12 @@ open BLogic.EzAdmin.Core.Engines.DescriptionConverter
 
 [<TestClass>]
 type MsSqlSchemaRepositoryTest () =
-    let table: TableSchema = {SchemaName = "dbo"; TableName = "Users"; Columns = [
+    let complexTable: TableSchema = {SchemaName = "dbo"; TableName = "Users"; Columns = [
                       {
                         ColumnName = "UserID";
                         TableName = "Users";
                         SchemaName = "dbo";
-                        KeyType = KeyType.PrimaryKey;
+                        ColumnType = ColumnType.PrimaryKey;
                         Reference = Option.None;
                         IsHidden = false;
                       };
@@ -21,7 +21,7 @@ type MsSqlSchemaRepositoryTest () =
                         ColumnName = "FirstName";
                         TableName = "Users";
                         SchemaName = "dbo";
-                        KeyType = KeyType.None;
+                        ColumnType = ColumnType.Column;
                         Reference = Option.None;
                         IsHidden = false;
                       };
@@ -29,7 +29,7 @@ type MsSqlSchemaRepositoryTest () =
                         ColumnName = "LastName";
                         TableName = "Users";
                         SchemaName = "dbo";
-                        KeyType = KeyType.None;
+                        ColumnType = ColumnType.Column;
                         Reference = Option.None;
                         IsHidden = false;
                       };
@@ -37,12 +37,12 @@ type MsSqlSchemaRepositoryTest () =
                         ColumnName = "UserID";
                         TableName = "UserApplications";
                         SchemaName = "dbo";
-                        KeyType = KeyType.ForeignKey;
+                        ColumnType = ColumnType.ForeignKey;
                         Reference = Some {
                             ColumnName = "UserID";
                             TableName = "Users";
                             SchemaName = "dbo";
-                            KeyType = KeyType.PrimaryKey;
+                            ColumnType = ColumnType.PrimaryKey;
                             Reference = Option.None;
                             IsHidden = false;
                           };
@@ -52,12 +52,12 @@ type MsSqlSchemaRepositoryTest () =
                         ColumnName = "ApplicationID";
                         TableName = "Applications";
                         SchemaName = "dbo";
-                        KeyType = KeyType.ForeignKey;
+                        ColumnType = ColumnType.ForeignKey;
                         Reference = Some {
                             ColumnName = "ApplicationID";
                             TableName = "UserApplications";
                             SchemaName = "dbo";
-                            KeyType = KeyType.None;
+                            ColumnType = ColumnType.Column;
                             Reference = Option.None;
                             IsHidden = false;
                           };
@@ -67,7 +67,7 @@ type MsSqlSchemaRepositoryTest () =
                         ColumnName = "Name";
                         TableName = "Applications";
                         SchemaName = "dbo";
-                        KeyType = KeyType.None;
+                        ColumnType = ColumnType.Column;
                         Reference = Option.None;
                         IsHidden = false;
                       };
@@ -75,6 +75,47 @@ type MsSqlSchemaRepositoryTest () =
 
     [<TestMethod>]
     member this.ExecuteDynamicQuery () =
-        let c = table |> convertToDescription |> getDynamicQueryResults |> Seq.toList
+        let c = complexTable |> convertToDescription |> getDynamicQueryResults |> Seq.toList
         Assert.IsTrue(c.Length > 0);
         Assert.AreEqual(5, c.Head.Columns.Length);
+
+   
+
+    [<TestMethod>]
+    member this.ExecuteDynamicQuerUserAppWithUserAndAppJoinedy () =
+        let table: TableSchema = {SchemaName = "dbo"; TableName = "UserApplications"; Columns = [
+                      {
+                        ColumnName = "UserID";
+                        TableName = "UserApplications";
+                        SchemaName = "dbo";
+                        ColumnType = ColumnType.PrimaryKey;
+                        Reference = Option.None;
+                        IsHidden = false;
+                      };
+                      {
+                        ColumnName = "FirstName";
+                        TableName = "Users";
+                        SchemaName = "dbo";
+                        ColumnType = ColumnType.Column;
+                        Reference = Some {
+                            ColumnName = "UserID";
+                            TableName = "Users";
+                            SchemaName = "dbo";
+                            ColumnType = ColumnType.ForeignKey;
+                            Reference = Some {
+                                ColumnName = "UserID";
+                                TableName = "UserApplications";
+                                SchemaName = "dbo";
+                                ColumnType = ColumnType.PrimaryKey;
+                                Reference = Option.None;
+                                IsHidden = true;
+                            }
+                            IsHidden = true;
+                        };
+                        IsHidden = false;
+                      };
+                    ]}
+
+        let c = table |> convertToDescription |> getDynamicQueryResults |> Seq.toList
+        Assert.IsTrue(c.Length > 0);
+        Assert.AreEqual(2, c.Head.Columns.Length);

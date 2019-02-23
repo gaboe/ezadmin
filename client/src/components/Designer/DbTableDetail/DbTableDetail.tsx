@@ -1,4 +1,3 @@
-import * as R from "ramda";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button, Checkbox, Header, List } from "semantic-ui-react";
@@ -92,7 +91,7 @@ class DbTableDetail extends React.Component<Props> {
                   references={response.data.table.referencesFromTable}
                 />
                 <DbReferences
-                  onCheckboxClick={e => R.merge(e)}
+                  onCheckboxClick={e => this.props.onCheckboxClick(e)}
                   direction={DbReferenceDirection.To}
                   title="Referencing columns to this table"
                   references={response.data.table.referencesToTable}

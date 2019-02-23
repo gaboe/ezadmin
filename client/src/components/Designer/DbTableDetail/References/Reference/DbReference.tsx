@@ -30,6 +30,11 @@ class DbReference extends React.Component<Props, State> {
   }
   public render() {
     const { direction, reference } = this.props;
+    const schemaName =
+      direction === DbReferenceDirection.From
+        ? reference.fromSchema
+        : reference.toSchema;
+
     const tableName =
       direction === DbReferenceDirection.From
         ? reference.fromTable
@@ -39,6 +44,15 @@ class DbReference extends React.Component<Props, State> {
       direction === DbReferenceDirection.From
         ? reference.fromColumn
         : reference.toColumn;
+
+    const parentReference: ColumnInput = {
+      schemaName,
+      tableName,
+      columnName: mainTableKeyColumn,
+      isHidden: true,
+      isPrimaryKey: true
+    };
+
     return (
       <>
         <List.Item>
@@ -48,6 +62,7 @@ class DbReference extends React.Component<Props, State> {
             tableName={tableName}
             mainTableKeyColumn={mainTableKeyColumn}
             areColumnsShown={this.state.isChecked}
+            parentReference={parentReference}
           />
           <ButtonWrapper>
             <Button

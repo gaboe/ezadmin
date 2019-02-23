@@ -15,6 +15,7 @@ type Props = {
   variables: GetDbTableDetailVariables;
   isTableNameShown: boolean;
   onCheckboxClick: (column: ColumnInput, primaryColumn: ColumnInput) => void;
+  parentReference: ColumnInput;
 };
 
 class DbReferencedTableDetail extends React.Component<Props> {
@@ -41,7 +42,8 @@ class DbReferencedTableDetail extends React.Component<Props> {
                   tableName: x.tableName,
                   columnName: x.columnName,
                   isPrimaryKey: x.isPrimaryKey,
-                  isHidden: true
+                  isHidden: true,
+                  keyReference: this.props.parentReference
                 };
               })[0];
             return (
@@ -63,7 +65,8 @@ class DbReferencedTableDetail extends React.Component<Props> {
                                 tableName: x.tableName,
                                 columnName: x.columnName,
                                 isPrimaryKey: x.isPrimaryKey,
-                                isHidden: false
+                                isHidden: false,
+                                keyReference: primaryColumn
                               },
                               primaryColumn
                             )

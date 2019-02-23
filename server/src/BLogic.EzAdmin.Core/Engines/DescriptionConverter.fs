@@ -42,8 +42,9 @@ module DescriptionConverter =
             getTableQueryDescription tableSchema column index
 
         let joinedTables = tableSchema.Columns 
-                            |> Seq.filter (fun e -> e.KeyType = KeyType.ForeignKey)
+                            |> Seq.where (fun e -> not(e.SchemaName = primaryTable.SchemaName && e.TableName = primaryTable.TableName) )
                             |> Seq.mapi toColumnSchema
+                            |> Seq.distinct
                             |> Seq.toList
         {
             TableQueryDescriptions = joinedTables 
