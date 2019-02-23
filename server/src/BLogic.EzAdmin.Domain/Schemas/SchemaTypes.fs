@@ -46,5 +46,6 @@ type TableQueryDescription = {  TableAlias: string;
                                 Columns: ColumnQueryDescription list;
                               }
 
-type QueryDescription = {TableQueryDescriptions: TableQueryDescription list;}
+type QueryDescription = {   MainTable: TableQueryDescription;
+                            JoinedTables:  TableQueryDescription list;}
 

@@ -104,18 +104,6 @@ module DynamicQueryBuilder =
     let private appendColumnNames (sb: SB) names =
         names |> Seq.iter (fun n -> appendColumn n sb |> ignore)
 
-    let private getTables description t =
-         description.TableQueryDescriptions 
-            |> Seq.filter (fun e -> e.Type = t)
-            |> Seq.toList
-
-    let private getMainTable description =
-        getTables description TableQueryDescriptionType.Primary
-        |> Seq.head
-
-    let private getForeignTables description =
-        getTables description TableQueryDescriptionType.Foreign
-    
     let private resolveAlias tables (schemaName, tableName) =
         let table = tables
                     |> Seq.find (fun e -> e.SchemaName = schemaName
@@ -126,32 +114,33 @@ module DynamicQueryBuilder =
         let sb = StringBuilder()
         "SELECT " |> sb.AppendLine |> ignore
         
-        let mainTable = description |> getMainTable
-        mainTable 
+        description.MainTable 
             |> getPrimaryTableMainKey
             |> getColumnNameWithAlias
             |> sb.AppendLine
             |> ignore
 
-        let names = description.TableQueryDescriptions 
-                    |> getColumnNamesWithAliasesExeptPrimary
-        appendColumnNames sb names
+        let columnNames = description.MainTable :: description.JoinedTables  
+                            |> getColumnNamesWithAliasesExeptPrimary
 
-        appendFrom mainTable sb
+        appendColumnNames sb columnNames
 
-        let resAlias = resolveAlias description.TableQueryDescriptions
-        appendJoins (getForeignTables description) sb resAlias
+        appendFrom description.MainTable sb
+
+        let resAlias = resolveAlias description.JoinedTables
+        appendJoins description.JoinedTables sb resAlias
 
         sb.ToString()
 
     let getHeaders description =
-        let mainKey = description 
-                        |> getMainTable 
+        let tables = (description.MainTable :: description.JoinedTables) 
+        let mainKey = description.MainTable
                         |> getPrimaryTableMainKey 
                         |> getColumnName
+
         {
          KeyName = mainKey;
-         ColumnNames = getColumnNamesExeptPrimary description.TableQueryDescriptions 
+         ColumnNames = getColumnNamesExeptPrimary tables
                          |> Seq.append [mainKey]
                          |> Seq.toList
         }

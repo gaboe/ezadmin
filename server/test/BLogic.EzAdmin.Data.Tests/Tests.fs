@@ -74,15 +74,39 @@ type MsSqlSchemaRepositoryTest () =
                     ]}
 
     [<TestMethod>]
-    member this.ExecuteDynamicQuery () =
-        let c = complexTable |> convertToDescription |> getDynamicQueryResults |> Seq.toList
+    member this.ExecuteDynamicQuery_Simple_NoJoins () =
+        let table: TableSchema = {SchemaName = "dbo"; TableName = "Users"; Columns = [
+                      {
+                        ColumnName = "UserID";
+                        TableName = "Users";
+                        SchemaName = "dbo";
+                        ColumnType = ColumnType.PrimaryKey;
+                        Reference = Option.None;
+                        IsHidden = false;
+                      };
+                      {
+                        ColumnName = "FirstName";
+                        TableName = "Users";
+                        SchemaName = "dbo";
+                        ColumnType = ColumnType.Column;
+                        Reference = Option.None;
+                        IsHidden = false;
+                      };
+                      {
+                        ColumnName = "LastName";
+                        TableName = "Users";
+                        SchemaName = "dbo";
+                        ColumnType = ColumnType.Column;
+                        Reference = Option.None;
+                        IsHidden = false;
+                      };
+                    ]}
+        let c = table |> convertToDescription |> getDynamicQueryResults |> Seq.toList
         Assert.IsTrue(c.Length > 0);
-        Assert.AreEqual(5, c.Head.Columns.Length);
-
-   
+        Assert.AreEqual(3, c.Head.Columns.Length);
 
     [<TestMethod>]
-    member this.ExecuteDynamicQuerUserAppWithUserAndAppJoinedy () =
+    member this.ExecuteDynamicQuery_Joined_TwoColumns () =
         let table: TableSchema = {SchemaName = "dbo"; TableName = "UserApplications"; Columns = [
                       {
                         ColumnName = "UserID";
@@ -94,6 +118,67 @@ type MsSqlSchemaRepositoryTest () =
                       };
                       {
                         ColumnName = "FirstName";
+                        TableName = "Users";
+                        SchemaName = "dbo";
+                        ColumnType = ColumnType.Column;
+                        Reference = Some {
+                            ColumnName = "UserID";
+                            TableName = "Users";
+                            SchemaName = "dbo";
+                            ColumnType = ColumnType.ForeignKey;
+                            Reference = Some {
+                                ColumnName = "UserID";
+                                TableName = "UserApplications";
+                                SchemaName = "dbo";
+                                ColumnType = ColumnType.PrimaryKey;
+                                Reference = Option.None;
+                                IsHidden = true;
+                            }
+                            IsHidden = true;
+                        };
+                        IsHidden = false;
+                      };
+                    ]}
+
+        let c = table |> convertToDescription |> getDynamicQueryResults |> Seq.toList
+        Assert.IsTrue(c.Length > 0);
+        Assert.AreEqual(2, c.Head.Columns.Length);
+
+    [<TestMethod>]
+    member this.ExecuteDynamicQuery_Joined_ThreeColumn () =
+        let table: TableSchema = {SchemaName = "dbo"; TableName = "UserApplications"; Columns = [
+                      {
+                        ColumnName = "UserID";
+                        TableName = "UserApplications";
+                        SchemaName = "dbo";
+                        ColumnType = ColumnType.PrimaryKey;
+                        Reference = Option.None;
+                        IsHidden = false;
+                      };
+                      {
+                        ColumnName = "FirstName";
+                        TableName = "Users";
+                        SchemaName = "dbo";
+                        ColumnType = ColumnType.Column;
+                        Reference = Some {
+                            ColumnName = "UserID";
+                            TableName = "Users";
+                            SchemaName = "dbo";
+                            ColumnType = ColumnType.ForeignKey;
+                            Reference = Some {
+                                ColumnName = "UserID";
+                                TableName = "UserApplications";
+                                SchemaName = "dbo";
+                                ColumnType = ColumnType.PrimaryKey;
+                                Reference = Option.None;
+                                IsHidden = true;
+                            }
+                            IsHidden = true;
+                        };
+                        IsHidden = false;
+                      };
+                      {
+                        ColumnName = "SecondName";
                         TableName = "Users";
                         SchemaName = "dbo";
                         ColumnType = ColumnType.Column;

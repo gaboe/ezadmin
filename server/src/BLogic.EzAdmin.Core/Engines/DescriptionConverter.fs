@@ -2,6 +2,7 @@
 open BLogic.EzAdmin.Domain.SchemaTypes
 
 module DescriptionConverter =
+    type OtherTable = {Alias: string; SchemaName: string; TableName: string}
 
     let getColumnsFromTable tableName schemaName (columns: seq<ColumnSchema>) =
         columns 
@@ -13,23 +14,26 @@ module DescriptionConverter =
         |> Seq.map (fun e -> {TableAlias = "MainTable"; Column = e}  )
         |> Seq.toList
     
-    let getTableQueryDescription (tableSchema: TableSchema) (column: ColumnSchema) index =
-        let alias = "[T" + string index + "]"
+    let getTableQueryDescription (table: OtherTable) (allColumns: ColumnSchema list) (tableSchema: TableSchema) =
         
-        let columns = getColumnsFromTable column.TableName column.SchemaName tableSchema.Columns
-                       |> Seq.map ( fun e -> {TableAlias = alias; Column = e})
-                       |> Seq.toList
+        let columns = getColumnsFromTable table.TableName table.SchemaName allColumns
+                               |> Seq.map (fun e -> {TableAlias = table.Alias; Column = e})
+                               |> Seq.toList
+        
         {
-            TableAlias = alias;
-            TableName = column.TableName;
-            SchemaName = column.SchemaName;
+            TableAlias = table.Alias;
+            TableName = table.TableName;
+            SchemaName = table.SchemaName;
             Columns = columns;
             Type = TableQueryDescriptionType.Foreign;
-
         }: TableQueryDescription
+    
+    let rec denormalizeColumns (col: ColumnSchema) (denormalized: ColumnSchema list): ColumnSchema list = 
+        match col.Reference with 
+            | Some r ->  denormalizeColumns r (denormalized @ [col])
+            | None -> denormalized @ [col]
 
-
-    let convertToDescription (tableSchema: TableSchema) =
+    let convertToDescription (tableSchema: TableSchema): QueryDescription =
         let primaryTable = {
             TableAlias = "MainTable";
             TableName = tableSchema.TableName;
@@ -37,19 +41,28 @@ module DescriptionConverter =
             Columns = tableSchema |> getMainTableColumns;
             Type = Primary;
             }
-        
-        let toColumnSchema index column =
-            getTableQueryDescription tableSchema column index
 
-        let joinedTables = tableSchema.Columns 
+        let notPrimaryColumns = 
+                        tableSchema.Columns 
+                            |> Seq.collect (fun e -> denormalizeColumns e List.empty)
                             |> Seq.where (fun e -> not(e.SchemaName = primaryTable.SchemaName && e.TableName = primaryTable.TableName) )
-                            |> Seq.mapi toColumnSchema
-                            |> Seq.distinct
                             |> Seq.toList
+        
+        let otherTables = notPrimaryColumns
+                            |> Seq.map (fun e -> (e.SchemaName, e.TableName))
+                            |> Seq.distinct
+                            |> Seq.mapi (fun i (schema, table) -> { Alias = sprintf "[T%d]" i;
+                                                                    SchemaName = schema; 
+                                                                    TableName = table} )
+                            |> Seq.toList
+
+        let joinedTables = otherTables
+                            |> Seq.map (fun e -> getTableQueryDescription e notPrimaryColumns tableSchema) 
+                            |> Seq.toList
+
         {
-            TableQueryDescriptions = joinedTables 
-                                    |> Seq.append [primaryTable]
-                                    |> Seq.toList
+            MainTable = primaryTable;
+            JoinedTables = joinedTables
         }
 
 
