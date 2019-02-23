@@ -11,7 +11,7 @@ module DescriptionConverter =
 
     let getMainTableColumns (tableSchema: TableSchema) =
         getColumnsFromTable tableSchema.TableName tableSchema.SchemaName tableSchema.Columns
-        |> Seq.map (fun e -> {TableAlias = "MainTable"; Column = e}  )
+        |> Seq.map (fun e -> {TableAlias = "[MainTable]"; Column = e}  )
         |> Seq.toList
     
     let getTableQueryDescription (table: OtherTable) (allColumns: ColumnSchema list) (tableSchema: TableSchema) =
@@ -35,7 +35,7 @@ module DescriptionConverter =
 
     let convertToDescription (tableSchema: TableSchema): QueryDescription =
         let primaryTable = {
-            TableAlias = "MainTable";
+            TableAlias = "[MainTable]";
             TableName = tableSchema.TableName;
             SchemaName = tableSchema.SchemaName;
             Columns = tableSchema |> getMainTableColumns;
