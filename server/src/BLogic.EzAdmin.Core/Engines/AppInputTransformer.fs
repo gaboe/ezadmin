@@ -2,7 +2,7 @@
 open BLogic.EzAdmin.Domain.GraphQL
 open BLogic.EzAdmin.Domain.SchemaTypes
 
-module AppPreviewTransformer = 
+module AppInputTransformer = 
 
     let isForeignKey (col: ColumnInput) (reference: ColumnInput option) = 
         let isFromSameTable (r:ColumnInput) = col.schemaName = r.schemaName && col.tableName = r.tableName

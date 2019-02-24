@@ -1,6 +1,6 @@
 ﻿module DefineExtensions
 
-open BLogic.EzAdmin.Core.Service.Security.TokenService
+open BLogic.EzAdmin.Core.Services.Security.TokenService
 open BLogic.EzAdmin.Domain.GraphQL
 open FSharp.Data.GraphQL.Types
 open System

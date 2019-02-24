@@ -19,6 +19,8 @@ type Props = {
   onCheckboxClick: (column: ColumnInput) => void;
   onNameChange: (name: string) => void;
   activeColumns: ColumnInput[];
+  tableTitle: string;
+  onSaveViewClick: () => void;
 };
 
 const ActiveColumnsContext = React.createContext<ColumnInput[]>([]);
@@ -108,6 +110,16 @@ class DbTableDetail extends React.Component<Props> {
                     references={response.data.table.referencesToTable}
                   />
                   <NameInput onChange={this.props.onNameChange} />
+                  <br />
+                  <br />
+                  {this.props.activeColumns.length > 0 &&
+                    this.props.tableTitle.length > 0 && (
+                      <Button
+                        positive={true}
+                        content="Save table"
+                        onClick={this.props.onSaveViewClick}
+                      />
+                    )}
                 </ActiveColumnsContext.Provider>
               </>
             );

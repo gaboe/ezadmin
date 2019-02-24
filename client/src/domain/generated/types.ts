@@ -29,6 +29,32 @@ export interface LoginVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: SaveView
+// ====================================================
+
+export interface SaveView_saveView {
+  __typename: "SaveViewResult";
+  /**
+   * Cid
+   */
+  cid: string;
+}
+
+export interface SaveView {
+  /**
+   * Saves designed view
+   */
+  saveView: SaveView_saveView;
+}
+
+export interface SaveViewVariables {
+  input: AppInput;
+}
+
+/* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: GetDbColumnsByTableName
 // ====================================================
 

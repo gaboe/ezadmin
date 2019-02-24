@@ -10,7 +10,8 @@ module GraphQLSchema =
     open BLogic.EzAdmin.GraphQL.QueryGraphQLTypes
     open DefineExtensions
     open BLogic.EzAdmin.Domain.GraphQL
-    open BLogic.EzAdmin.Core.Service.Security.TokenService
+    open BLogic.EzAdmin.Core.Services.Security.TokenService
+    open BLogic.EzAdmin.Core.Services.Application.ApplicationService
 
     let schemaConfig = SchemaConfig.Default
     
@@ -62,7 +63,17 @@ module GraphQLSchema =
                             let pass = ctx.Arg("password") 
                             TokenService.createToken email pass 
                             |> (fun e -> {Token = "Bearer " + e |> Some})
-    )])
+                    );
+                Define.Field(
+                    "saveView",
+                    SaveViewResult,
+                    "Saves designed view",
+                     [ Define.Input("input", AppInputType) ],
+                     fun ctx _ -> ctx.Arg("input") |> saveView |> (fun cid -> {Cid = cid})
+                        
+                )
+    ]
+    )
 
     let schema = Schema(Query, Mutation, Subscription, schemaConfig)
 

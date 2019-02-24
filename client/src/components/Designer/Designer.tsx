@@ -1,8 +1,15 @@
 import * as R from "ramda";
 import * as React from "react";
+import { Mutation, MutationFn } from "react-apollo";
 import { Col, Row } from "react-grid-system";
 import { RouteComponentProps } from "react-router-dom";
-import { ColumnInput } from "src/domain/generated/types";
+import {
+  AppPreviewVariables,
+  ColumnInput,
+  SaveView,
+  SaveViewVariables
+} from "src/domain/generated/types";
+import { SAVE_VIEW_MUTATION } from "src/graphql/mutations/Engine/SaveView";
 import { AppPreview } from "../Engine/AppPreview";
 import { DbTableDetail } from "./DbTableDetail/DbTableDetail";
 
@@ -11,7 +18,6 @@ type State = {
   activeColumns: ColumnInput[];
   tableTitle: string;
 };
-
 class Designer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -24,13 +30,33 @@ class Designer extends React.Component<Props, State> {
       <>
         <Row>
           <Col md={6} lg={3}>
-            <DbTableDetail
-              variables={{ schemaName: schema, tableName: name }}
-              onCheckboxClick={this.toggleColumn}
-              isTableNameShown={this.state.activeColumns.length > 0}
-              onNameChange={e => this.setState({ tableTitle: e })}
-              activeColumns={this.state.activeColumns}
-            />
+            <Mutation mutation={SAVE_VIEW_MUTATION}>
+              {(save: MutationFn<SaveView, SaveViewVariables>) => (
+                <DbTableDetail
+                  variables={{ schemaName: schema, tableName: name }}
+                  onCheckboxClick={this.toggleColumn}
+                  isTableNameShown={this.state.activeColumns.length > 0}
+                  onNameChange={e => this.setState({ tableTitle: e })}
+                  activeColumns={this.state.activeColumns}
+                  tableTitle={this.state.tableTitle}
+                  onSaveViewClick={() => {
+                    const variables: AppPreviewVariables = {
+                      input: {
+                        tableTitle: this.state.tableTitle,
+                        schemaName: schema,
+                        tableName: name,
+                        columns: this.state.activeColumns
+                      }
+                    };
+                    save({ variables }).then(e => {
+                      if (e && e.data && e.data.saveView) {
+                        this.props.history.push(`/app/${e.data.saveView.cid}`);
+                      }
+                    });
+                  }}
+                />
+              )}
+            </Mutation>
           </Col>
           {this.state.activeColumns.length > 0 && (
             <Col md={6} lg={9}>

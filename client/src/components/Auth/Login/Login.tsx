@@ -1,11 +1,14 @@
 import * as React from "react";
 
 import { Formik, FormikProps } from "formik";
-import { Mutation } from "react-apollo";
+import { Mutation, MutationFn } from "react-apollo";
 import { Col, Row } from "react-grid-system";
 import { RouteComponentProps } from "react-router-dom";
 import { Button, Form } from "semantic-ui-react";
-import { Login as LoginMutation } from "src/domain/generated/types";
+import {
+  Login as LoginMutation,
+  LoginVariables
+} from "src/domain/generated/types";
 import { LOGIN_MUTATION } from "src/graphql/mutations/Auth/LoginMutation";
 import * as yup from "yup";
 
@@ -50,7 +53,7 @@ const LoginForm = (props: FormikProps<UserLogin>) => {
 
 const Login = (props: RouteComponentProps<{}>) => (
   <Mutation mutation={LOGIN_MUTATION}>
-    {login => (
+    {(login: MutationFn<LoginMutation, LoginVariables>) => (
       <Row>
         <Col offset={{ lg: 4 }} lg={4}>
           <Formik
@@ -62,10 +65,9 @@ const Login = (props: RouteComponentProps<{}>) => (
                 if (
                   loginResult &&
                   loginResult.data &&
-                  (loginResult.data as LoginMutation).login.token
+                  loginResult.data.login.token
                 ) {
-                  const token = (loginResult.data as LoginMutation).login
-                    .token as string;
+                  const token = loginResult.data.login.token as string;
                   localStorage.setItem("AUTHORIZATION_TOKEN", token);
                   props.history.push("/");
                 }

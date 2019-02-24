@@ -1,4 +1,4 @@
-﻿namespace BLogic.EzAdmin.Core.Service.Security.TokenService
+﻿namespace BLogic.EzAdmin.Core.Services.Security.TokenService
 
 module TokenService = 
     open JWT.Builder

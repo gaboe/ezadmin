@@ -19,7 +19,7 @@ module Engine =
             { Key = row.Key; Columns = columns }
 
         let rows = input 
-                    |> AppPreviewTransformer.tranformToSchema 
+                    |> AppInputTransformer.tranformToSchema 
                     |> DescriptionConverter.convertToDescription
                     |> EngineRepository.getDynamicQueryResults
                     |> Seq.map hideColumns
