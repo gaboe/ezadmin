@@ -1,7 +1,8 @@
 ﻿namespace BLogic.EzAdmin.Core.Engines
 open BLogic.EzAdmin.Domain.GraphQL
+open BLogic.EzAdmin.Domain.SchemaTypes
+
 module AppPreviewTransformer = 
-    open BLogic.EzAdmin.Domain.SchemaTypes
 
     let isForeignKey (col: ColumnInput) (reference: ColumnInput option) = 
         let isFromSameTable (r:ColumnInput) = col.schemaName = r.schemaName && col.tableName = r.tableName
@@ -28,10 +29,7 @@ module AppPreviewTransformer =
             SchemaName = col.schemaName;
             IsHidden = col.isHidden;
             ColumnType = getKeyType col;
-            //todo use bind
-            Reference = match col.keyReference with
-                            | Some r -> toColumnSchema r |> Some
-                            | None -> None
+            Reference = col.keyReference |> Option.bind (fun r -> toColumnSchema r |> Some)
             }
 
         let columns = input.columns 
