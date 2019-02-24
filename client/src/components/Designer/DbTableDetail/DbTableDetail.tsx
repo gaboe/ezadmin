@@ -1,3 +1,4 @@
+import { any } from "ramda";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { Button, Checkbox, Header, List } from "semantic-ui-react";
@@ -12,13 +13,15 @@ import {
 } from "../../../graphql/queries/DbExplorer/TableDetail";
 import { NameInput } from "./NameInput";
 import { DbReferences } from "./References/DbReferences";
-
 type Props = {
   variables: GetDbTableDetailVariables;
   isTableNameShown: boolean;
   onCheckboxClick: (column: ColumnInput) => void;
   onNameChange: (name: string) => void;
+  activeColumns: ColumnInput[];
 };
+
+const ActiveColumnsContext = React.createContext<ColumnInput[]>([]);
 
 class DbTableDetail extends React.Component<Props> {
   public render() {
@@ -68,6 +71,13 @@ class DbTableDetail extends React.Component<Props> {
                     return (
                       <List.Item key={x.columnName}>
                         <Checkbox
+                          checked={any(
+                            e =>
+                              e.columnName === x.columnName &&
+                              e.tableName === x.tableName &&
+                              e.schemaName === x.schemaName,
+                            this.props.activeColumns
+                          )}
                           onClick={() =>
                             this.props.onCheckboxClick({
                               schemaName: x.schemaName,
@@ -84,19 +94,21 @@ class DbTableDetail extends React.Component<Props> {
                     );
                   })}
                 </List>
-                <DbReferences
-                  onCheckboxClick={e => this.props.onCheckboxClick(e)}
-                  direction={DbReferenceDirection.From}
-                  title="Referenced columns from this table"
-                  references={response.data.table.referencesFromTable}
-                />
-                <DbReferences
-                  onCheckboxClick={e => this.props.onCheckboxClick(e)}
-                  direction={DbReferenceDirection.To}
-                  title="Referencing columns to this table"
-                  references={response.data.table.referencesToTable}
-                />
-                <NameInput onChange={this.props.onNameChange} />
+                <ActiveColumnsContext.Provider value={this.props.activeColumns}>
+                  <DbReferences
+                    onCheckboxClick={e => this.props.onCheckboxClick(e)}
+                    direction={DbReferenceDirection.From}
+                    title="Referenced columns from this table"
+                    references={response.data.table.referencesFromTable}
+                  />
+                  <DbReferences
+                    onCheckboxClick={e => this.props.onCheckboxClick(e)}
+                    direction={DbReferenceDirection.To}
+                    title="Referencing columns to this table"
+                    references={response.data.table.referencesToTable}
+                  />
+                  <NameInput onChange={this.props.onNameChange} />
+                </ActiveColumnsContext.Provider>
               </>
             );
           }}
@@ -106,4 +118,4 @@ class DbTableDetail extends React.Component<Props> {
   }
 }
 
-export { DbTableDetail };
+export { DbTableDetail, ActiveColumnsContext };

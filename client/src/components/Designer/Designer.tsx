@@ -11,6 +11,7 @@ type State = {
   activeColumns: ColumnInput[];
   tableTitle: string;
 };
+
 class Designer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -28,6 +29,7 @@ class Designer extends React.Component<Props, State> {
               onCheckboxClick={this.toggleColumn}
               isTableNameShown={this.state.activeColumns.length > 0}
               onNameChange={e => this.setState({ tableTitle: e })}
+              activeColumns={this.state.activeColumns}
             />
           </Col>
           {this.state.activeColumns.length > 0 && (

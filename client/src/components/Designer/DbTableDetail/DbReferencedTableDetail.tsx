@@ -1,3 +1,4 @@
+import { any } from "ramda";
 import * as React from "react";
 import { Checkbox, Header, List } from "semantic-ui-react";
 import { DbReferenceDirection } from "../../../domain/Designer/DesignerTypes";
@@ -9,6 +10,7 @@ import {
   DB_TABLE_DETAIL_QUERY,
   DbTablesDetailQueryComponent
 } from "../../../graphql/queries/DbExplorer/TableDetail";
+import { ActiveColumnsContext } from "./DbTableDetail";
 import { DbReferences } from "./References/DbReferences";
 
 type Props = {
@@ -46,6 +48,7 @@ class DbReferencedTableDetail extends React.Component<Props> {
                   keyReference: this.props.parentReference
                 };
               })[0];
+            const columns = response.data.table.columns;
             return (
               <>
                 <Header as="h5">
@@ -54,28 +57,45 @@ class DbReferencedTableDetail extends React.Component<Props> {
                 </Header>
                 <Header as="h5">Columns:</Header>
                 <List size="small" divided={true} celled={true}>
-                  {response.data.table.columns.map(x => {
-                    return (
-                      <List.Item key={x.columnName}>
-                        <Checkbox
-                          onClick={() =>
-                            this.props.onCheckboxClick(
-                              {
-                                schemaName: x.schemaName,
-                                tableName: x.tableName,
-                                columnName: x.columnName,
-                                isPrimaryKey: x.isPrimaryKey,
-                                isHidden: false,
-                                keyReference: primaryColumn
-                              },
-                              primaryColumn
-                            )
-                          }
-                        />
-                        {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
-                      </List.Item>
-                    );
-                  })}
+                  <ActiveColumnsContext.Consumer>
+                    {activeColumns => {
+                      return (
+                        <>
+                          {columns.map(x => {
+                            return (
+                              <List.Item key={x.columnName}>
+                                <Checkbox
+                                  checked={any(
+                                    e =>
+                                      e.columnName === x.columnName &&
+                                      e.tableName === x.tableName &&
+                                      e.schemaName === x.schemaName,
+                                    activeColumns
+                                  )}
+                                  onClick={() =>
+                                    this.props.onCheckboxClick(
+                                      {
+                                        schemaName: x.schemaName,
+                                        tableName: x.tableName,
+                                        columnName: x.columnName,
+                                        isPrimaryKey: x.isPrimaryKey,
+                                        isHidden: false,
+                                        keyReference: primaryColumn
+                                      },
+                                      primaryColumn
+                                    )
+                                  }
+                                />
+                                {` [${
+                                  x.columnName
+                                }]: ${x.dataType.toLowerCase()}`}
+                              </List.Item>
+                            );
+                          })}
+                        </>
+                      );
+                    }}
+                  </ActiveColumnsContext.Consumer>
                 </List>
                 <DbReferences
                   onCheckboxClick={e =>
