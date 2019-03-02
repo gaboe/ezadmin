@@ -253,8 +253,15 @@ export interface AppPreview_appPreview_menuItems {
   rank: number;
 }
 
+export interface AppPreview_appPreview_pages_table_headers {
+  __typename: "Header";
+  alias: string;
+  name: string;
+}
+
 export interface AppPreview_appPreview_pages_table_rows_columns {
   __typename: "Column";
+  columnAlias: string;
   name: string;
   value: string;
 }
@@ -276,7 +283,7 @@ export interface AppPreview_appPreview_pages_table {
   /**
    * Headers
    */
-  headers: string[];
+  headers: AppPreview_appPreview_pages_table_headers[];
   /**
    * Rows in talbe
    */

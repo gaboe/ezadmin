@@ -14,25 +14,26 @@ module EngineRepository =
       use cmd = new SqlCommand(query, conn)
       cmd.CommandType <- CommandType.Text
 
-      let readRow (reader: SqlDataReader) = 
-        let getRow name = {Name = name; Value = reader.[name] |> unbox |> string}
-        getRow
-
       conn.Open()
       use reader = cmd.ExecuteReader()
       while reader.Read() do
-        let toRow = readRow reader
+
+        let key = reader.[headers.KeyName] |> unbox |> string
+        let columns = headers.ColumnNames 
+                        |> Seq.map (fun (name, alias) -> {Name = name; ColumnAlias = alias; Value = reader.[alias] |> unbox |> string}) 
+                        |> Seq.toList
+
         yield { 
-                Key = reader.[headers.KeyName] |> unbox |> string 
-                Columns = headers.ColumnNames |> Seq.map toRow |> Seq.toList
+                Key = key
+                Columns = columns 
                }
         }     
     let getDynamicQueryResults table =
       let query = DynamicQueryBuilder.buildQuery table 
       let headers = DynamicQueryBuilder.getHeaders table
       
-      let data = getDataFromDb query headers
-      data |> Seq.toList
+      let data = getDataFromDb query headers |> Seq.toList
+      data
 
        
 

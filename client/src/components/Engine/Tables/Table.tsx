@@ -28,8 +28,8 @@ const Table: React.SFC<Props> = props => {
               <SemanticTable.Header>
                 <SemanticTable.Row>
                   {headers.map(x => (
-                    <SemanticTable.HeaderCell key={x}>
-                      {x}
+                    <SemanticTable.HeaderCell key={x.alias}>
+                      {x.name}
                     </SemanticTable.HeaderCell>
                   ))}
                 </SemanticTable.Row>
@@ -41,7 +41,7 @@ const Table: React.SFC<Props> = props => {
                       <SemanticTable.Row key={row.key}>
                         {row.columns.map((c, index) => {
                           return (
-                            <SemanticTable.Cell key={`${row.key}-${index}`}>
+                            <SemanticTable.Cell key={`${row}-${index}`}>
                               {c.value}
                             </SemanticTable.Cell>
                           );

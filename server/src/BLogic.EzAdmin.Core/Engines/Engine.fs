@@ -7,7 +7,7 @@ module Engine =
 
     let getAppPreview (input: AppInput) =
 
-        let isInAllowedColumns column =
+        let isInAllowedColumns (column: Column) =
             input.columns 
                 |> Seq.filter (fun e -> e.isHidden |> not) 
                 |> Seq.exists (fun e -> e.columnName = column.Name)
@@ -32,7 +32,7 @@ module Engine =
         let shownHeaders = [description.MainTable] @ description.JoinedTables
                             |> Seq.collect (fun e -> e.Columns)
                             |> Seq.where (fun e -> e.Column.IsHidden |> not)
-                            |> Seq.map (fun e -> e.Column.ColumnName)
+                            |> Seq.map (fun e -> { Alias = e.ColumnAlias; Name = e.Column.ColumnName })
                             |> Seq.toList
 
         let pages = [{Table = {Rows = rows; Headers = shownHeaders }}]

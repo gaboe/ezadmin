@@ -96,6 +96,7 @@ module QueryGraphQLTypes =
             isTypeOf = (fun o -> o :? Column),
             fieldsFn = fun () ->
             [
+                Define.Field("columnAlias", String, "", fun _ (x: Column) -> x.ColumnAlias)
                 Define.Field("name", String, "", fun _ (x: Column) -> x.Name)
                 Define.Field("value", String, "", fun _ (x: Column) -> x.Value)
             ]
@@ -112,7 +113,19 @@ module QueryGraphQLTypes =
                 Define.Field("columns", ListOf (ColumnType), "Multiple properties of record", fun _ (x: Row) -> x.Columns)
             ]
         )
-    
+
+     and HeaderType = 
+        Define.Object<Header>(
+            name = "Header",
+            description = "Header of the table",
+            isTypeOf = (fun o -> o :? Header),
+            fieldsFn = fun () ->
+            [
+                Define.Field("name", String, "", fun _ (x: Header) -> x.Name)
+                Define.Field("alias", String, "", fun _ (x: Header) -> x.Alias)
+            ]
+        )
+
     and TableType = 
         Define.Object<Table>(
             name = "Table",
@@ -121,7 +134,7 @@ module QueryGraphQLTypes =
             fieldsFn = fun () ->
             [
                 Define.Field("rows", ListOf (RowType), "Rows in talbe", fun _ (x: Table) -> x.Rows)
-                Define.Field("headers", ListOf (String), "Headers", fun _ (x: Table) -> x.Headers)
+                Define.Field("headers", ListOf (HeaderType), "Headers", fun _ (x: Table) -> x.Headers)
             ]
         )
 

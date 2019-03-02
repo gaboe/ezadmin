@@ -57,11 +57,11 @@ module DynamicQueryBuilder =
     let private columnVisibiltyFilter col =
         not (col.Column.ColumnType = ColumnType.PrimaryKey) && not col.Column.IsHidden
 
-    let private getColumnNamesExeptPrimary (tables: TableQueryDescription list) = 
-        getColumnsFromTable tables columnVisibiltyFilter (fun c -> c.Column.ColumnName)
+    let private getColumnAliasesExeptPrimary (tables: TableQueryDescription list) = 
+        getColumnsFromTable tables columnVisibiltyFilter (fun c -> (c.Column.ColumnName, c.ColumnAlias))
 
     let private getColumnNamesWithAliasesExeptPrimary (tables: TableQueryDescription list) = 
-        getColumnsFromTable tables columnVisibiltyFilter (fun c -> c.TableAlias + "." + c.Column.ColumnName)
+        getColumnsFromTable tables columnVisibiltyFilter (fun c -> sprintf "%s.%s AS %s" c.TableAlias c.Column.ColumnName c.ColumnAlias)
 
     let private appendColumnNames (sb: SB) names =
         names |> Seq.map (fun n -> sprintf ",%s" n) |> appendLines sb
@@ -69,7 +69,7 @@ module DynamicQueryBuilder =
     let private mainTablePrimaryKey description = 
         description.MainTable 
             |> getPrimaryKey
-            |> fun column -> sprintf "%s.%s" column.TableAlias column.Column.ColumnName
+            |> fun column -> sprintf "%s.%s AS %s" column.TableAlias column.Column.ColumnName column.ColumnAlias
 
     let buildQuery (description: QueryDescription) = 
         let allTables = description.MainTable :: description.JoinedTables
@@ -90,11 +90,9 @@ module DynamicQueryBuilder =
         let tables = (description.MainTable :: description.JoinedTables) 
         let mainKey = description.MainTable
                         |> getPrimaryKey 
-                        |> (fun e -> e.Column.ColumnName)
-
         {
-         KeyName = mainKey;
-         ColumnNames = getColumnNamesExeptPrimary tables
-                         |> Seq.append [mainKey]
+         KeyName = mainKey.ColumnAlias;
+         ColumnNames = getColumnAliasesExeptPrimary tables
+                         |> Seq.append [(mainKey.Column.ColumnName, mainKey.ColumnAlias)]
                          |> Seq.toList
         }

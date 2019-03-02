@@ -11,9 +11,13 @@ const APP_PREVIEW_QUERY = gql`
       }
       pages {
         table {
-          headers
+          headers {
+            alias
+            name
+          }
           rows {
             columns {
+              columnAlias
               name
               value
             }
