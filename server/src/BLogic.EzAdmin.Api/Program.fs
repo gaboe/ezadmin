@@ -41,6 +41,8 @@ let configureCors (builder : CorsPolicyBuilder) =
 
 let configureApp (app : IApplicationBuilder) =
     let env = app.ApplicationServices.GetService<IHostingEnvironment>()
+    NamelessInteractive.FSharp.MongoDB.SerializationProviderModule.Register()
+    NamelessInteractive.FSharp.MongoDB.Conventions.ConventionsModule.Register()
     (match env.IsDevelopment() with
     | true  -> app.UseDeveloperExceptionPage()
     | false -> app.UseGiraffeErrorHandler errorHandler)

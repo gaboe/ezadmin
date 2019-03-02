@@ -4,13 +4,23 @@ module ApplicationService =
     open BLogic.EzAdmin.Domain.GraphQL
     open BLogic.EzAdmin.Domain.SchemaTypes
     open BLogic.EzAdmin.Core.Engines
+    open BLogic.EzAdmin.Data.Repositories.Schemas
+    open Newtonsoft.Json.Bson
+    open System
+    open MongoDB.Bson
+    open MongoDB.Bson.Serialization.IdGenerators
 
     let saveView (input: AppInput) = 
-        let app: AppSchema = { MenuItems = [{Name = input.tableTitle; Rank = 0}];
+        let app: AppSchema = { 
+                                AppID = ObjectId.GenerateNewId()
+                                MenuItems = [{MenuItemID = ObjectId.GenerateNewId(); Name = input.tableTitle; Rank = 0}];
                                 Pages = [
-                                    {Name = input.tableTitle;
+                                    { PageID = ObjectId.GenerateNewId();
+                                    Name = input.tableTitle;
                                     Table = AppInputTransformer.tranformToSchema input }]}
-        "cid"
+                                |> SchemaTypesRepository.createApp
+
+        app.AppID.ToString()
 
     
 

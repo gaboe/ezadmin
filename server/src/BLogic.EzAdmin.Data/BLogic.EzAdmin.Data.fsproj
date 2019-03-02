@@ -24,6 +24,7 @@
     <PackageReference Include="MongoDB.Bson" Version="2.7.2" />
     <PackageReference Include="MongoDB.Driver" Version="2.7.2" />
     <PackageReference Include="MongoDB.FSharp" Version="0.1.0" />
+    <PackageReference Include="NamelessInteractive.FSharp.MongoDB" Version="0.0.4" />
     <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
   </ItemGroup>
 

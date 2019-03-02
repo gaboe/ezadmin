@@ -14,9 +14,9 @@
     "graphql-tag": "^2.10.1",
     "lodash": "^4.17.11",
     "ramda": "^0.26.1",
-    "react": "^16.8.1",
+    "react": "^16.8.3",
     "react-apollo": "^2.4.0",
-    "react-dom": "^16.8.1",
+    "react-dom": "^16.8.3",
     "react-grid-system": "^4.4.2",
     "react-router-dom": "^4.3.1",
     "react-scripts-ts": "^3.1.0",
@@ -40,12 +40,12 @@
     "@types/lodash": "^4.14.120",
     "@types/node": "^10.12.24",
     "@types/ramda": "^0.25.48",
-    "@types/react": "^16.8.2",
-    "@types/react-dom": "^16.8.0",
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.8.2",
     "@types/react-router-dom": "^4.3.1",
     "@types/styled-components": "^4.1.8",
     "@types/yup": "^0.26.9",
-    "apollo": "^2.3.0",
-    "typescript": "^3.3.3"
+    "apollo": "^2.5.3",
+    "typescript": "^3.3.3333"
   }
 }

@@ -1,16 +1,17 @@
 ﻿namespace BLogic.EzAdmin.Domain.SchemaTypes
 
 open MongoDB.Bson
+open MongoDB.Bson.Serialization.Attributes
 
 type [<CLIMutable>] MenuItemSchema = 
-            {[<DefaultValue>] MenuItemID : BsonObjectId;
+            {[<BsonId>] MenuItemID : ObjectId;
             Name: string;
             Rank: int;} 
 
 type ColumnType = PrimaryKey | ForeignKey | Column
 
 type [<CLIMutable>] ColumnSchema = 
-            {[<DefaultValue>] ColumnID : BsonObjectId;
+            {[<BsonId>] ColumnID : ObjectId;
             ColumnName: string;
             TableName: string;
             SchemaName: string;
@@ -20,18 +21,18 @@ type [<CLIMutable>] ColumnSchema =
             } 
 
 type [<CLIMutable>] TableSchema = 
-            {[<DefaultValue>] TableID : BsonObjectId;
+            {[<BsonId>] TableID : ObjectId;
             SchemaName: string;
             TableName: string;
             Columns: ColumnSchema list} 
 
 type [<CLIMutable>] PageSchema = 
-            {[<DefaultValue>] PageID : BsonObjectId;
+            {[<BsonId>] PageID : ObjectId;
             Name: string;
             Table: TableSchema;} 
 
 type [<CLIMutable>] AppSchema = 
-            {[<DefaultValue>] AppID : BsonObjectId;
+            {[<BsonId>] AppID : ObjectId;
             MenuItems: MenuItemSchema list;
             Pages: PageSchema list} 
 

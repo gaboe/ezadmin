@@ -3,6 +3,7 @@ open BLogic.EzAdmin.Domain.GraphQL
 open BLogic.EzAdmin.Domain.SchemaTypes
 
 module AppInputTransformer = 
+    open MongoDB.Bson
 
     let isForeignKey (col: ColumnInput) (reference: ColumnInput option) = 
         let isFromSameTable (r:ColumnInput) = col.schemaName = r.schemaName && col.tableName = r.tableName
@@ -24,7 +25,8 @@ module AppInputTransformer =
                                 | None -> ColumnType.Column
 
         let rec toColumnSchema (col: ColumnInput) : ColumnSchema =
-            {ColumnName = col.columnName;
+            {ColumnID = ObjectId.GenerateNewId();
+            ColumnName = col.columnName;
             TableName = col.tableName;
             SchemaName = col.schemaName;
             IsHidden = col.isHidden;
@@ -37,6 +39,7 @@ module AppInputTransformer =
                         |> Seq.toList
 
         {
+            TableID = ObjectId.GenerateNewId();
             SchemaName = input.schemaName;
             TableName = input.tableName;
             Columns = columns

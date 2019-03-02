@@ -5,9 +5,11 @@ open BLogic.EzAdmin.Data.Core.MongoHandler
 open MongoDB.Driver
 
 module SchemaTypesRepository =
+    open System.Linq
 
     let createApp (app : AppSchema ) = 
             appCollection().InsertOne(app)
+            let e = appCollection().Find(FilterDefinition.Empty).First()
             app
 
     let readAll() =
