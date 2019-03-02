@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <Compile Include="ConnectionProvider.fs" />
+    <Compile Include="QueryHandler.fs" />
     <Compile Include="Engines\ColumnAliasProvider.fs" />
     <Compile Include="Engines\DynamicQueryBuilder.fs" />
     <Compile Include="Engines\EngineRepository.fs" />
     <Compile Include="Core\MongoHandler.fs" />
-    <Compile Include="QueryHandler.fs" />
     <Compile Include="Repositories\Schemas\SchemaTypesRepository.fs" />
     <Compile Include="Repositories\SqlTypes\SqlReferenceRepository.fs" />
     <Compile Include="Repositories\SqlTypes\SqlTypeRepository.fs" />
