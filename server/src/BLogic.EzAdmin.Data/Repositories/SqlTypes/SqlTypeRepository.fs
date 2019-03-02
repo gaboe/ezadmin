@@ -6,12 +6,12 @@ open BLogic.EzAdmin.Domain.SqlTypes
 
 module SqlTypeRepository =
         let getAllSchemas = query<SqlSchema> {
-                                    Query = "SELECT SCHEMA_NAME SchemaName FROM INFORMATION_SCHEMA.SCHEMATA";
+                                    Query = "SELECT SCHEMA_NAME SchemaName FROM INFORMATION_SCHEMA.SCHEMATA ORDER BY SCHEMA_NAME";
                                     Parameters= []
                                         }
 
         let getTables schemaName = query<SqlTable> {
-                                        Query = "SELECT TABLE_NAME TableName, TABLE_SCHEMA SchemaName FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = @SchemaName";
+                                        Query = "SELECT TABLE_NAME TableName, TABLE_SCHEMA SchemaName FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = @SchemaName ORDER BY TABLE_NAME";
                                         Parameters = ["SchemaName", box schemaName]
                                         }
 
