@@ -121,6 +121,7 @@ module QueryGraphQLTypes =
             fieldsFn = fun () ->
             [
                 Define.Field("rows", ListOf (RowType), "Rows in talbe", fun _ (x: Table) -> x.Rows)
+                Define.Field("headers", ListOf (String), "Headers", fun _ (x: Table) -> x.Headers)
             ]
         )
 

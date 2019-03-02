@@ -9,11 +9,8 @@ module EngineRepository =
     open BLogic.EzAdmin.Data.Engines
     open BLogic.EzAdmin.Domain.Engines
 
-    [<Literal>]
-    let connectionString = "Data Source=localhost;Initial Catalog=eza;Integrated Security=True"
-
     let getDataFromDb query (headers: RowResultHeader) = seq { 
-      use conn = new SqlConnection(connectionString)
+      use conn = new SqlConnection(ConnectionProvider.connectionString)
       use cmd = new SqlCommand(query, conn)
       cmd.CommandType <- CommandType.Text
 

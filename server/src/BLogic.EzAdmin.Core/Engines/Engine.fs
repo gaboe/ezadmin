@@ -18,15 +18,17 @@ module Engine =
                             |> Seq.toList
             { Key = row.Key; Columns = columns }
 
-        let rows = input 
-                    |> AppInputTransformer.tranformToSchema 
-                    |> DescriptionConverter.convertToDescription
+        let description = input 
+                            |> AppInputTransformer.tranformToSchema 
+                            |> DescriptionConverter.convertToDescription
+        
+        let rows = description      
                     |> EngineRepository.getDynamicQueryResults
                     |> Seq.map hideColumns
                     |> Seq.toList
 
         let menuItems = [{Name = input.tableTitle; Rank = 0}]
-        let pages = [{Table = {Rows = rows}}]
+        let pages = [{Table = {Rows = rows; Headers = (DynamicQueryBuilder.getHeaders description).ColumnNames }}]
 
         let preview = {MenuItems = menuItems; Pages = pages}
         preview

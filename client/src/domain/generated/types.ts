@@ -274,6 +274,10 @@ export interface AppPreview_appPreview_pages_table_rows {
 export interface AppPreview_appPreview_pages_table {
   __typename: "Table";
   /**
+   * Headers
+   */
+  headers: string[];
+  /**
    * Rows in talbe
    */
   rows: AppPreview_appPreview_pages_table_rows[];

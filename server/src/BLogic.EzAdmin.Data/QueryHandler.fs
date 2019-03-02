@@ -7,12 +7,9 @@ open Dapper
 module QueryHandler = 
         open System
 
-        [<Literal>]
-        let connectionString = "Data Source=localhost;Initial Catalog=eza;Integrated Security=True"
-
         let query<'T> q =
             async {
-                use connection = new SqlConnection(connectionString)
+                use connection = new SqlConnection(ConnectionProvider.connectionString)
                 do! connection.OpenAsync() |> Async.AwaitTask
                 let! result =
                     connection.QueryAsync<'T>(q.Query, dict q.Parameters)
@@ -22,7 +19,7 @@ module QueryHandler =
 
         let querySingle<'T> q =
             async {
-                use connection = new SqlConnection(connectionString)
+                use connection = new SqlConnection(ConnectionProvider.connectionString)
                 do! connection.OpenAsync() |> Async.AwaitTask
                 let! result =
                     connection.QuerySingleOrDefaultAsync<'T>(q.Query, dict q.Parameters)

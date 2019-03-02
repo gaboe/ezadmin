@@ -11,6 +11,9 @@ type Props = { table: AppPreview_appPreview_pages_table };
 const Table: React.SFC<Props> = props => {
   const columns =
     props.table.rows.length > 0 ? props.table.rows[0].columns : [];
+
+  const headers = props.table.headers;
+
   return (
     <>
       <Wrapper>
@@ -24,9 +27,9 @@ const Table: React.SFC<Props> = props => {
             >
               <SemanticTable.Header>
                 <SemanticTable.Row>
-                  {columns.map(x => (
-                    <SemanticTable.HeaderCell key={x.name}>
-                      {x.name}
+                  {headers.map(x => (
+                    <SemanticTable.HeaderCell key={x}>
+                      {x}
                     </SemanticTable.HeaderCell>
                   ))}
                 </SemanticTable.Row>

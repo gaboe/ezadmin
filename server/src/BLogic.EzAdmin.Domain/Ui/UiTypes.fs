@@ -6,7 +6,7 @@ type [<CLIMutable>] Column = {Name: string; Value: string;}
 
 type [<CLIMutable>] Row = {Key: string; Columns: Column list;}
 
-type [<CLIMutable>] Table = {Rows: Row list}
+type [<CLIMutable>] Table = {Rows: Row list; Headers: string list}
 
 type [<CLIMutable>] Page = {Table: Table}
 

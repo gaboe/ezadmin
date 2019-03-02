@@ -11,6 +11,7 @@ const APP_PREVIEW_QUERY = gql`
       }
       pages {
         table {
+          headers
           rows {
             columns {
               name
@@ -23,5 +24,5 @@ const APP_PREVIEW_QUERY = gql`
     }
   }
 `;
-class AppPreviewComponent extends Query<AppPreview, AppPreviewVariables> {}
+class AppPreviewComponent extends Query<AppPreview, AppPreviewVariables> { }
 export { APP_PREVIEW_QUERY, AppPreviewComponent };
