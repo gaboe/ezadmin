@@ -12,6 +12,7 @@ module GraphQLSchema =
     open BLogic.EzAdmin.Domain.GraphQL
     open BLogic.EzAdmin.Core.Services.Security.TokenService
     open BLogic.EzAdmin.Core.Services.Application.ApplicationService
+    open BLogic.EzAdmin.Core.Services.Application
 
     let schemaConfig = SchemaConfig.Default
     
@@ -34,6 +35,7 @@ module GraphQLSchema =
                 Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ], fun ctx _ -> ctx.Arg("schemaName") |> getTables |> Async.RunSynchronously)
                 Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getColumns |> Async.RunSynchronously)
                 Define.Field("appPreview", AppType, "Return preview of app", [ Define.Input("input", AppInputType) ],  fun ctx _ -> ctx.Arg("input") |> BLogic.EzAdmin.Core.Engines.Engine.getAppPreview)
+                Define.Field("app", AppType, "Returns application", [ Define.Input("id", String) ],  fun ctx _ -> ctx.Arg("id") |> ApplicationService.getApp)
                 ]
             )
 

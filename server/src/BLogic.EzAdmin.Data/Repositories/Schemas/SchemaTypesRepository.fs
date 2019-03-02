@@ -6,6 +6,7 @@ open MongoDB.Driver
 
 module SchemaTypesRepository =
     open System.Linq
+    open MongoDB.Bson
 
     let createApp (app : AppSchema ) = 
             appCollection().InsertOne(app)
@@ -14,3 +15,7 @@ module SchemaTypesRepository =
 
     let readAll() =
             appCollection().Find(Builders.Filter.Empty).ToEnumerable()
+
+    let getByID id =
+            let _id = ObjectId.Parse(id)
+            appCollection().Find(fun e -> e.AppID = _id).Single()

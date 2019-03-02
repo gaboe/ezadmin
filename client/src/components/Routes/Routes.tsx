@@ -1,10 +1,11 @@
-import * as React from "react";
-import { Route } from "react-router-dom";
-import styled from "styled-components";
-import { AuthorizedComponent } from "../Auth/AuthorizedComponent";
-import { Login } from "../Auth/Login/Login";
-import { Designer } from "../Designer/Designer";
-import { DatabaseExplorer } from "./../DbExplorer/DatabaseExplorer";
+import * as React from 'react';
+import styled from 'styled-components';
+import { AuthorizedComponent } from '../Auth/AuthorizedComponent';
+import { DatabaseExplorer } from './../DbExplorer/DatabaseExplorer';
+import { Designer } from '../Designer/Designer';
+import { GeneratedApp } from '../Engine/GeneratedApp';
+import { Login } from '../Auth/Login/Login';
+import { Route } from 'react-router-dom';
 
 const ContenWrapper = styled.div`
   margin: 2em;
@@ -26,7 +27,7 @@ const Routes = () => {
         />
         <Route path="/table/:schema/:name/:cid?" component={Designer} />
         <Route path="/login" component={Login} />
-        {/* <Route exact={true} path="/app/:cid?" component={GeneratedApp} /> */}
+        <Route exact={true} path="/app/:id?" component={GeneratedApp} />
       </ContenWrapper>
     </>
   );

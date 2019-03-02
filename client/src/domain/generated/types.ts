@@ -332,6 +332,94 @@ export interface AppPreviewVariables {
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL query operation: App
+// ====================================================
+
+export interface App_app_menuItems {
+  __typename: "MenuItem";
+  /**
+   * Table on page
+   */
+  name: string;
+  /**
+   * Table on page
+   */
+  rank: number;
+}
+
+export interface App_app_pages_table_headers {
+  __typename: "Header";
+  alias: string;
+  name: string;
+}
+
+export interface App_app_pages_table_rows_columns {
+  __typename: "Column";
+  columnAlias: string;
+  name: string;
+  value: string;
+}
+
+export interface App_app_pages_table_rows {
+  __typename: "Row";
+  /**
+   * Multiple properties of record
+   */
+  columns: App_app_pages_table_rows_columns[];
+  /**
+   * Represents unique key of row
+   */
+  key: string;
+}
+
+export interface App_app_pages_table {
+  __typename: "Table";
+  /**
+   * Headers
+   */
+  headers: App_app_pages_table_headers[];
+  /**
+   * Rows in talbe
+   */
+  rows: App_app_pages_table_rows[];
+}
+
+export interface App_app_pages {
+  __typename: "Page";
+  /**
+   * Table on page
+   */
+  table: App_app_pages_table;
+}
+
+export interface App_app {
+  __typename: "App";
+  /**
+   * Menu items
+   */
+  menuItems: App_app_menuItems[];
+  /**
+   * Pages in app
+   */
+  pages: App_app_pages[];
+}
+
+export interface App {
+  /**
+   * Returns application
+   */
+  app: App_app;
+}
+
+export interface AppVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================

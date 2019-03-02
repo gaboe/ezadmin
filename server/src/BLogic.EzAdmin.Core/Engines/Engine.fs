@@ -4,30 +4,28 @@ module Engine =
     open BLogic.EzAdmin.Domain.UiTypes
     open BLogic.EzAdmin.Data.Engines
     open BLogic.EzAdmin.Domain.GraphQL
+    open BLogic.EzAdmin.Domain.SchemaTypes
 
-    let getAppPreview (input: AppInput) =
-
+    let getApp (table:TableSchema) = 
         let isInAllowedColumns (column: Column) =
-            input.columns 
-                |> Seq.filter (fun e -> e.isHidden |> not) 
-                |> Seq.exists (fun e -> e.columnName = column.Name)
+            table.Columns 
+                |> Seq.filter (fun e -> e.IsHidden |> not) 
+                |> Seq.exists (fun e -> e.ColumnName = column.Name)
 
-        let hideColumns row = 
+        let hideColumns (row: Row) = 
             let columns = row.Columns 
                             |> Seq.filter isInAllowedColumns 
                             |> Seq.toList
             { Key = row.Key; Columns = columns }
 
-        let description = input 
-                            |> AppInputTransformer.tranformToSchema 
-                            |> DescriptionConverter.convertToDescription
+        let description = table |> DescriptionConverter.convertToDescription
         
         let rows = description      
                     |> EngineRepository.getDynamicQueryResults
                     |> Seq.map hideColumns
                     |> Seq.toList
 
-        let menuItems = [{Name = input.tableTitle; Rank = 0}]
+        let menuItems = [{Name = table.TableName; Rank = 0}]
 
         let shownHeaders = [description.MainTable] @ description.JoinedTables
                             |> Seq.collect (fun e -> e.Columns)
@@ -40,4 +38,9 @@ module Engine =
         let preview = {MenuItems = menuItems; Pages = pages}
         preview
 
+    let getAppPreview (input: AppInput) =
+
+        let table = input |> AppInputTransformer.tranformToSchema 
+        getApp table
+                           
 
