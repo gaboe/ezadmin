@@ -28,7 +28,14 @@ module Engine =
                     |> Seq.toList
 
         let menuItems = [{Name = input.tableTitle; Rank = 0}]
-        let pages = [{Table = {Rows = rows; Headers = (DynamicQueryBuilder.getHeaders description).ColumnNames }}]
+
+        let shownHeaders = [description.MainTable] @ description.JoinedTables
+                            |> Seq.collect (fun e -> e.Columns)
+                            |> Seq.where (fun e -> e.Column.IsHidden |> not)
+                            |> Seq.map (fun e -> e.Column.ColumnName)
+                            |> Seq.toList
+
+        let pages = [{Table = {Rows = rows; Headers = shownHeaders }}]
 
         let preview = {MenuItems = menuItems; Pages = pages}
         preview
