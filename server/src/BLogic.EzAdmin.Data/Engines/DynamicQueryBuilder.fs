@@ -14,7 +14,7 @@ module DynamicQueryBuilder =
             |> sb.AppendLine |> ignore
     
     let private getPrimaryKey table =
-        table.Columns |> Seq.find (fun e -> e.Column.ColumnType = ColumnType.PrimaryKey)
+        table.Columns |> Seq.tryFind (fun e -> e.Column.ColumnType = ColumnType.PrimaryKey)
     
     let private resolveAlias schemaName tableName alltables =
         let table = alltables
@@ -67,16 +67,22 @@ module DynamicQueryBuilder =
         names |> Seq.map (fun n -> sprintf ",%s" n) |> appendLines sb
 
     let private mainTablePrimaryKey description = 
+
         description.MainTable 
             |> getPrimaryKey
-            |> fun column -> sprintf "%s.%s AS %s" column.TableAlias column.Column.ColumnName column.ColumnAlias
+            |> Option.bind (fun column -> sprintf "%s.%s AS %s" column.TableAlias column.Column.ColumnName column.ColumnAlias
+                                            |> Some)
+
 
     let buildQuery (description: QueryDescription) = 
         let allTables = description.MainTable :: description.JoinedTables
         let columnNames = allTables |> getColumnNamesWithAliasesExeptPrimary
 
         let sb = SB()
-        (sprintf "SELECT %s" (mainTablePrimaryKey description)) |> sb.AppendLine |> ignore
+        match mainTablePrimaryKey description with
+            | Some mk -> (sprintf "SELECT %s" mk)
+            | None -> "SELECT 1"
+            |> sb.AppendLine |> ignore
 
         appendColumnNames sb columnNames
 
@@ -85,14 +91,19 @@ module DynamicQueryBuilder =
         appendJoins description.JoinedTables sb allTables
 
         sb.ToString()
+    
 
     let getHeaders description =
         let tables = (description.MainTable :: description.JoinedTables) 
         let mainKey = description.MainTable
                         |> getPrimaryKey 
-        {
-         KeyName = mainKey.ColumnAlias;
-         ColumnNames = getColumnAliasesExeptPrimary tables
-                         |> Seq.append [(mainKey.Column.ColumnName, mainKey.ColumnAlias)]
-                         |> Seq.toList
-        }
+        
+        match mainKey with 
+            | Some mk -> 
+                        { KeyName = mk.ColumnAlias;
+                          ColumnNames = getColumnAliasesExeptPrimary tables
+                                         |> Seq.append [(mk.Column.ColumnName, mk.ColumnAlias)]
+                                         |> Seq.toList
+                        }
+            | None -> { KeyName = getColumnAliasesExeptPrimary tables |> Seq.head |> (fun (_, alias) -> alias);
+                        ColumnNames = getColumnAliasesExeptPrimary tables}

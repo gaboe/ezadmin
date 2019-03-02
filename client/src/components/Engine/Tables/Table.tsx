@@ -36,12 +36,12 @@ const Table: React.SFC<Props> = props => {
               </SemanticTable.Header>
               <SemanticTable.Body>
                 {props.table.rows.length > 0 &&
-                  props.table.rows.map(row => {
+                  props.table.rows.map((row, rowIndex) => {
                     return (
-                      <SemanticTable.Row key={row.key}>
+                      <SemanticTable.Row key={`${row.key}-${rowIndex}`}>
                         {row.columns.map((c, index) => {
                           return (
-                            <SemanticTable.Cell key={`${row}-${index}`}>
+                            <SemanticTable.Cell key={`${row.key}-${rowIndex}-${index}`}>
                               {c.value}
                             </SemanticTable.Cell>
                           );
