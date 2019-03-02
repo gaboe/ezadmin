@@ -1,18 +1,18 @@
-import { any } from "ramda";
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { Button, Checkbox, Header, List } from "semantic-ui-react";
-import { DbReferenceDirection } from "../../../domain/Designer/DesignerTypes";
+import * as React from 'react';
+import { any } from 'ramda';
 import {
-  ColumnInput,
-  GetDbTableDetailVariables
-} from "../../../domain/generated/types";
-import {
-  DB_TABLE_DETAIL_QUERY,
-  DbTablesDetailQueryComponent
-} from "../../../graphql/queries/DbExplorer/TableDetail";
-import { NameInput } from "./NameInput";
-import { DbReferences } from "./References/DbReferences";
+  Button,
+  Checkbox,
+  Header,
+  List
+  } from 'semantic-ui-react';
+import { ColumnInput, GetDbTableDetailVariables } from '../../../domain/generated/types';
+import { DB_TABLE_DETAIL_QUERY, DbTablesDetailQueryComponent } from '../../../graphql/queries/DbExplorer/TableDetail';
+import { DbReferenceDirection } from '../../../domain/Designer/DesignerTypes';
+import { DbReferences } from './References/DbReferences';
+import { Link } from 'react-router-dom';
+import { NameInput } from './NameInput';
+
 type Props = {
   variables: GetDbTableDetailVariables;
   isTableNameShown: boolean;
@@ -62,11 +62,25 @@ class DbTableDetail extends React.Component<Props> {
                 <Link
                   to={`/${response.data.table.schemaName}-${
                     response.data.table.tableName
-                  }`}
+                    }`}
                 >
                   <Button content="Back" />
                 </Link>
+                <br />
+                <br />
+                <NameInput onChange={this.props.onNameChange} />
+                {this.props.activeColumns.length > 0 &&
+                  this.props.tableTitle.length > 0 && (
+                    <>
+                      <br />
+                      <br />
 
+                      <Button
+                        positive={true}
+                        content="Save table"
+                        onClick={this.props.onSaveViewClick}
+                      />
+                    </>)}
                 <Header as="h5">Columns:</Header>
                 <List size="large" divided={true} celled={true}>
                   {response.data.table.columns.map(x => {
@@ -109,17 +123,6 @@ class DbTableDetail extends React.Component<Props> {
                     title="Referencing columns to this table"
                     references={response.data.table.referencesToTable}
                   />
-                  <NameInput onChange={this.props.onNameChange} />
-                  <br />
-                  <br />
-                  {this.props.activeColumns.length > 0 &&
-                    this.props.tableTitle.length > 0 && (
-                      <Button
-                        positive={true}
-                        content="Save table"
-                        onClick={this.props.onSaveViewClick}
-                      />
-                    )}
                 </ActiveColumnsContext.Provider>
               </>
             );
