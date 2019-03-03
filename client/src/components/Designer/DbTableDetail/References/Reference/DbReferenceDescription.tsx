@@ -8,7 +8,7 @@ type Props = {
   direction: DbReferenceDirection;
 };
 
-const DbReferenceDescription: React.SFC<Props> = props => {
+const DbReferenceDescription: React.FunctionComponent<Props> = props => {
   switch (props.direction) {
     case DbReferenceDirection.From: {
       return (

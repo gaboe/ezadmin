@@ -7,6 +7,7 @@ import {
   Sidebar
   } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { Logout } from '../Auth/Logout/Logout';
 
 const Pushable = styled.div`
   min-height: calc(100vh);
@@ -39,6 +40,9 @@ class Layout extends React.Component {
                 <Icon name="cloud" />
                 Generated App
               </Link>
+            </Menu.Item>
+            <Menu.Item position="right" name="app">
+              <Logout />
             </Menu.Item>
           </Sidebar>
           <Sidebar.Pusher>

@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   padding: 5px;
 `;
 
-const ReferencedTableColumns: React.SFC<Props> = props => {
+const ReferencedTableColumns: React.FunctionComponent<Props> = props => {
   if (!props.areColumnsShown) {
     return null;
   }

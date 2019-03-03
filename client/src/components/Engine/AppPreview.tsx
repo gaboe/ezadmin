@@ -9,7 +9,7 @@ type Props = {
   columns: ColumnInput[];
 };
 
-const AppPreview: React.SFC<Props> = props => {
+const AppPreview: React.FunctionComponent<Props> = props => {
   const variables: AppPreviewQueryVariables = {
     input: {
       tableTitle: props.tableTitle,

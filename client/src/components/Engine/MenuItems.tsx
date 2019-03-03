@@ -13,7 +13,7 @@ const sortMenuItems = (menuItems: menuItem[]) => {
   return rankSort(menuItems);
 };
 
-const MenuItems: React.SFC<Props> = props => {
+const MenuItems: React.FunctionComponent<Props> = props => {
   return (
     <>
       <Sidebar

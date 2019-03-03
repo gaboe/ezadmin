@@ -62,7 +62,7 @@ const Login = (props: RouteComponentProps<{}>) => (
                   loginResult.data &&
                   loginResult.data.login.token
                 ) {
-                  const token = loginResult.data.login.token as string;
+                  const token = loginResult.data.login.token;
                   localStorage.setItem("AUTHORIZATION_TOKEN", token);
                   props.history.push("/");
                 }

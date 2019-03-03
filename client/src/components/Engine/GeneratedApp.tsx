@@ -6,7 +6,7 @@ import { RouteComponentProps } from 'react-router';
 type Props = RouteComponentProps<{ id: string; }>;
 
 
-const GeneratedApp: React.SFC<Props> = props => {
+const GeneratedApp: React.FunctionComponent<Props> = props => {
 
     const variables: GeneratedAppQueryVariables = {
         id: props.match.params.id

@@ -8,7 +8,7 @@ type Props = {
   onCheckboxClick: (column: ColumnInput) => void;
 };
 
-const CheckboxFromReferencedTable: React.SFC<Props> = props => {
+const CheckboxFromReferencedTable: React.FunctionComponent<Props> = props => {
   if (props.column.columnName === props.keyReference.columnName) {
     return (
       <Popup

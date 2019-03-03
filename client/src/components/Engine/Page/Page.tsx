@@ -4,7 +4,7 @@ import { Header } from 'semantic-ui-react';
 import { Table } from '../Tables/Table';
 
 type Props = { page: AppPreviewQuery_appPreview_pages };
-const Page: React.SFC<Props> = props => {
+const Page: React.FunctionComponent<Props> = props => {
   return (
     <>
       <Header>{props.page.name}</Header>

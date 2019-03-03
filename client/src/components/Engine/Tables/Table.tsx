@@ -8,7 +8,7 @@ const Wrapper = styled.div`
 `;
 
 type Props = { table: AppPreviewQuery_appPreview_pages_table };
-const Table: React.SFC<Props> = props => {
+const Table: React.FunctionComponent<Props> = props => {
   const columns =
     props.table.rows.length > 0 ? props.table.rows[0].columns : [];
 
