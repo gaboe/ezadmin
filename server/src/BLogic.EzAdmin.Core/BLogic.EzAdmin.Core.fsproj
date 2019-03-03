@@ -9,6 +9,7 @@
     <Compile Include="Engines\AppInputTransformer.fs" />
     <Compile Include="Engines\Engine.fs" />
     <Compile Include="Utils\Utils.fs" />
+    <Compile Include="Services\UserService\UserService.fs" />
     <Compile Include="Services\Application\ApplicationService.fs" />
     <Compile Include="Services\Security\TokenService.fs" />
     <Compile Include="Services\SqlTypes\SqlTypeService.fs" />

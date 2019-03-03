@@ -31,6 +31,34 @@ export interface LoginMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: SignUpMutation
+// ====================================================
+
+export interface SignUpMutation_signup {
+  __typename: "LoginResult";
+  /**
+   * Token
+   */
+  token: string | null;
+}
+
+export interface SignUpMutation {
+  /**
+   * If succesfull returns token
+   */
+  signup: SignUpMutation_signup;
+}
+
+export interface SignUpMutationVariables {
+  email: string;
+  password: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveViewMutation
 // ====================================================
 

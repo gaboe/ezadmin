@@ -10,7 +10,6 @@ module SchemaTypesRepository =
 
     let createApp (app : AppSchema ) = 
             appCollection().InsertOne(app)
-            let e = appCollection().Find(FilterDefinition.Empty).First()
             app
 
     let readAll() =

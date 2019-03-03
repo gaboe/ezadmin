@@ -13,6 +13,7 @@ module GraphQLSchema =
     open BLogic.EzAdmin.Core.Services.Security.TokenService
     open BLogic.EzAdmin.Core.Services.Application.ApplicationService
     open BLogic.EzAdmin.Core.Services.Application
+    open BLogic.EzAdmin.Core.Services.Users
 
     let schemaConfig = SchemaConfig.Default
     
@@ -56,6 +57,18 @@ module GraphQLSchema =
             name = "Mutation",
             fields = [
                 Define.Field(
+                    "signup",
+                    LoginResult,
+                    "If succesfull returns token",
+                    [ Define.Input("email", String); Define.Input("password", String) ],
+                    fun ctx _ ->  
+                            let email = ctx.Arg("email") 
+                            let pass = ctx.Arg("password") 
+                            UserService.signUp email pass |> ignore
+                            TokenService.createToken email pass 
+                            |> (fun e -> {Token = e |> Option.bind (fun token -> sprintf "Bearer %s" token |> Some)})
+                    );
+                Define.Field(
                     "login",
                     LoginResult,
                     "If succesfull returns token",
@@ -64,7 +77,7 @@ module GraphQLSchema =
                             let email = ctx.Arg("email") 
                             let pass = ctx.Arg("password") 
                             TokenService.createToken email pass 
-                            |> (fun e -> {Token = "Bearer " + e |> Some})
+                            |> (fun e -> {Token = e |> Option.bind (fun token -> sprintf "Bearer %s" token |> Some)})
                     );
                 Define.Field(
                     "saveView",

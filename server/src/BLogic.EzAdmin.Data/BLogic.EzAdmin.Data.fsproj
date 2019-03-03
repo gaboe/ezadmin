@@ -11,6 +11,7 @@
     <Compile Include="Engines\DynamicQueryBuilder.fs" />
     <Compile Include="Engines\EngineRepository.fs" />
     <Compile Include="Core\MongoHandler.fs" />
+    <Compile Include="Repositories\Users\UserRepository.fs" />
     <Compile Include="Repositories\Schemas\SchemaTypesRepository.fs" />
     <Compile Include="Repositories\SqlTypes\SqlReferenceRepository.fs" />
     <Compile Include="Repositories\SqlTypes\SqlTypeRepository.fs" />

@@ -2,6 +2,7 @@
 module MongoHandler = 
     open MongoDB.Driver
     open BLogic.EzAdmin.Domain.SchemaTypes
+    open BLogic.EzAdmin.Domain.Users
 
     [<Literal>]
     let ConnectionString = "mongodb://localhost:27017/ezadmin"
@@ -12,4 +13,6 @@ module MongoHandler =
     let getDb() = getClient().GetDatabase(DbName)
 
     let appCollection() = getDb().GetCollection<AppSchema>("apps")
+
+    let userCollection() = getDb().GetCollection<User>("users")
 

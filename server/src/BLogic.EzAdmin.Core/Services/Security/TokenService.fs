@@ -1,4 +1,5 @@
 ﻿namespace BLogic.EzAdmin.Core.Services.Security.TokenService
+open BLogic.EzAdmin.Core.Services.Users
 
 module TokenService = 
     open JWT.Builder
@@ -17,11 +18,19 @@ module TokenService =
     let isValid token = match validate token with | Ok _ -> true | Error _ -> false
     
     let createToken name pass =
-        let tokenBuilder = JwtBuilder()
-                            .WithAlgorithm(new HMACSHA256Algorithm())
-                            .WithSecret(secret)
-                            .AddClaim("exp", DateTimeOffset.UtcNow.AddHours(float 1).ToUnixTimeSeconds())
-                            .AddClaim("auth", name)
+        UserService.getUser name pass 
+                |> Option.bind (fun user -> 
+                                            let tokenBuilder = JwtBuilder()
+                                                                .WithAlgorithm(new HMACSHA256Algorithm())
+                                                                .WithSecret(secret)
+                                                                .AddClaim("exp", DateTimeOffset.UtcNow.AddHours(float 1).ToUnixTimeSeconds())
+                                                                .AddClaim("auth", user.Email)
 
-        let token = tokenBuilder.Build()
-        token
+                                            let token = tokenBuilder.Build()
+                                            Some token
+        
+        )
+        
+
+
+

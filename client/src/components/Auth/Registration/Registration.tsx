@@ -3,9 +3,9 @@ import * as yup from 'yup';
 import { Button, Form } from 'semantic-ui-react';
 import { Col, Row } from 'react-grid-system';
 import { Formik, FormikProps } from 'formik';
-import { LOGIN_MUTATION, LoginMutationComponent } from 'src/graphql/mutations/Auth/LoginMutation';
 import { nameof } from 'src/utils/Utils';
 import { RouteComponentProps } from 'react-router-dom';
+import { SIGN_UP_MUTATION, SignUpMutationComponent } from 'src/graphql/mutations/Auth/SignUpMutation';
 
 
 type UserRegistration = { email: string; password: string, passwordRepeat: string };
@@ -45,11 +45,11 @@ const RegistrationForm = (props: FormikProps<UserRegistration>) => {
                 >
                     <label>Repeat Password</label>
                     <input
-                        value={props.values.password}
+                        value={props.values.passwordRepeat}
                         onChange={props.handleChange}
-                        name="password"
+                        name="passwordRepeat"
                         type="password"
-                        placeholder="password"
+                        placeholder="repeat password"
                     />
                 </Form.Field>
                 <Button positive={true} onClick={props.submitForm} type="submit">
@@ -61,7 +61,7 @@ const RegistrationForm = (props: FormikProps<UserRegistration>) => {
 };
 
 const Registration = (props: RouteComponentProps<{}>) => (
-    <LoginMutationComponent mutation={LOGIN_MUTATION}>
+    <SignUpMutationComponent mutation={SIGN_UP_MUTATION}>
         {login => (
             <Row>
                 <Col offset={{ lg: 4 }} lg={4}>
@@ -74,9 +74,9 @@ const Registration = (props: RouteComponentProps<{}>) => (
                                 if (
                                     loginResult &&
                                     loginResult.data &&
-                                    loginResult.data.login.token
+                                    loginResult.data.signup.token
                                 ) {
-                                    const token = loginResult.data.login.token;
+                                    const token = loginResult.data.signup.token;
                                     localStorage.setItem("AUTHORIZATION_TOKEN", token);
                                     props.history.push("/");
                                 }
@@ -102,7 +102,7 @@ const Registration = (props: RouteComponentProps<{}>) => (
                 </Col>
             </Row>
         )}
-    </LoginMutationComponent>
+    </SignUpMutationComponent>
 );
 
 export { Registration };
