@@ -5,9 +5,10 @@ open BLogic.EzAdmin.Domain.Users
 module UserRepository =
     open System.Linq
     open MongoDB.Driver
+    open MongoDB.Bson
 
     let createUser email password = 
-        let user: User = {Email = email; Password = password}
+        let user: User = {UserID = ObjectId.GenerateNewId(); Email = email; Password = password}
         MongoHandler.userCollection().InsertOne(user)
         user
 

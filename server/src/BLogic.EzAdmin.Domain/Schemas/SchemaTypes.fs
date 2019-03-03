@@ -33,6 +33,7 @@ type [<CLIMutable>] PageSchema =
 
 type [<CLIMutable>] AppSchema = 
             {[<BsonId>] AppID : ObjectId;
+            UserID: ObjectId;
             Name: string;
             Connection: string;
             MenuItems: MenuItemSchema list;

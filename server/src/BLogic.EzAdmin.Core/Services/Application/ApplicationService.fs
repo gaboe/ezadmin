@@ -15,6 +15,7 @@ module ApplicationService =
     let saveView (input: AppInput) = 
         let app: AppSchema = { 
                                 AppID = ObjectId.GenerateNewId();
+                                UserID = ObjectId.GenerateNewId();
                                 Name = "";
                                 Connection = "";
                                 MenuItems = [{MenuItemID = ObjectId.GenerateNewId(); Name = input.tableTitle; Rank = 0}];
@@ -26,9 +27,10 @@ module ApplicationService =
 
         app.AppID.ToString()
 
-    let createApplication name connection = 
+    let createApplication name connection userID = 
         let app: AppSchema = { 
                                 AppID = ObjectId.GenerateNewId();
+                                UserID = userID;
                                 Name = name;
                                 Connection = connection;
                                 MenuItems = [];

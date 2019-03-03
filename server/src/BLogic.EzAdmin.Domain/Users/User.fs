@@ -1,3 +1,8 @@
 ﻿namespace BLogic.EzAdmin.Domain.Users
 
-type User = {Email: string; Password: string}
+open MongoDB.Bson
+open MongoDB.Bson.Serialization.Attributes
+
+type [<CLIMutable>]User = {[<BsonId>]UserID: ObjectId;
+                            Email: string;
+                            Password: string}

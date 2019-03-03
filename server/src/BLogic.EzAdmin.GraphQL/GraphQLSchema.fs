@@ -14,6 +14,7 @@ module GraphQLSchema =
     open FSharp.Data.GraphQL
     open FSharp.Data.GraphQL.Types
     open FSharp.Data.GraphQL.Server.Middlewares
+    open MongoDB.Bson
 
     let schemaConfig = SchemaConfig.Default
     
@@ -91,11 +92,14 @@ module GraphQLSchema =
                     CreateApplicationResult,
                     "",
                     [ Define.Input("name", String); Define.Input("connection", String) ],
-                     fun ctx _ ->
+                     fun ctx root ->
                                 let name = ctx.Arg("name") 
                                 let connection = ctx.Arg("connection") 
-                                ApplicationService.createApplication name connection |> ignore
-                                { Message = "OK" }
+                                let userID = TokenService.getUserID root.Token |> Option.bind (fun e -> ObjectId.Parse e |> Some)
+                                match userID with 
+                                    | Some userID -> ApplicationService.createApplication name connection userID |> ignore
+                                                     { Message = "OK" }
+                                    | None -> {Message = ""}
                     );                
     ]
     )
