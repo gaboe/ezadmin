@@ -1,5 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { ApplicationCreate } from '../Applications/ApplicationCreate';
+import { Applications } from '../Applications/Applications';
 import { AuthorizedComponent } from '../Auth/AuthorizedComponent';
 import { DatabaseExplorer } from './../DbExplorer/DatabaseExplorer';
 import { Designer } from '../Designer/Designer';
@@ -16,6 +18,13 @@ const Routes = () => {
   return (
     <>
       <ContenWrapper>
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Registration} />
+
+        <Route exact={true} path="/apps" component={Applications} />
+        <Route exact={true} path="/addapplication" component={ApplicationCreate} />
+
+        <Route exact={true} path="/app/:id?" component={GeneratedApp} />
         <AuthorizedComponent
           exact={true}
           path="/"
@@ -27,9 +36,8 @@ const Routes = () => {
           component={DatabaseExplorer}
         />
         <Route path="/table/:schema/:name/:cid?" component={Designer} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Registration} />
-        <Route exact={true} path="/app/:id?" component={GeneratedApp} />
+
+
       </ContenWrapper>
     </>
   );

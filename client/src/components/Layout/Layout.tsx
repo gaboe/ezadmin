@@ -41,6 +41,12 @@ class Layout extends React.Component {
                 Generated App
               </Link>
             </Menu.Item>
+            <Menu.Item name="apps">
+              <Link to="/apps">
+                <Icon name="list" />
+                User applications
+              </Link>
+            </Menu.Item>
             <Menu.Item position="right" name="app">
               <Logout />
             </Menu.Item>
