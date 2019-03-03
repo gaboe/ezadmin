@@ -146,6 +146,7 @@ module QueryGraphQLTypes =
             fieldsFn = fun () ->
             [
                 Define.Field("table", TableType, "Table on page", fun _ (x: Page) -> x.Table)
+                Define.Field("name", String, "Name", fun _ (x: Page) -> x.Name)
             ]
         )
     and MenuItemType = 

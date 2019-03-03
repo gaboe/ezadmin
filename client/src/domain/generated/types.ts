@@ -300,6 +300,10 @@ export interface AppPreviewQuery_appPreview_pages_table {
 export interface AppPreviewQuery_appPreview_pages {
   __typename: "Page";
   /**
+   * Name
+   */
+  name: string;
+  /**
    * Table on page
    */
   table: AppPreviewQuery_appPreview_pages_table;
@@ -387,6 +391,10 @@ export interface GeneratedAppQuery_app_pages_table {
 
 export interface GeneratedAppQuery_app_pages {
   __typename: "Page";
+  /**
+   * Name
+   */
+  name: string;
   /**
    * Table on page
    */

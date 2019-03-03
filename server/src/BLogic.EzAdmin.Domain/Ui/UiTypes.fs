@@ -10,6 +10,6 @@ type [<CLIMutable>] Header = {Name: string; Alias: string;}
 
 type [<CLIMutable>] Table = {Rows: Row list; Headers: Header list}
 
-type [<CLIMutable>] Page = {Table: Table}
+type [<CLIMutable>] Page = {Table: Table; Name: string}
 
 type [<CLIMutable>] App = {Pages: Page list; MenuItems: MenuItem list}

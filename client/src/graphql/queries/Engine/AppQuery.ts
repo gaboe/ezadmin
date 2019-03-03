@@ -10,6 +10,7 @@ query GeneratedAppQuery($id: String!) {
         rank
       }
       pages {
+        name
         table {
           headers {
             alias

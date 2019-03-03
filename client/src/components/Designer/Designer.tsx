@@ -18,7 +18,7 @@ type State = {
 class Designer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { activeColumns: [], tableTitle: "" };
+    this.state = { activeColumns: [], tableTitle: props.match.params.name };
   }
   public render() {
     const { name, schema } = this.props.match.params;

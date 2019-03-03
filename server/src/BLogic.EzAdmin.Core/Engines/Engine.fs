@@ -5,10 +5,11 @@ module Engine =
     open BLogic.EzAdmin.Data.Engines
     open BLogic.EzAdmin.Domain.GraphQL
     open BLogic.EzAdmin.Domain.SchemaTypes
+    open MongoDB.Bson
 
-    let getApp (table:TableSchema) = 
+    let getApp (page: PageSchema) = 
         let isInAllowedColumns (column: Column) =
-            table.Columns 
+            page.Table.Columns 
                 |> Seq.filter (fun e -> e.IsHidden |> not) 
                 |> Seq.exists (fun e -> e.ColumnName = column.Name)
 
@@ -18,14 +19,14 @@ module Engine =
                             |> Seq.toList
             { Key = row.Key; Columns = columns }
 
-        let description = table |> DescriptionConverter.convertToDescription
+        let description = page.Table |> DescriptionConverter.convertToDescription
         
         let rows = description      
                     |> EngineRepository.getDynamicQueryResults
                     |> Seq.map hideColumns
                     |> Seq.toList
 
-        let menuItems = [{Name = table.TableName; Rank = 0}]
+        let menuItems = [{Name = page.Name; Rank = 0}]
 
         let shownHeaders = [description.MainTable] @ description.JoinedTables
                             |> Seq.collect (fun e -> e.Columns)
@@ -33,7 +34,7 @@ module Engine =
                             |> Seq.map (fun e -> { Alias = e.ColumnAlias; Name = e.Column.ColumnName })
                             |> Seq.toList
 
-        let pages = [{Table = {Rows = rows; Headers = shownHeaders }}]
+        let pages = [{Name = page.Name; Table = {Rows = rows; Headers = shownHeaders }}]
 
         let preview = {MenuItems = menuItems; Pages = pages}
         preview
@@ -41,6 +42,6 @@ module Engine =
     let getAppPreview (input: AppInput) =
 
         let table = input |> AppInputTransformer.tranformToSchema 
-        getApp table
+        getApp {PageID = ObjectId.GenerateNewId(); Table = table; Name = input.tableTitle}
                            
 

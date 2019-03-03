@@ -1,9 +1,9 @@
 ﻿namespace BLogic.EzAdmin.Core.Engines
 open BLogic.EzAdmin.Domain.GraphQL
 open BLogic.EzAdmin.Domain.SchemaTypes
+open MongoDB.Bson
 
 module AppInputTransformer = 
-    open MongoDB.Bson
 
     let isForeignKey (col: ColumnInput) (reference: ColumnInput option) = 
         let isFromSameTable (r:ColumnInput) = col.schemaName = r.schemaName && col.tableName = r.tableName
@@ -11,7 +11,7 @@ module AppInputTransformer =
             | Some r -> isFromSameTable r
             | None -> true
 
-    let tranformToSchema input : TableSchema= 
+    let tranformToSchema input: TableSchema = 
         let getKeyType (col: ColumnInput) =
             let isFromPrimary = col.schemaName = input.schemaName && col.tableName = input.tableName
             match isFromPrimary with 

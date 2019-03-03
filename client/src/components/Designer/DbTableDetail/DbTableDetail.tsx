@@ -68,7 +68,7 @@ class DbTableDetail extends React.Component<Props> {
                 </Link>
                 <br />
                 <br />
-                <NameInput onChange={this.props.onNameChange} />
+                <NameInput value={this.props.tableTitle} onChange={this.props.onNameChange} />
                 {this.props.activeColumns.length > 0 &&
                   this.props.tableTitle.length > 0 && (
                     <>

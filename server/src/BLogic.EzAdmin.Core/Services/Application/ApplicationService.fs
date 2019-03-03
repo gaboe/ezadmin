@@ -10,8 +10,7 @@ module ApplicationService =
 
     let getApp id: App= 
         let app = SchemaTypesRepository.getByID id
-        let table = app.Pages.Head.Table
-        Engine.getApp table
+        Engine.getApp app.Pages.Head
 
     let saveView (input: AppInput) = 
         let app: AppSchema = { 
@@ -19,8 +18,8 @@ module ApplicationService =
                                 MenuItems = [{MenuItemID = ObjectId.GenerateNewId(); Name = input.tableTitle; Rank = 0}];
                                 Pages = [
                                     { PageID = ObjectId.GenerateNewId();
-                                    Name = input.tableTitle;
-                                    Table = AppInputTransformer.tranformToSchema input }]}
+                                      Name = input.tableTitle;
+                                      Table = AppInputTransformer.tranformToSchema input }]}
                                 |> SchemaTypesRepository.createApp
 
         app.AppID.ToString()

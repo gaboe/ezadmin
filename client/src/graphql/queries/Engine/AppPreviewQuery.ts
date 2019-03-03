@@ -10,6 +10,7 @@ const APP_PREVIEW_QUERY = gql`
         rank
       }
       pages {
+        name
         table {
           headers {
             alias
