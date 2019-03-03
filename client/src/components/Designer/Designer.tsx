@@ -1,17 +1,14 @@
 import * as R from 'ramda';
 import * as React from 'react';
 import { AppPreview } from '../Engine/AppPreview';
+import { Col, Row } from 'react-grid-system';
+import { DbTableDetail } from './DbTableDetail/DbTableDetail';
+import { RouteComponentProps } from 'react-router-dom';
+import { SAVE_VIEW_MUTATION, SaveViewMutationComponent } from 'src/graphql/mutations/Engine/SaveView';
 import {
   AppPreviewQueryVariables,
   ColumnInput,
-  SaveView,
-  SaveViewVariables
-  } from 'src/domain/generated/types';
-import { Col, Row } from 'react-grid-system';
-import { DbTableDetail } from './DbTableDetail/DbTableDetail';
-import { Mutation, MutationFn } from 'react-apollo';
-import { RouteComponentProps } from 'react-router-dom';
-import { SAVE_VIEW_MUTATION } from 'src/graphql/mutations/Engine/SaveView';
+} from 'src/domain/generated/types';
 
 type Props = RouteComponentProps<{ name: string; schema: string }>;
 type State = {
@@ -30,8 +27,8 @@ class Designer extends React.Component<Props, State> {
       <>
         <Row>
           <Col md={6} lg={3}>
-            <Mutation mutation={SAVE_VIEW_MUTATION}>
-              {(save: MutationFn<SaveView, SaveViewVariables>) => (
+            <SaveViewMutationComponent mutation={SAVE_VIEW_MUTATION}>
+              {save => (
                 <DbTableDetail
                   variables={{ schemaName: schema, tableName: name }}
                   onCheckboxClick={this.toggleColumn}
@@ -56,7 +53,7 @@ class Designer extends React.Component<Props, State> {
                   }}
                 />
               )}
-            </Mutation>
+            </SaveViewMutationComponent>
           </Col>
           {this.state.activeColumns.length > 0 && (
             <Col md={6} lg={9}>

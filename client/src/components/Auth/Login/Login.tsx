@@ -1,16 +1,11 @@
-import * as React from "react";
+import * as React from 'react';
+import * as yup from 'yup';
+import { Button, Form } from 'semantic-ui-react';
+import { Col, Row } from 'react-grid-system';
+import { Formik, FormikProps } from 'formik';
+import { LOGIN_MUTATION, LoginMutationComponent } from 'src/graphql/mutations/Auth/LoginMutation';
+import { RouteComponentProps } from 'react-router-dom';
 
-import { Formik, FormikProps } from "formik";
-import { Mutation, MutationFn } from "react-apollo";
-import { Col, Row } from "react-grid-system";
-import { RouteComponentProps } from "react-router-dom";
-import { Button, Form } from "semantic-ui-react";
-import {
-  Login as LoginMutation,
-  LoginVariables
-} from "src/domain/generated/types";
-import { LOGIN_MUTATION } from "src/graphql/mutations/Auth/LoginMutation";
-import * as yup from "yup";
 
 type UserLogin = { email: string; password: string };
 const initialUser: UserLogin = { email: "", password: "" };
@@ -52,8 +47,8 @@ const LoginForm = (props: FormikProps<UserLogin>) => {
 };
 
 const Login = (props: RouteComponentProps<{}>) => (
-  <Mutation mutation={LOGIN_MUTATION}>
-    {(login: MutationFn<LoginMutation, LoginVariables>) => (
+  <LoginMutationComponent mutation={LOGIN_MUTATION}>
+    {login => (
       <Row>
         <Col offset={{ lg: 4 }} lg={4}>
           <Formik
@@ -88,7 +83,7 @@ const Login = (props: RouteComponentProps<{}>) => (
         </Col>
       </Row>
     )}
-  </Mutation>
+  </LoginMutationComponent>
 );
 
 export { Login };

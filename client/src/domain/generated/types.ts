@@ -3,10 +3,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: Login
+// GraphQL mutation operation: LoginMutation
 // ====================================================
 
-export interface Login_login {
+export interface LoginMutation_login {
   __typename: "LoginResult";
   /**
    * Token
@@ -14,14 +14,14 @@ export interface Login_login {
   token: string | null;
 }
 
-export interface Login {
+export interface LoginMutation {
   /**
    * If succesfull returns token
    */
-  login: Login_login;
+  login: LoginMutation_login;
 }
 
-export interface LoginVariables {
+export interface LoginMutationVariables {
   email: string;
   password: string;
 }
@@ -31,10 +31,10 @@ export interface LoginVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: SaveView
+// GraphQL mutation operation: SaveViewMutation
 // ====================================================
 
-export interface SaveView_saveView {
+export interface SaveViewMutation_saveView {
   __typename: "SaveViewResult";
   /**
    * Cid
@@ -42,14 +42,14 @@ export interface SaveView_saveView {
   cid: string;
 }
 
-export interface SaveView {
+export interface SaveViewMutation {
   /**
    * Saves designed view
    */
-  saveView: SaveView_saveView;
+  saveView: SaveViewMutation_saveView;
 }
 
-export interface SaveViewVariables {
+export interface SaveViewMutationVariables {
   input: AppInput;
 }
 
