@@ -1,12 +1,9 @@
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
-import {
-  GetDbTableDetail,
-  GetDbTableDetailVariables
-} from "../../../domain/generated/types";
+import gql from 'graphql-tag';
+import { DbTableDetailQuery, DbTableDetailQueryVariables } from '../../../domain/generated/types';
+import { Query } from 'react-apollo';
 
 const DB_TABLE_DETAIL_QUERY = gql`
-  query GetDbTableDetail($schemaName: String!, $tableName: String!) {
+  query DbTableDetailQuery($schemaName: String!, $tableName: String!) {
     table(schemaName: $schemaName, tableName: $tableName) {
       tableName
       schemaName
@@ -39,8 +36,8 @@ const DB_TABLE_DETAIL_QUERY = gql`
   }
 `;
 class DbTablesDetailQueryComponent extends Query<
-  GetDbTableDetail,
-  GetDbTableDetailVariables
-> {}
+  DbTableDetailQuery,
+  DbTableDetailQueryVariables
+  > { }
 
 export { DB_TABLE_DETAIL_QUERY, DbTablesDetailQueryComponent };

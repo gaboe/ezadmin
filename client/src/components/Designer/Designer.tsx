@@ -1,17 +1,17 @@
-import * as R from "ramda";
-import * as React from "react";
-import { Mutation, MutationFn } from "react-apollo";
-import { Col, Row } from "react-grid-system";
-import { RouteComponentProps } from "react-router-dom";
+import * as R from 'ramda';
+import * as React from 'react';
+import { AppPreview } from '../Engine/AppPreview';
 import {
-  AppPreviewVariables,
+  AppPreviewQueryVariables,
   ColumnInput,
   SaveView,
   SaveViewVariables
-} from "src/domain/generated/types";
-import { SAVE_VIEW_MUTATION } from "src/graphql/mutations/Engine/SaveView";
-import { AppPreview } from "../Engine/AppPreview";
-import { DbTableDetail } from "./DbTableDetail/DbTableDetail";
+  } from 'src/domain/generated/types';
+import { Col, Row } from 'react-grid-system';
+import { DbTableDetail } from './DbTableDetail/DbTableDetail';
+import { Mutation, MutationFn } from 'react-apollo';
+import { RouteComponentProps } from 'react-router-dom';
+import { SAVE_VIEW_MUTATION } from 'src/graphql/mutations/Engine/SaveView';
 
 type Props = RouteComponentProps<{ name: string; schema: string }>;
 type State = {
@@ -40,7 +40,7 @@ class Designer extends React.Component<Props, State> {
                   activeColumns={this.state.activeColumns}
                   tableTitle={this.state.tableTitle}
                   onSaveViewClick={() => {
-                    const variables: AppPreviewVariables = {
+                    const variables: AppPreviewQueryVariables = {
                       input: {
                         tableTitle: this.state.tableTitle,
                         schemaName: schema,

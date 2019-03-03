@@ -1,9 +1,6 @@
-import * as React from "react";
-import { Header, List } from "semantic-ui-react";
-import {
-  DB_SCHEMAS_QUERY,
-  DbSchemasQueryComponent
-} from "../../graphql/queries/DbExplorer/SchemasQuery";
+import * as React from 'react';
+import { DB_SCHEMAS_QUERY, DbSchemasQueryComponent } from '../../graphql/queries/DbExplorer/SchemasQuery';
+import { Header, List } from 'semantic-ui-react';
 
 type Props = {
   onSchemaClick: (schemaName: string) => void;

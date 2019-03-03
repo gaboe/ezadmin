@@ -6,7 +6,7 @@ import {
   Header,
   List
   } from 'semantic-ui-react';
-import { ColumnInput, GetDbTableDetailVariables } from '../../../domain/generated/types';
+import { ColumnInput, DbTableDetailQueryVariables } from '../../../domain/generated/types';
 import { DB_TABLE_DETAIL_QUERY, DbTablesDetailQueryComponent } from '../../../graphql/queries/DbExplorer/TableDetail';
 import { DbReferenceDirection } from '../../../domain/Designer/DesignerTypes';
 import { DbReferences } from './References/DbReferences';
@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import { NameInput } from './NameInput';
 
 type Props = {
-  variables: GetDbTableDetailVariables;
+  variables: DbTableDetailQueryVariables;
   isTableNameShown: boolean;
   onCheckboxClick: (column: ColumnInput) => void;
   onNameChange: (name: string) => void;

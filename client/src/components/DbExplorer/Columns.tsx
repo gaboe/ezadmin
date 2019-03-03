@@ -1,11 +1,8 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { Button, Header, List } from "semantic-ui-react";
-import { GetDbColumnsByTableNameVariables } from "../../domain/generated/types";
-import {
-  ColumsByTableQueryComponent,
-  DB_COLUMNS_BY_TABLE_QUERY
-} from "./../../graphql/queries/DbExplorer/ColumnsByTableQuery";
+import * as React from 'react';
+import { Button, Header, List } from 'semantic-ui-react';
+import { ColumsByTableQueryComponent, DB_COLUMNS_BY_TABLE_QUERY } from './../../graphql/queries/DbExplorer/ColumnsByTableQuery';
+import { DbColumnsByTableNameQueryVariables } from '../../domain/generated/types';
+import { Link } from 'react-router-dom';
 type Props = {
   tableName: string;
   schemaName: string;
@@ -13,7 +10,7 @@ type Props = {
 
 class Columns extends React.Component<Props> {
   public render() {
-    const variables: GetDbColumnsByTableNameVariables = {
+    const variables: DbColumnsByTableNameQueryVariables = {
       tableName: this.props.tableName
     };
     return (

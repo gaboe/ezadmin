@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Header } from "semantic-ui-react";
-import { DbReferenceDirection } from "../../../../../domain/Designer/DesignerTypes";
-import { GetDbTableDetail_table_referencesToTable } from "../../../../../domain/generated/types";
+import * as React from 'react';
+import { DbReferenceDirection } from '../../../../../domain/Designer/DesignerTypes';
+import { DbTableDetailQuery_table_referencesToTable } from '../../../../../domain/generated/types';
+import { Header } from 'semantic-ui-react';
 
 type Props = {
-  reference: GetDbTableDetail_table_referencesToTable;
+  reference: DbTableDetailQuery_table_referencesToTable;
   direction: DbReferenceDirection;
 };
 

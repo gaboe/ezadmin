@@ -1,15 +1,12 @@
-import * as React from "react";
-import { Header, List } from "semantic-ui-react";
-import { DbReferenceDirection } from "../../../../domain/Designer/DesignerTypes";
-import {
-  ColumnInput,
-  GetDbTableDetail_table_referencesToTable
-} from "../../../../domain/generated/types";
-import { DbReference } from "./Reference/DbReference";
+import * as React from 'react';
+import { ColumnInput, DbTableDetailQuery_table_referencesToTable } from '../../../../domain/generated/types';
+import { DbReference } from './Reference/DbReference';
+import { DbReferenceDirection } from '../../../../domain/Designer/DesignerTypes';
+import { Header, List } from 'semantic-ui-react';
 
 type Props = {
   title: string;
-  references: GetDbTableDetail_table_referencesToTable[];
+  references: DbTableDetailQuery_table_referencesToTable[];
   direction: DbReferenceDirection;
   onCheckboxClick: (column: ColumnInput) => void;
 };

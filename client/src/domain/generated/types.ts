@@ -58,10 +58,10 @@ export interface SaveViewVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetDbColumnsByTableName
+// GraphQL query operation: DbColumnsByTableNameQuery
 // ====================================================
 
-export interface GetDbColumnsByTableName_columns {
+export interface DbColumnsByTableNameQuery_columns {
   __typename: "SqlColumn";
   /**
    * Column name
@@ -82,14 +82,14 @@ export interface GetDbColumnsByTableName_columns {
   isPrimaryKey: boolean;
 }
 
-export interface GetDbColumnsByTableName {
+export interface DbColumnsByTableNameQuery {
   /**
    * Get table columns by table name
    */
-  columns: GetDbColumnsByTableName_columns[];
+  columns: DbColumnsByTableNameQuery_columns[];
 }
 
-export interface GetDbColumnsByTableNameVariables {
+export interface DbColumnsByTableNameQueryVariables {
   tableName: string;
 }
 
@@ -98,10 +98,10 @@ export interface GetDbColumnsByTableNameVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetDbSchemas
+// GraphQL query operation: DbSchemasQuery
 // ====================================================
 
-export interface GetDbSchemas_schemas {
+export interface DbSchemasQuery_schemas {
   __typename: "SqlSchema";
   /**
    * Schema name
@@ -109,11 +109,11 @@ export interface GetDbSchemas_schemas {
   schemaName: string;
 }
 
-export interface GetDbSchemas {
+export interface DbSchemasQuery {
   /**
    * Get db schemas
    */
-  schemas: GetDbSchemas_schemas[];
+  schemas: DbSchemasQuery_schemas[];
 }
 
 /* tslint:disable */
@@ -121,10 +121,10 @@ export interface GetDbSchemas {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetDbTablesBySchema
+// GraphQL query operation: DbTablesBySchemaQuery
 // ====================================================
 
-export interface GetDbTablesBySchema_tables {
+export interface DbTablesBySchemaQuery_tables {
   __typename: "SqlTable";
   /**
    * Table name
@@ -136,14 +136,14 @@ export interface GetDbTablesBySchema_tables {
   schemaName: string;
 }
 
-export interface GetDbTablesBySchema {
+export interface DbTablesBySchemaQuery {
   /**
    * Get db tables by schema name
    */
-  tables: GetDbTablesBySchema_tables[];
+  tables: DbTablesBySchemaQuery_tables[];
 }
 
-export interface GetDbTablesBySchemaVariables {
+export interface DbTablesBySchemaQueryVariables {
   schemaName: string;
 }
 
@@ -152,10 +152,10 @@ export interface GetDbTablesBySchemaVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetDbTableDetail
+// GraphQL query operation: DbTableDetailQuery
 // ====================================================
 
-export interface GetDbTableDetail_table_columns {
+export interface DbTableDetailQuery_table_columns {
   __typename: "SqlColumn";
   /**
    * Schema name
@@ -176,7 +176,7 @@ export interface GetDbTableDetail_table_columns {
   isPrimaryKey: boolean;
 }
 
-export interface GetDbTableDetail_table_referencesFromTable {
+export interface DbTableDetailQuery_table_referencesFromTable {
   __typename: "SqlReference";
   /**
    * Name of reference
@@ -190,7 +190,7 @@ export interface GetDbTableDetail_table_referencesFromTable {
   toColumn: string;
 }
 
-export interface GetDbTableDetail_table_referencesToTable {
+export interface DbTableDetailQuery_table_referencesToTable {
   __typename: "SqlReference";
   /**
    * Name of reference
@@ -204,7 +204,7 @@ export interface GetDbTableDetail_table_referencesToTable {
   toColumn: string;
 }
 
-export interface GetDbTableDetail_table {
+export interface DbTableDetailQuery_table {
   __typename: "SqlTable";
   /**
    * Table name
@@ -217,25 +217,25 @@ export interface GetDbTableDetail_table {
   /**
    * Columns of table
    */
-  columns: GetDbTableDetail_table_columns[];
+  columns: DbTableDetailQuery_table_columns[];
   /**
    * Column references from this table to other tables
    */
-  referencesFromTable: GetDbTableDetail_table_referencesFromTable[];
+  referencesFromTable: DbTableDetailQuery_table_referencesFromTable[];
   /**
    * Column references to this table
    */
-  referencesToTable: GetDbTableDetail_table_referencesToTable[];
+  referencesToTable: DbTableDetailQuery_table_referencesToTable[];
 }
 
-export interface GetDbTableDetail {
+export interface DbTableDetailQuery {
   /**
    * Get db table by table name
    */
-  table: GetDbTableDetail_table | null;
+  table: DbTableDetailQuery_table | null;
 }
 
-export interface GetDbTableDetailVariables {
+export interface DbTableDetailQueryVariables {
   schemaName: string;
   tableName: string;
 }
@@ -245,10 +245,10 @@ export interface GetDbTableDetailVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: AppPreview
+// GraphQL query operation: AppPreviewQuery
 // ====================================================
 
-export interface AppPreview_appPreview_menuItems {
+export interface AppPreviewQuery_appPreview_menuItems {
   __typename: "MenuItem";
   /**
    * Table on page
@@ -260,71 +260,71 @@ export interface AppPreview_appPreview_menuItems {
   rank: number;
 }
 
-export interface AppPreview_appPreview_pages_table_headers {
+export interface AppPreviewQuery_appPreview_pages_table_headers {
   __typename: "Header";
   alias: string;
   name: string;
 }
 
-export interface AppPreview_appPreview_pages_table_rows_columns {
+export interface AppPreviewQuery_appPreview_pages_table_rows_columns {
   __typename: "Column";
   columnAlias: string;
   name: string;
   value: string;
 }
 
-export interface AppPreview_appPreview_pages_table_rows {
+export interface AppPreviewQuery_appPreview_pages_table_rows {
   __typename: "Row";
   /**
    * Multiple properties of record
    */
-  columns: AppPreview_appPreview_pages_table_rows_columns[];
+  columns: AppPreviewQuery_appPreview_pages_table_rows_columns[];
   /**
    * Represents unique key of row
    */
   key: string;
 }
 
-export interface AppPreview_appPreview_pages_table {
+export interface AppPreviewQuery_appPreview_pages_table {
   __typename: "Table";
   /**
    * Headers
    */
-  headers: AppPreview_appPreview_pages_table_headers[];
+  headers: AppPreviewQuery_appPreview_pages_table_headers[];
   /**
    * Rows in talbe
    */
-  rows: AppPreview_appPreview_pages_table_rows[];
+  rows: AppPreviewQuery_appPreview_pages_table_rows[];
 }
 
-export interface AppPreview_appPreview_pages {
+export interface AppPreviewQuery_appPreview_pages {
   __typename: "Page";
   /**
    * Table on page
    */
-  table: AppPreview_appPreview_pages_table;
+  table: AppPreviewQuery_appPreview_pages_table;
 }
 
-export interface AppPreview_appPreview {
+export interface AppPreviewQuery_appPreview {
   __typename: "App";
   /**
    * Menu items
    */
-  menuItems: AppPreview_appPreview_menuItems[];
+  menuItems: AppPreviewQuery_appPreview_menuItems[];
   /**
    * Pages in app
    */
-  pages: AppPreview_appPreview_pages[];
+  pages: AppPreviewQuery_appPreview_pages[];
 }
 
-export interface AppPreview {
+export interface AppPreviewQuery {
   /**
    * Return preview of app
    */
-  appPreview: AppPreview_appPreview;
+  appPreview: AppPreviewQuery_appPreview;
 }
 
-export interface AppPreviewVariables {
+export interface AppPreviewQueryVariables {
   input: AppInput;
 }
 
@@ -333,10 +333,10 @@ export interface AppPreviewVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: App
+// GraphQL query operation: GeneratedAppQuery
 // ====================================================
 
-export interface App_app_menuItems {
+export interface GeneratedAppQuery_app_menuItems {
   __typename: "MenuItem";
   /**
    * Table on page
@@ -348,71 +348,71 @@ export interface App_app_menuItems {
   rank: number;
 }
 
-export interface App_app_pages_table_headers {
+export interface GeneratedAppQuery_app_pages_table_headers {
   __typename: "Header";
   alias: string;
   name: string;
 }
 
-export interface App_app_pages_table_rows_columns {
+export interface GeneratedAppQuery_app_pages_table_rows_columns {
   __typename: "Column";
   columnAlias: string;
   name: string;
   value: string;
 }
 
-export interface App_app_pages_table_rows {
+export interface GeneratedAppQuery_app_pages_table_rows {
   __typename: "Row";
   /**
    * Multiple properties of record
    */
-  columns: App_app_pages_table_rows_columns[];
+  columns: GeneratedAppQuery_app_pages_table_rows_columns[];
   /**
    * Represents unique key of row
    */
   key: string;
 }
 
-export interface App_app_pages_table {
+export interface GeneratedAppQuery_app_pages_table {
   __typename: "Table";
   /**
    * Headers
    */
-  headers: App_app_pages_table_headers[];
+  headers: GeneratedAppQuery_app_pages_table_headers[];
   /**
    * Rows in talbe
    */
-  rows: App_app_pages_table_rows[];
+  rows: GeneratedAppQuery_app_pages_table_rows[];
 }
 
-export interface App_app_pages {
+export interface GeneratedAppQuery_app_pages {
   __typename: "Page";
   /**
    * Table on page
    */
-  table: App_app_pages_table;
+  table: GeneratedAppQuery_app_pages_table;
 }
 
-export interface App_app {
+export interface GeneratedAppQuery_app {
   __typename: "App";
   /**
    * Menu items
    */
-  menuItems: App_app_menuItems[];
+  menuItems: GeneratedAppQuery_app_menuItems[];
   /**
    * Pages in app
    */
-  pages: App_app_pages[];
+  pages: GeneratedAppQuery_app_pages[];
 }
 
-export interface App {
+export interface GeneratedAppQuery {
   /**
    * Returns application
    */
-  app: App_app;
+  app: GeneratedAppQuery_app;
 }
 
-export interface AppVariables {
+export interface GeneratedAppQueryVariables {
   id: string;
 }
 

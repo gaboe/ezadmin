@@ -1,8 +1,9 @@
 import gql from 'graphql-tag';
-import { App, AppVariables } from 'src/domain/generated/types';
+import { GeneratedAppQuery, GeneratedAppQueryVariables } from 'src/domain/generated/types';
 import { Query } from 'react-apollo';
-const APP_QUERY = gql`
-query App($id: String!) {
+
+const GENERATED_APP_QUERY = gql`
+query GeneratedAppQuery($id: String!) {
     app(id: $id) {
       menuItems {
         name
@@ -28,6 +29,6 @@ query App($id: String!) {
   }
 `;
 
-class AppComponent extends Query<App, AppVariables> { }
+class GeneratedAppQueryComponent extends Query<GeneratedAppQuery, GeneratedAppQueryVariables> { }
 
-export { APP_QUERY, AppComponent };
+export { GENERATED_APP_QUERY, GeneratedAppQueryComponent };

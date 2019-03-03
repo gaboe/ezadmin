@@ -1,11 +1,11 @@
-import * as React from "react";
-import { Segment, Sidebar } from "semantic-ui-react";
-import { AppPreview_appPreview } from "src/domain/generated/types";
-import styled from "styled-components";
-import { MenuItems } from "../MenuItems";
-import { Page } from "../Page/Page";
+import * as React from 'react';
+import styled from 'styled-components';
+import { AppPreviewQuery_appPreview } from 'src/domain/generated/types';
+import { MenuItems } from '../MenuItems';
+import { Page } from '../Page/Page';
+import { Segment, Sidebar } from 'semantic-ui-react';
 
-type Props = { preview: AppPreview_appPreview };
+type Props = { preview: AppPreviewQuery_appPreview };
 const Pushable = styled.div`
   min-height: calc(85vh);
 `;

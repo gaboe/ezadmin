@@ -1,20 +1,14 @@
-import { any } from "ramda";
-import * as React from "react";
-import { Checkbox, Header, List } from "semantic-ui-react";
-import { DbReferenceDirection } from "../../../domain/Designer/DesignerTypes";
-import {
-  ColumnInput,
-  GetDbTableDetailVariables
-} from "../../../domain/generated/types";
-import {
-  DB_TABLE_DETAIL_QUERY,
-  DbTablesDetailQueryComponent
-} from "../../../graphql/queries/DbExplorer/TableDetail";
-import { ActiveColumnsContext } from "./DbTableDetail";
-import { DbReferences } from "./References/DbReferences";
+import * as React from 'react';
+import { ActiveColumnsContext } from './DbTableDetail';
+import { any } from 'ramda';
+import { Checkbox, Header, List } from 'semantic-ui-react';
+import { ColumnInput, DbTableDetailQueryVariables } from '../../../domain/generated/types';
+import { DB_TABLE_DETAIL_QUERY, DbTablesDetailQueryComponent } from '../../../graphql/queries/DbExplorer/TableDetail';
+import { DbReferenceDirection } from '../../../domain/Designer/DesignerTypes';
+import { DbReferences } from './References/DbReferences';
 
 type Props = {
-  variables: GetDbTableDetailVariables;
+  variables: DbTableDetailQueryVariables;
   isTableNameShown: boolean;
   onCheckboxClick: (column: ColumnInput, primaryColumn: ColumnInput) => void;
   parentReference: ColumnInput;
@@ -88,7 +82,7 @@ class DbReferencedTableDetail extends React.Component<Props> {
                                 />
                                 {` [${
                                   x.columnName
-                                }]: ${x.dataType.toLowerCase()}`}
+                                  }]: ${x.dataType.toLowerCase()}`}
                               </List.Item>
                             );
                           })}

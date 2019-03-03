@@ -1,10 +1,7 @@
-import * as React from "react";
-import { AppPreviewVariables, ColumnInput } from "src/domain/generated/types";
-import {
-  APP_PREVIEW_QUERY,
-  AppPreviewComponent
-} from "src/graphql/queries/Engine/AppPreviewQuery";
-import { Layout } from "./Layout/Layout";
+import * as React from 'react';
+import { APP_PREVIEW_QUERY, AppPreviewQueryComponent } from 'src/graphql/queries/Engine/AppPreviewQuery';
+import { AppPreviewQueryVariables, ColumnInput } from 'src/domain/generated/types';
+import { Layout } from './Layout/Layout';
 type Props = {
   tableTitle: string;
   tableName: string;
@@ -13,7 +10,7 @@ type Props = {
 };
 
 const AppPreview: React.SFC<Props> = props => {
-  const variables: AppPreviewVariables = {
+  const variables: AppPreviewQueryVariables = {
     input: {
       tableTitle: props.tableTitle,
       schemaName: props.schemaName,
@@ -23,7 +20,7 @@ const AppPreview: React.SFC<Props> = props => {
   };
   return (
     <>
-      <AppPreviewComponent query={APP_PREVIEW_QUERY} variables={variables}>
+      <AppPreviewQueryComponent query={APP_PREVIEW_QUERY} variables={variables}>
         {response => {
           if (response.loading || !response.data) {
             return <>Loading...</>;
@@ -34,7 +31,7 @@ const AppPreview: React.SFC<Props> = props => {
             </>
           );
         }}
-      </AppPreviewComponent>
+      </AppPreviewQueryComponent>
     </>
   );
 };

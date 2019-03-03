@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
-import { AppPreview, AppPreviewVariables } from 'src/domain/generated/types';
+import { AppPreviewQuery, AppPreviewQueryVariables } from 'src/domain/generated/types';
 import { Query } from 'react-apollo';
 
 const APP_PREVIEW_QUERY = gql`
-  query AppPreview($input: AppInput!) {
+  query AppPreviewQuery($input: AppInput!) {
     appPreview(input: $input) {
       menuItems {
         name
@@ -28,5 +28,5 @@ const APP_PREVIEW_QUERY = gql`
     }
   }
 `;
-class AppPreviewComponent extends Query<AppPreview, AppPreviewVariables> { }
-export { APP_PREVIEW_QUERY, AppPreviewComponent };
+class AppPreviewQueryComponent extends Query<AppPreviewQuery, AppPreviewQueryVariables> { }
+export { APP_PREVIEW_QUERY, AppPreviewQueryComponent };

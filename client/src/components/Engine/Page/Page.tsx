@@ -1,8 +1,8 @@
-import * as React from "react";
-import { AppPreview_appPreview_pages } from "src/domain/generated/types";
-import { Table } from "../Tables/Table";
+import * as React from 'react';
+import { AppPreviewQuery_appPreview_pages } from 'src/domain/generated/types';
+import { Table } from '../Tables/Table';
 
-type Props = { page: AppPreview_appPreview_pages };
+type Props = { page: AppPreviewQuery_appPreview_pages };
 const Page: React.SFC<Props> = props => {
   return (
     <>

@@ -1,12 +1,9 @@
-import * as React from "react";
-import { Checkbox, Popup } from "semantic-ui-react";
-import {
-  ColumnInput,
-  GetDbColumnsByTableName_columns
-} from "../../../../domain/generated/types";
+import * as React from 'react';
+import { Checkbox, Popup } from 'semantic-ui-react';
+import { ColumnInput, DbColumnsByTableNameQuery_columns } from '../../../../domain/generated/types';
 
 type Props = {
-  column: GetDbColumnsByTableName_columns;
+  column: DbColumnsByTableNameQuery_columns;
   keyReference: ColumnInput;
   onCheckboxClick: (column: ColumnInput) => void;
 };

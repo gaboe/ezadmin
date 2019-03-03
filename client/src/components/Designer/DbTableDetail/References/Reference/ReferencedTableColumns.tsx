@@ -1,10 +1,7 @@
-import * as React from "react";
-import {
-  ColumnInput,
-  GetDbTableDetailVariables
-} from "src/domain/generated/types";
-import styled from "styled-components";
-import { DbReferencedTableDetail } from "../../DbReferencedTableDetail";
+import * as React from 'react';
+import styled from 'styled-components';
+import { ColumnInput, DbTableDetailQueryVariables } from 'src/domain/generated/types';
+import { DbReferencedTableDetail } from '../../DbReferencedTableDetail';
 
 type Props = {
   schemaName: string;
@@ -24,7 +21,7 @@ const ReferencedTableColumns: React.SFC<Props> = props => {
   if (!props.areColumnsShown) {
     return null;
   }
-  const variables: GetDbTableDetailVariables = {
+  const variables: DbTableDetailQueryVariables = {
     schemaName: props.schemaName,
     tableName: props.tableName
   };

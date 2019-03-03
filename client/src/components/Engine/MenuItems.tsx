@@ -1,8 +1,8 @@
-import * as R from "ramda";
-import * as React from "react";
-import { Menu, Sidebar } from "semantic-ui-react";
-import { AppPreview_appPreview_menuItems as menuItem } from "src/domain/generated/types";
-import { nameof } from "src/utils/Utils";
+import * as R from 'ramda';
+import * as React from 'react';
+import { GeneratedAppQuery_app_menuItems as menuItem } from 'src/domain/generated/types';
+import { Menu, Sidebar } from 'semantic-ui-react';
+import { nameof } from 'src/utils/Utils';
 
 type Props = { menuItems: menuItem[] };
 type MenuItemType = menuItem;
