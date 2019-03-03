@@ -1,7 +1,12 @@
-import * as React from "react";
-import { Link } from "react-router-dom";
-import { Icon, Menu, Segment, Sidebar } from "semantic-ui-react";
-import styled from "styled-components";
+import * as React from 'react';
+import styled from 'styled-components';
+import {
+  Icon,
+  Menu,
+  Segment,
+  Sidebar
+  } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 const Pushable = styled.div`
   min-height: calc(100vh);
@@ -46,4 +51,5 @@ class Layout extends React.Component {
     );
   }
 }
+
 export { Layout };

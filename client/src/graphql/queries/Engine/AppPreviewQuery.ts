@@ -28,5 +28,7 @@ const APP_PREVIEW_QUERY = gql`
     }
   }
 `;
+
 class AppPreviewQueryComponent extends Query<AppPreviewQuery, AppPreviewQueryVariables> { }
+
 export { APP_PREVIEW_QUERY, AppPreviewQueryComponent };

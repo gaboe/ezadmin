@@ -35,6 +35,7 @@ const DB_TABLE_DETAIL_QUERY = gql`
     }
   }
 `;
+
 class DbTablesDetailQueryComponent extends Query<
   DbTableDetailQuery,
   DbTableDetailQueryVariables
