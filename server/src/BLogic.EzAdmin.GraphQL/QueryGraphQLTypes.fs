@@ -15,6 +15,8 @@ module QueryGraphQLTypes =
 
     type SaveViewResult = {Cid: string}
 
+    type CreateApplicationResult = {Message: string}
+
     type SqlColumnDataType = Int | Nvarchar | Unknown
         
     let getSqlColumnDataType sqlDataType = match sqlDataType with 
@@ -189,6 +191,16 @@ module QueryGraphQLTypes =
             fieldsFn = fun () ->
             [
                 Define.Field("cid", String, "Cid", fun _ (x: SaveViewResult) -> x.Cid)
+            ]
+        )
+    and CreateApplicationResult = 
+        Define.Object<CreateApplicationResult>(
+            name = "CreateApplicationResult",
+            description = "",
+            isTypeOf = (fun o -> o :? CreateApplicationResult),
+            fieldsFn = fun () ->
+            [
+                Define.Field("message", String, "", fun _ (x: CreateApplicationResult) -> x.Message)
             ]
         )
 

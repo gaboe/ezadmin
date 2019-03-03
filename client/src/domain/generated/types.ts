@@ -3,6 +3,28 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: CreateApplicationMutation
+// ====================================================
+
+export interface CreateApplicationMutation_createApplication {
+  __typename: "CreateApplicationResult";
+  message: string;
+}
+
+export interface CreateApplicationMutation {
+  createApplication: CreateApplicationMutation_createApplication;
+}
+
+export interface CreateApplicationMutationVariables {
+  name: string;
+  connection: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: LoginMutation
 // ====================================================
 

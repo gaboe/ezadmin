@@ -1,19 +1,19 @@
 ﻿namespace BLogic.EzAdmin.GraphQL
 
 module GraphQLSchema = 
-    open FSharp.Data.GraphQL
-    open FSharp.Data.GraphQL.Types
-    open FSharp.Data.GraphQL.Server.Middlewares
     open BLogic.EzAdmin.Domain.SqlTypes
     open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
     open BLogic.EzAdmin.GraphQL.InputGraphQLTypes
     open BLogic.EzAdmin.GraphQL.QueryGraphQLTypes
-    open DefineExtensions
     open BLogic.EzAdmin.Domain.GraphQL
     open BLogic.EzAdmin.Core.Services.Security.TokenService
     open BLogic.EzAdmin.Core.Services.Application.ApplicationService
     open BLogic.EzAdmin.Core.Services.Application
     open BLogic.EzAdmin.Core.Services.Users
+    open DefineExtensions
+    open FSharp.Data.GraphQL
+    open FSharp.Data.GraphQL.Types
+    open FSharp.Data.GraphQL.Server.Middlewares
 
     let schemaConfig = SchemaConfig.Default
     
@@ -85,8 +85,18 @@ module GraphQLSchema =
                     "Saves designed view",
                      [ Define.Input("input", AppInputType) ],
                      fun ctx _ -> ctx.Arg("input") |> saveView |> (fun cid -> {Cid = cid})
-                        
-                )
+                    );
+                Define.Field(
+                    "createApplication",
+                    CreateApplicationResult,
+                    "",
+                    [ Define.Input("name", String); Define.Input("connection", String) ],
+                     fun ctx _ ->
+                                let name = ctx.Arg("name") 
+                                let connection = ctx.Arg("connection") 
+                                ApplicationService.createApplication name connection |> ignore
+                                { Message = "OK" }
+                    );                
     ]
     )
 
