@@ -3,8 +3,8 @@ import * as yup from 'yup';
 import { Button, Form } from 'semantic-ui-react';
 import { Col, Row } from 'react-grid-system';
 import { Formik, FormikProps } from 'formik';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { LOGIN_MUTATION, LoginMutationComponent } from 'src/graphql/mutations/Auth/LoginMutation';
-import { RouteComponentProps } from 'react-router-dom';
 
 
 type UserLogin = { email: string; password: string };
@@ -38,9 +38,14 @@ const LoginForm = (props: FormikProps<UserLogin>) => {
             placeholder="password"
           />
         </Form.Field>
-        <Button onClick={props.submitForm} type="submit">
+        <Button positive={true} onClick={props.submitForm} type="submit">
           Login
         </Button>
+        <Link to="signup">
+          <Button>
+            Sign Up
+          </Button>
+        </Link>
       </Form>
     </>
   );
