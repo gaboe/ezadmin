@@ -4,6 +4,7 @@ import { Columns } from './Columns';
 import { DB_TABLES_BY_SCHEMA_QUERY, DbTablesBySchemaQueryComponent } from '../../graphql/queries/DbExplorer/TableBySchemaQuery';
 import { DbTablesBySchemaQueryVariables } from '../../domain/generated/types';
 import { Header, List } from 'semantic-ui-react';
+import { Pointer } from '../Shared/Pointer';
 
 type Props = {
   schemaName: string;
@@ -45,7 +46,9 @@ class Tables extends React.Component<Props> {
                             key={x.tableName}
                             onClick={() => this.props.onTableClick(x.tableName)}
                           >
-                            {x.tableName}
+                            <Pointer>
+                              {x.tableName}
+                            </Pointer>
                           </List.Item>
                         );
                       })}

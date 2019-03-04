@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DB_SCHEMAS_QUERY, DbSchemasQueryComponent } from '../../graphql/queries/DbExplorer/SchemasQuery';
 import { Header, List } from 'semantic-ui-react';
+import { Pointer } from '../Shared/Pointer';
 
 type Props = {
   onSchemaClick: (schemaName: string) => void;
@@ -28,7 +29,9 @@ class Schemas extends React.Component<Props> {
                           key={x.schemaName}
                           onClick={() => this.props.onSchemaClick(x.schemaName)}
                         >
-                          {x.schemaName}
+                          <Pointer>
+                            {x.schemaName}
+                          </Pointer>
                         </List.Item>
                       );
                     })}
