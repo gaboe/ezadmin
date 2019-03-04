@@ -47,6 +47,18 @@
             "deprecationReason": null
           },
           {
+            "name": "appID",
+            "description": "Return current applicationID from token",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "appPreview",
             "description": "Return preview of app",
             "args": [
@@ -1194,6 +1206,22 @@
         "description": "",
         "fields": [
           {
+            "name": "appID",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "connection",
             "description": "Connection",
             "args": [],
@@ -1351,6 +1379,37 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "SaveViewResult",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "setAppID",
+            "description": "If succesfull returns token",
+            "args": [
+              {
+                "name": "appID",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              }
+            ],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "LoginResult",
                 "ofType": null
               }
             },

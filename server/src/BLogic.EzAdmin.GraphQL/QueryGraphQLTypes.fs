@@ -180,6 +180,7 @@ module QueryGraphQLTypes =
             isTypeOf = (fun o -> o :? UserApp),
             fieldsFn = fun () ->
             [
+                Define.Field("appID", String, "", fun _ (x: UserApp) -> x.AppID)
                 Define.Field("name", String, "Name of app", fun _ (x: UserApp) -> x.Name)
                 Define.Field("connection", String, "Connection", fun _ (x: UserApp) -> x.Connection)
             ]

@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { APPID_QUERY, AppIDQueryComponent } from 'src/graphql/queries/Auth/AppIDQuery';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { SET_APPID_MUTATION, SetAppIDMutationComponent } from 'src/graphql/mutations/Auth/SetAppIDMutation';
 import { USER_APPLICATIONS_QUERY, UserApplicationsQueryComponent } from 'src/graphql/queries/UserApplications/UserApplicationsQuery';
 
 const Applications: React.FunctionComponent = _ => {
@@ -21,36 +23,56 @@ const Applications: React.FunctionComponent = _ => {
             </Table.Header>
 
             <Table.Body>
-                <UserApplicationsQueryComponent query={USER_APPLICATIONS_QUERY}>
+                <AppIDQueryComponent query={APPID_QUERY}>
                     {
-                        response => {
-                            if (!response.loading && response.data) {
-                                return response.data.userApplications.map((e, i) => {
-                                    return (
-                                        <Table.Row key={i}>
-                                            <Table.Cell>{e.name}</Table.Cell>
-                                            <Table.Cell>{e.connection}</Table.Cell>
-                                            <Table.Cell><Button>Use</Button></Table.Cell>
+                        appIDData =>
+                            <SetAppIDMutationComponent mutation={SET_APPID_MUTATION}>
+                                {
+                                    setAppID =>
+                                        <UserApplicationsQueryComponent query={USER_APPLICATIONS_QUERY}>
+                                            {
+                                                response => {
+                                                    if (!response.loading && response.data) {
+                                                        return response.data.userApplications.map((e, i) => {
+                                                            return (
+                                                                <Table.Row key={i}>
+                                                                    <Table.Cell>{e.name}</Table.Cell>
+                                                                    <Table.Cell>{e.connection}</Table.Cell>
+                                                                    <Table.Cell>
+                                                                        <Button
+                                                                            onClick={() => {
+                                                                                setAppID({
+                                                                                    variables: { appID: e.appID },
+                                                                                    refetchQueries: [{ query: APPID_QUERY }],
+                                                                                    awaitRefetchQueries: true
+                                                                                }).then(mutationResponse => {
+                                                                                    if (mutationResponse && mutationResponse.data && mutationResponse.data.setAppID.token) {
+                                                                                        localStorage.setItem("APP_ID", e.appID)
+                                                                                        localStorage.setItem("AUTHORIZATION_TOKEN", mutationResponse.data.setAppID.token);
+                                                                                        appIDData.refetch()
+                                                                                    }
+                                                                                })
+                                                                            }}>
+                                                                            <>
+                                                                                Use
+                                                                            </>
+                                                                        </Button>
+                                                                    </Table.Cell>
 
-                                            {/* <Table.Cell>
-                                            <Link to={`/edit-rule/${x.id}`}>
-                                                <Icon name="pencil" size="large" color="black" link={true} />
-                                            </Link>
-                                            <Icon
-                                                name="trash"
-                                                onClick={() => props.onDelete(x.id)}
-                                                size="large"
-                                                link={true}
-                                            />
-                                        </Table.Cell> */}
-                                        </Table.Row>
-                                    );
-                                })
-                            }
-                            return null;
-                        }
+                                                                </Table.Row>
+                                                            );
+                                                        })
+                                                    }
+                                                    return null;
+                                                }
+                                            }
+                                        </UserApplicationsQueryComponent>
+                                }
+                            </SetAppIDMutationComponent>
                     }
-                </UserApplicationsQueryComponent>
+                </AppIDQueryComponent>
+
+
             </Table.Body>
         </Table>
     </>)

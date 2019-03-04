@@ -9,6 +9,7 @@ import { GeneratedApp } from '../Engine/GeneratedApp';
 import { Login } from '../Auth/Login/Login';
 import { Registration } from '../Auth/Registration/Registration';
 import { Route } from 'react-router-dom';
+import { SelectedApplicationComponent } from '../Auth/SelectedApplicationComponent';
 
 const ContenWrapper = styled.div`
   margin: 2em;
@@ -25,18 +26,19 @@ const Routes = () => {
         <Route exact={true} path="/addapplication" component={ApplicationCreate} />
 
         <Route exact={true} path="/app/:id?" component={GeneratedApp} />
-        <AuthorizedComponent
-          exact={true}
-          path="/"
-          component={DatabaseExplorer}
-        />
+        <SelectedApplicationComponent >
+          <AuthorizedComponent
+            exact={true}
+            path="/"
+            component={DatabaseExplorer}
+          />
+        </SelectedApplicationComponent>
         <AuthorizedComponent
           exact={true}
           path="/:schemaName-:tableName"
           component={DatabaseExplorer}
         />
         <Route path="/table/:schema/:name/:cid?" component={Designer} />
-
 
       </ContenWrapper>
     </>

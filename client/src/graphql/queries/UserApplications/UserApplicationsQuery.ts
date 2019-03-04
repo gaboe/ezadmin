@@ -5,6 +5,7 @@ import { UserApplicationQuery } from 'src/domain/generated/types';
 const USER_APPLICATIONS_QUERY = gql`
 query UserApplicationQuery{
     userApplications{
+      appID  
       name
       connection
     }

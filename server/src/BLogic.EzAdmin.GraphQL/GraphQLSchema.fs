@@ -41,13 +41,19 @@ module GraphQLSchema =
                 Define.Field("app", AppType, "Returns application", [ Define.Input("id", String) ],  fun ctx _ -> ctx.Arg("id") |> ApplicationService.getApp)
                 Define.AuthorizedField(
                                         "userApplications",
-                                        ListOf (UserAppType),
+                                        ListOf(UserAppType),
                                         "Return user applications",
                                         fun _ root -> 
                                             let userID = TokenService.getUserID root.Token |> Option.bind (fun e -> ObjectId.Parse e |> Some)
                                             match userID with 
                                                 | Some userID -> ApplicationService.getApps userID
                                                 | None -> List.Empty
+                                        )
+                Define.Field(
+                                        "appID",
+                                        Nullable(String),
+                                        "Return current applicationID from token",
+                                        fun _ root -> TokenService.getAppID root.Token
                                         )
                 ]
             )
@@ -92,6 +98,16 @@ module GraphQLSchema =
                             |> (fun e -> {Token = e |> Option.bind (fun token -> sprintf "Bearer %s" token |> Some)})
                     );
                 Define.Field(
+                    "setAppID",
+                    LoginResult,
+                    "If succesfull returns token",
+                    [ Define.Input("appID", String); ],
+                    fun ctx root ->  
+                            ctx.Arg("appID") 
+                            |> TokenService.setAppID root.Token
+                                |> (fun e -> {Token = e |> Option.bind (fun token -> sprintf "Bearer %s" token |> Some)})
+                    );                
+                Define.Field(
                     "saveView",
                     SaveViewResult,
                     "Saves designed view",
@@ -111,7 +127,8 @@ module GraphQLSchema =
                                     | Some userID -> ApplicationService.createApplication name connection userID |> ignore
                                                      { Message = "OK" }
                                     | None -> {Message = ""}
-                    );                
+                    );
+                    
     ]
     )
 

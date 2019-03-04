@@ -39,5 +39,5 @@ module ApplicationService =
         app
 
     let getApps userID = 
-        let apps = SchemaTypesRepository.getByUserID userID |> Seq.map (fun e -> {Name = e.Name; Connection = e.Connection}) |> Seq.toList
+        let apps = SchemaTypesRepository.getByUserID userID |> Seq.map (fun e -> {AppID = e.AppID.ToString(); Name = e.Name; Connection = e.Connection}) |> Seq.toList
         apps

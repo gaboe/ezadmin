@@ -3,11 +3,9 @@
 module QueryProcessor = 
     open BLogic.EzAdmin.Domain.GraphQL
     open Newtonsoft.Json
-    open BLogic.EzAdmin.Core.Converters.OptionConverter
     open BLogic.EzAdmin.Core.Converters.InputTypeConverter
-    open BLogic.EzAdmin.Core.Utils
     open FSharp.Data.GraphQL.Execution
-    open Newtonsoft.Json.Converters
+    open BLogic.EzAdmin.Core.Converters
 
     let removeSpacesAndNewLines (str : string) = str.Trim().Replace("\r\n", " ")
 
@@ -17,18 +15,13 @@ module QueryProcessor =
                         else Some str
 
     let processQuery (body:UnsafeGraphQlQuery) token =
-        let jsonSettings =
-                JsonSerializerSettings()
-                |> tee (fun s ->
-                    s.Converters <- [| OptionConverter() :> JsonConverter; DiscriminatedUnionConverter() :> JsonConverter |]
-                    s.ContractResolver <- Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver())
-  
+
         let getResultData =
                 function
                 | Direct (data, _) ->
                     Some data
                 | Deferred (data, _, deferred) ->
-                    deferred |> Observable.add(fun d -> printfn "Deferred: %s" (JsonConvert.SerializeObject(d, jsonSettings)))
+                    deferred |> Observable.add(fun d -> printfn "Deferred: %s" (JsonConvert.SerializeObject(d, Settings.jsonSettings)))
                     Some data
                 | Stream _ ->
                     None
@@ -38,7 +31,7 @@ module QueryProcessor =
         let tryConvertToInput (jObject: obj) =
             match jObject with
                     | :? string -> jObject
-                    | _ -> JsonConvert.SerializeObject(jObject, jsonSettings) |> convertToInput
+                    | _ -> JsonConvert.SerializeObject(jObject, Settings.jsonSettings) |> convertToInput
 
         let variables = match System.Object.ReferenceEquals(body.Variables, null) with
                             | true -> None

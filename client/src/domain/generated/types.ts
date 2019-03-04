@@ -53,6 +53,33 @@ export interface LoginMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: SetAppIDMutation
+// ====================================================
+
+export interface SetAppIDMutation_setAppID {
+  __typename: "LoginResult";
+  /**
+   * Token
+   */
+  token: string | null;
+}
+
+export interface SetAppIDMutation {
+  /**
+   * If succesfull returns token
+   */
+  setAppID: SetAppIDMutation_setAppID;
+}
+
+export interface SetAppIDMutationVariables {
+  appID: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SignUpMutation
 // ====================================================
 
@@ -101,6 +128,21 @@ export interface SaveViewMutation {
 
 export interface SaveViewMutationVariables {
   input: AppInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: AppIDQuery
+// ====================================================
+
+export interface AppIDQuery {
+  /**
+   * Return current applicationID from token
+   */
+  appID: string | null;
 }
 
 /* tslint:disable */
@@ -484,6 +526,7 @@ export interface GeneratedAppQueryVariables {
 
 export interface UserApplicationQuery_userApplications {
   __typename: "UserApp";
+  appID: string;
   /**
    * Name of app
    */

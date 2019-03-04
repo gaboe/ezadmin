@@ -6,9 +6,11 @@ module TokenService =
     open JWT.Algorithms
     open System
     open Newtonsoft.Json
+    open BLogic.EzAdmin.Core.Converters
 
     let private secret = "14we6465asd32ad1s32as1d32as1d3298d1as1dqwe";
-    type Token = {exp: int; userID: string; email: string}
+
+    type Token = {exp: int; userID: string; email: string; appID: string option}
 
     let validate token =
         try
@@ -19,6 +21,13 @@ module TokenService =
     
     let isValid token = match validate token with | Ok _ -> true | Error _ -> false
     
+    let deserializeValue value = JsonConvert.DeserializeObject<Token>(value, Settings.jsonSettings)
+
+    let getJwtToken token = token |> Option.bind (fun t -> match validate t with
+                                                            | Ok e -> 
+                                                                      deserializeValue e |> Some
+                                                            | Error _ -> None)
+
     let createToken name pass =
         UserService.getUser name pass 
                 |> Option.bind (fun user -> 
@@ -28,18 +37,28 @@ module TokenService =
                                                                 .AddClaim("exp", DateTimeOffset.UtcNow.AddHours(float 1).ToUnixTimeSeconds())
                                                                 .AddClaim("userID", user.UserID)
                                                                 .AddClaim("email", user.Email)
+                                                                .AddClaim("appID", None)
 
                                             let token = tokenBuilder.Build()
                                             Some token
         
         )
-    let deserializeValue value = JsonConvert.DeserializeObject<Token>(value)
+    
+    let setAppID token (appID: string) = getJwtToken token
+                                            |> Option.bind (fun jwtToken -> let tokenBuilder = JwtBuilder()
+                                                                                                .WithAlgorithm(new HMACSHA256Algorithm())
+                                                                                                .WithSecret(secret)
+                                                                                                .AddClaim("exp", jwtToken.exp)
+                                                                                                .AddClaim("userID", jwtToken.userID)
+                                                                                                .AddClaim("email", jwtToken.appID)
+                                                                                                .AddClaim("appID", Some appID)
+                                                                            
+                                                                            let token = tokenBuilder.Build()
+                                                                            Some token)
+        
+    let getUserID token = token |> getJwtToken |> Option.bind (fun jwtToken -> Some jwtToken.userID)
 
-    let getUserID token = token |> Option.bind (fun t -> match validate t with
-                                                            | Ok e -> 
-                                                                      let jwtToken = deserializeValue e
-                                                                      Some jwtToken.userID  
-                                                            | Error _ -> None)
+    let getAppID token = token |> getJwtToken |> Option.bind (fun jwtToken -> jwtToken.appID)
         
 
 
