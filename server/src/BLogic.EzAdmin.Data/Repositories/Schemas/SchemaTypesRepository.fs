@@ -18,3 +18,6 @@ module SchemaTypesRepository =
     let getByID id =
             let _id = ObjectId.Parse(id)
             appCollection().Find(fun e -> e.AppID = _id).Single()
+
+    let getByUserID userID =
+            appCollection().Find(fun e -> e.UserID = userID).ToList()

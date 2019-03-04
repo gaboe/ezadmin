@@ -15,6 +15,7 @@ module GraphQLSchema =
     open FSharp.Data.GraphQL.Types
     open FSharp.Data.GraphQL.Server.Middlewares
     open MongoDB.Bson
+    open BLogic.EzAdmin.Domain.UiTypes
 
     let schemaConfig = SchemaConfig.Default
     
@@ -38,6 +39,16 @@ module GraphQLSchema =
                 Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getColumns |> Async.RunSynchronously)
                 Define.Field("appPreview", AppType, "Return preview of app", [ Define.Input("input", AppInputType) ],  fun ctx _ -> ctx.Arg("input") |> BLogic.EzAdmin.Core.Engines.Engine.getAppPreview)
                 Define.Field("app", AppType, "Returns application", [ Define.Input("id", String) ],  fun ctx _ -> ctx.Arg("id") |> ApplicationService.getApp)
+                Define.AuthorizedField(
+                                        "userApplications",
+                                        ListOf (UserAppType),
+                                        "Return user applications",
+                                        fun _ root -> 
+                                            let userID = TokenService.getUserID root.Token |> Option.bind (fun e -> ObjectId.Parse e |> Some)
+                                            match userID with 
+                                                | Some userID -> ApplicationService.getApps userID
+                                                | None -> List.Empty
+                                        )
                 ]
             )
 

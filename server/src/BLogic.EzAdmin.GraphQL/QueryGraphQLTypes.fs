@@ -173,6 +173,17 @@ module QueryGraphQLTypes =
                 Define.Field("menuItems", ListOf (MenuItemType), "Menu items", fun _ (x: App) -> x.MenuItems)
             ]
         )
+    and UserAppType = 
+        Define.Object<UserApp>(
+            name = "UserApp",
+            description = "",
+            isTypeOf = (fun o -> o :? UserApp),
+            fieldsFn = fun () ->
+            [
+                Define.Field("name", String, "Name of app", fun _ (x: UserApp) -> x.Name)
+                Define.Field("connection", String, "Connection", fun _ (x: UserApp) -> x.Connection)
+            ]
+        )
     and LoginResult = 
         Define.Object<LoginResult>(
             name = "LoginResult",

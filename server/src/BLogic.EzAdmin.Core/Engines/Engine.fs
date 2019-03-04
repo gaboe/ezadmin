@@ -7,7 +7,7 @@ module Engine =
     open BLogic.EzAdmin.Domain.SchemaTypes
     open MongoDB.Bson
 
-    let getApp (page: PageSchema) = 
+    let getApp (page: PageSchema): App = 
         let isInAllowedColumns (column: Column) =
             page.Table.Columns 
                 |> Seq.filter (fun e -> e.IsHidden |> not) 
@@ -36,7 +36,7 @@ module Engine =
 
         let pages = [{Name = page.Name; Table = {Rows = rows; Headers = shownHeaders }}]
 
-        let preview = {MenuItems = menuItems; Pages = pages}
+        let preview: App = {MenuItems = menuItems; Pages = pages; }
         preview
 
     let getAppPreview (input: AppInput) =

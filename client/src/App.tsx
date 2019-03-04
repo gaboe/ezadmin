@@ -1,14 +1,14 @@
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { ApolloClient } from "apollo-client";
-import { setContext } from "apollo-link-context";
-import { onError } from "apollo-link-error";
-import { HttpLink } from "apollo-link-http";
-import { any } from "ramda";
-import * as React from "react";
-import { ApolloProvider } from "react-apollo";
-import { HashRouter as Router } from "react-router-dom";
-import { Layout } from "./components/Layout/Layout";
-import { Routes } from "./components/Routes/Routes";
+import * as React from 'react';
+import { any } from 'ramda';
+import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from 'react-apollo';
+import { HashRouter as Router } from 'react-router-dom';
+import { HttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { Layout } from './components/Layout/Layout';
+import { onError } from 'apollo-link-error';
+import { Routes } from './components/Routes/Routes';
+import { setContext } from 'apollo-link-context';
 
 const authLink = setContext((_, o) => {
   const h = {
@@ -41,7 +41,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   defaultOptions: {
     query: {
-      fetchPolicy: "network-only"
+      fetchPolicy: "no-cache"
     }
   },
   link: httpLink

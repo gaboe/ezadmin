@@ -5,6 +5,7 @@ import { Col, Row } from 'react-grid-system';
 import { CREATE_APPLICATION_MUTATION, CreateApplicationMutationComponent } from 'src/graphql/mutations/Applications/AddApplicationMutation';
 import { Formik, FormikProps } from 'formik';
 import { RouteComponentProps } from 'react-router-dom';
+import { USER_APPLICATIONS_QUERY } from 'src/graphql/queries/UserApplications/UserApplicationsQuery';
 
 type Application = { name: string; connection: string };
 const initialApplication: Application = { name: "", connection: "" };
@@ -52,7 +53,9 @@ const ApplicationCreate = (props: RouteComponentProps<{}>) => (
                         initialValues={initialApplication}
                         onSubmit={values => {
                             create({
-                                variables: { name: values.name, connection: values.connection }
+                                variables: { name: values.name, connection: values.connection },
+                                refetchQueries: [{ query: USER_APPLICATIONS_QUERY }],
+                                awaitRefetchQueries: true
                             }).then(loginResult => {
                                 if (
                                     loginResult &&

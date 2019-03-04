@@ -478,6 +478,33 @@ export interface GeneratedAppQueryVariables {
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
 
+// ====================================================
+// GraphQL query operation: UserApplicationQuery
+// ====================================================
+
+export interface UserApplicationQuery_userApplications {
+  __typename: "UserApp";
+  /**
+   * Name of app
+   */
+  name: string;
+  /**
+   * Connection
+   */
+  connection: string;
+}
+
+export interface UserApplicationQuery {
+  /**
+   * Return user applications
+   */
+  userApplications: UserApplicationQuery_userApplications[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
