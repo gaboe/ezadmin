@@ -17,7 +17,7 @@ class SelectedApplicationComponent extends Route<IPrivateRouteProps> {
                         const renderComponent: RenderComponent = (props) => (
                             response.data && response.data.appID
                                 ? <Component {...props} />
-                                : <Redirect to="/apps" />
+                                : <Redirect to="/app/all" />
                         );
                         if (response.loading || !response.data) {
                             return null;

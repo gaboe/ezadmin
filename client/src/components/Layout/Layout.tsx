@@ -42,7 +42,7 @@ class Layout extends React.Component {
               </Link>
             </Menu.Item>
             <Menu.Item name="apps">
-              <Link to="/apps">
+              <Link to="/app/all">
                 <Icon name="list" />
                 User applications
               </Link>

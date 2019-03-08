@@ -24,9 +24,8 @@ const Routes = () => {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Registration} />
 
-          <AuthorizedComponent exact={true} path="/apps" component={Applications} />
-          <AuthorizedComponent exact={true} path="/addapplication" component={ApplicationCreate} />
-
+          <AuthorizedComponent exact={true} path="/app/all" component={Applications} />
+          <AuthorizedComponent exact={true} path="/app/add" component={ApplicationCreate} />
           <AuthorizedComponent exact={true} path="/app/:id?" component={GeneratedApp} />
 
           <AuthorizedComponent

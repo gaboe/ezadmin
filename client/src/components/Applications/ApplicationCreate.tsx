@@ -62,7 +62,7 @@ const ApplicationCreate = (props: RouteComponentProps<{}>) => (
                                     loginResult.data &&
                                     loginResult.data.createApplication.message
                                 ) {
-                                    props.history.push("/apps");
+                                    props.history.push("/app/all");
                                 }
                             });
                         }}

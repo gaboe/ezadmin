@@ -7,7 +7,7 @@ import { USER_APPLICATIONS_QUERY, UserApplicationsQueryComponent } from 'src/gra
 
 const Applications: React.FunctionComponent = _ => {
     return (<>
-        <Link to="/addapplication">
+        <Link to="/app/add">
             <Button icon={true} labelPosition="right">
                 Add application
         <Icon name="plus" color="black" link={true} />
