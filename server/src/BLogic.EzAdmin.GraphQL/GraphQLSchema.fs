@@ -16,6 +16,8 @@ module GraphQLSchema =
     open FSharp.Data.GraphQL.Server.Middlewares
     open MongoDB.Bson
     open BLogic.EzAdmin.Domain.UiTypes
+    open BLogic.EzAdmin.Core.Services.Security.TokenService.TokenService
+    open BLogic.EzAdmin.Application.Security
 
     let schemaConfig = SchemaConfig.Default
     
@@ -69,10 +71,9 @@ module GraphQLSchema =
                     [ Define.Input("email", String); Define.Input("password", String) ],
                     fun ctx _ ->  
                             let email = ctx.Arg("email") 
-                            let pass = ctx.Arg("password") 
-                            UserService.signUp email pass |> ignore
-                            TokenService.createToken email pass 
-                            |> (fun e -> {Token = e |> Option.bind (fun token -> sprintf "Bearer %s" token |> Some)})
+                            let password = ctx.Arg("password") 
+                            UserService.signUp email password |> ignore
+                            SecurityAppService.login email password
                     );
                 Define.Field(
                     "login",
@@ -81,9 +82,8 @@ module GraphQLSchema =
                     [ Define.Input("email", String); Define.Input("password", String) ],
                     fun ctx _ ->  
                             let email = ctx.Arg("email") 
-                            let pass = ctx.Arg("password") 
-                            TokenService.createToken email pass 
-                            |> (fun e -> {Token = e |> Option.bind (fun token -> sprintf "Bearer %s" token |> Some)})
+                            let password = ctx.Arg("password") 
+                            SecurityAppService.login email password
                     );
                 Define.Field(
                     "setAppID",
@@ -93,7 +93,8 @@ module GraphQLSchema =
                     fun ctx root ->  
                             ctx.Arg("appID") 
                             |> TokenService.setAppID root.Token
-                                |> (fun e -> {Token = e |> Option.bind (fun token -> sprintf "Bearer %s" token |> Some)})
+                                |> (fun e -> {  Token = e |> Option.bind (fun token -> sprintf "Bearer %s" token |> Some);
+                                                ValidationMessage = None})
                     );                
                 Define.Field(
                     "saveView",

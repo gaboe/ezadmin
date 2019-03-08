@@ -7,11 +7,10 @@ open FSharp.Data.GraphQL.Server.Middlewares
 open BLogic.EzAdmin.Domain.SqlTypes
 open BLogic.EzAdmin.Domain.SqlTypes
 open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
+open BLogic.EzAdmin.Application.Models
 
 module QueryGraphQLTypes = 
     open BLogic.EzAdmin.Domain.UiTypes
-
-    type LoginResult = {Token: string option}
 
     type SaveViewResult = {Cid: string}
 
@@ -193,6 +192,7 @@ module QueryGraphQLTypes =
             fieldsFn = fun () ->
             [
                 Define.Field("token", Nullable(String), "Token", fun _ (x: LoginResult) -> x.Token)
+                Define.Field("validationMessage", Nullable(String), "Validation message", fun _ (x: LoginResult) -> x.ValidationMessage)
             ]
         )
     and SaveViewResult = 

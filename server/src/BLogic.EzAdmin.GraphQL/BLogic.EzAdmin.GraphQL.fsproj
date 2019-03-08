@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BLogic.EzAdmin.Application\BLogic.EzAdmin.Application.fsproj" />
     <ProjectReference Include="..\BLogic.EzAdmin.Core\BLogic.EzAdmin.Core.fsproj" />
     <ProjectReference Include="..\BLogic.EzAdmin.Domain\BLogic.EzAdmin.Domain.fsproj" />
   </ItemGroup>

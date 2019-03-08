@@ -34,6 +34,10 @@ export interface LoginMutation_login {
    * Token
    */
   token: string | null;
+  /**
+   * Validation message
+   */
+  validationMessage: string | null;
 }
 
 export interface LoginMutation {
@@ -89,6 +93,10 @@ export interface SignUpMutation_signup {
    * Token
    */
   token: string | null;
+  /**
+   * Validation message
+   */
+  validationMessage: string | null;
 }
 
 export interface SignUpMutation {

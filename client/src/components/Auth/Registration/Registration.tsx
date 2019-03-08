@@ -61,7 +61,7 @@ const RegistrationForm = (props: FormikProps<UserRegistration>) => {
 };
 
 const Registration = (props: RouteComponentProps<{}>) => (
-    <SignUpMutationComponent mutation={SIGN_UP_MUTATION}>
+    <SignUpMutationComponent mutation={SIGN_UP_MUTATION} fetchPolicy="no-cache">
         {login => (
             <Row>
                 <Col offset={{ lg: 4 }} lg={4}>

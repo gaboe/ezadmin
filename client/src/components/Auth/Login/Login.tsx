@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as yup from 'yup';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Message } from 'semantic-ui-react';
 import { Col, Row } from 'react-grid-system';
 import { Formik, FormikProps } from 'formik';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { LOGIN_MUTATION, LoginMutationComponent } from 'src/graphql/mutations/Auth/LoginMutation';
 
-
 type UserLogin = { email: string; password: string };
+
+type FormStatus = { apiValidationMessage: string };
+
 const initialUser: UserLogin = { email: "", password: "" };
 
 const LoginForm = (props: FormikProps<UserLogin>) => {
@@ -47,6 +49,13 @@ const LoginForm = (props: FormikProps<UserLogin>) => {
           </Button>
         </Link>
       </Form>
+
+      {props.status && (props.status as FormStatus).apiValidationMessage
+        && <Message
+          error={true}
+          header={(props.status as FormStatus).apiValidationMessage}
+        />
+      }
     </>
   );
 };
@@ -58,18 +67,25 @@ const Login = (props: RouteComponentProps<{}>) => (
         <Col offset={{ lg: 4 }} lg={4}>
           <Formik
             initialValues={initialUser}
-            onSubmit={values => {
+            onSubmit={(values, { setStatus }) => {
               login({
                 variables: { email: values.email, password: values.password }
               }).then(loginResult => {
                 if (
                   loginResult &&
-                  loginResult.data &&
-                  loginResult.data.login.token
+                  loginResult.data
                 ) {
-                  const token = loginResult.data.login.token;
-                  localStorage.setItem("AUTHORIZATION_TOKEN", token);
-                  props.history.push("/");
+                  const { token, validationMessage } = loginResult.data.login;
+                  if (token) {
+                    localStorage.setItem("AUTHORIZATION_TOKEN", token);
+                    props.history.push("/");
+                  } else if (validationMessage) {
+                    const status: FormStatus = {
+                      apiValidationMessage: validationMessage
+
+                    }
+                    setStatus(status)
+                  }
                 }
               });
             }}

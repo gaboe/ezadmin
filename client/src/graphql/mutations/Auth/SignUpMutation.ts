@@ -6,6 +6,7 @@ const SIGN_UP_MUTATION = gql`
   mutation SignUpMutation($email: String!, $password: String!) {
     signup(email: $email, password: $password) {
       token
+      validationMessage
     }
   }
 `;

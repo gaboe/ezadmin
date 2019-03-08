@@ -12,6 +12,7 @@ module TokenService =
 
     type Token = {exp: int; userID: string; email: string; appID: string option}
 
+    
     let validate token =
         try
             let json = JwtBuilder().WithSecret(secret).MustVerifySignature().Decode(token)
@@ -29,8 +30,8 @@ module TokenService =
                                                             | Error _ -> None)
 
     let createToken name pass =
-        UserService.getUser name pass 
-                |> Option.bind (fun user -> 
+        match UserService.getUser name pass with 
+                | Some user -> 
                                             let tokenBuilder = JwtBuilder()
                                                                 .WithAlgorithm(new HMACSHA256Algorithm())
                                                                 .WithSecret(secret)
@@ -40,9 +41,8 @@ module TokenService =
                                                                 .AddClaim("appID", None)
 
                                             let token = tokenBuilder.Build()
-                                            Some token
-        
-        )
+                                            Ok token
+                | None -> Error "Invalid credentials"
     
     let setAppID token (appID: string) = getJwtToken token
                                             |> Option.bind (fun jwtToken -> let tokenBuilder = JwtBuilder()
