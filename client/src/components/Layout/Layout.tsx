@@ -31,7 +31,7 @@ const Layout: React.FunctionComponent = props => {
         >
           <AppIDQueryComponent query={APPID_QUERY}>
             {response => {
-              if (response.data && response.data.appID) {
+              if (response.data && response.data.currentApp) {
                 return (
                   <>
                     <Menu.Item name="database-explorer">
@@ -60,6 +60,21 @@ const Layout: React.FunctionComponent = props => {
                   User applications
                 </Link>
               </Menu.Item>
+
+              <AppIDQueryComponent query={APPID_QUERY}>
+                {response => {
+                  if (response.data && response.data.currentApp && response.data.currentApp.appID) {
+                    return (
+                      <>
+                        <Menu.Item name="database-explorer" active={true} color="olive">
+                          Used app: {response.data.currentApp.name}
+                        </Menu.Item>
+                      </>
+                    );
+                  }
+                  return null;
+                }}
+              </AppIDQueryComponent>
               <Menu.Item position="right" name="app">
                 <Logout />
               </Menu.Item>

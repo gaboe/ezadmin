@@ -146,11 +146,24 @@ export interface SaveViewMutationVariables {
 // GraphQL query operation: AppIDQuery
 // ====================================================
 
+export interface AppIDQuery_currentApp {
+  __typename: "UserApp";
+  appID: string;
+  /**
+   * Name of app
+   */
+  name: string;
+  /**
+   * Connection
+   */
+  connection: string;
+}
+
 export interface AppIDQuery {
   /**
    * Return current applicationID from token
    */
-  appID: string | null;
+  currentApp: AppIDQuery_currentApp | null;
 }
 
 /* tslint:disable */

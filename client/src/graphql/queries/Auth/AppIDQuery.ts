@@ -4,7 +4,11 @@ import { Query } from 'react-apollo';
 
 const APPID_QUERY = gql`
 query AppIDQuery{
-    appID
+    currentApp{
+      appID
+      name
+      connection
+    }
   }
 `;
 

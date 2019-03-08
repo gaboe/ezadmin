@@ -51,11 +51,12 @@ module GraphQLSchema =
                                                 | Some userID -> ApplicationService.getApps userID
                                                 | None -> List.Empty
                                         )
-                Define.Field(
-                                        "appID",
-                                        Nullable(String),
+                Define.AuthorizedField(
+                                        "currentApp",
+                                        Nullable(UserAppType),
                                         "Return current applicationID from token",
-                                        fun _ root -> TokenService.getAppID root.Token
+                                        fun _ root ->  TokenService.getAppID root.Token
+                                                        |> Option.bind (fun appID -> ApplicationService.getUserApp appID |> Some) 
                                         )
                 ]
             )

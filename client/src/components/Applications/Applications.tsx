@@ -33,9 +33,9 @@ const Applications: React.FunctionComponent<RouteComponentProps> = props => {
                                             {
                                                 response => {
                                                     if (!response.loading && response.data && appIDData.data) {
-                                                        const currentApp = appIDData.data.appID;
+                                                        const data = appIDData.data;
                                                         return response.data.userApplications.map((e, i) => {
-                                                            const isUsed = (currentApp === e.appID)
+                                                            const isUsed = (data.currentApp && data.currentApp.appID === e.appID) === true
                                                             return (
                                                                 <Table.Row key={i}>
                                                                     <Table.Cell>{e.name}</Table.Cell>
