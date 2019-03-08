@@ -50,7 +50,7 @@ module TokenService =
                                                                                                 .WithSecret(secret)
                                                                                                 .AddClaim("exp", jwtToken.exp)
                                                                                                 .AddClaim("userID", jwtToken.userID)
-                                                                                                .AddClaim("email", jwtToken.appID)
+                                                                                                .AddClaim("email", jwtToken.email)
                                                                                                 .AddClaim("appID", Some appID)
                                                                             
                                                                             let token = tokenBuilder.Build()

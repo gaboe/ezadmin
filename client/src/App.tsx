@@ -2,6 +2,7 @@ import * as React from 'react';
 import { any } from 'ramda';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
+import { DefaultOptions } from 'apollo-client/ApolloClient';
 import { HashRouter as Router } from 'react-router-dom';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -37,13 +38,23 @@ const httpLink = onError(({ graphQLErrors }) => {
     })
   );
 
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'ignore',
+  },
+  query: {
+    fetchPolicy: 'cache-and-network',
+    errorPolicy: 'all',
+  },
+  mutate: {
+    errorPolicy: 'all'
+  }
+}
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  defaultOptions: {
-    query: {
-      fetchPolicy: "no-cache"
-    }
-  },
+  defaultOptions,
   link: httpLink
 });
 

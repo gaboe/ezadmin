@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { APPID_QUERY, AppIDQueryComponent } from 'src/graphql/queries/Auth/AppIDQuery';
 import { Button, Icon, Table } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { SET_APPID_MUTATION, SetAppIDMutationComponent } from 'src/graphql/mutations/Auth/SetAppIDMutation';
 import { USER_APPLICATIONS_QUERY, UserApplicationsQueryComponent } from 'src/graphql/queries/UserApplications/UserApplicationsQuery';
 
-const Applications: React.FunctionComponent = _ => {
+const Applications: React.FunctionComponent<RouteComponentProps> = props => {
     return (<>
         <Link to="/app/add">
             <Button icon={true} labelPosition="right">
@@ -43,13 +43,13 @@ const Applications: React.FunctionComponent = _ => {
                                                                             onClick={() => {
                                                                                 setAppID({
                                                                                     variables: { appID: e.appID },
-                                                                                    refetchQueries: [{ query: APPID_QUERY }],
-                                                                                    awaitRefetchQueries: true
                                                                                 }).then(mutationResponse => {
                                                                                     if (mutationResponse && mutationResponse.data && mutationResponse.data.setAppID.token) {
                                                                                         localStorage.setItem("APP_ID", e.appID)
                                                                                         localStorage.setItem("AUTHORIZATION_TOKEN", mutationResponse.data.setAppID.token);
-                                                                                        appIDData.refetch()
+                                                                                        appIDData.refetch().then(__ => {
+                                                                                            props.history.push("/");
+                                                                                        })
                                                                                     }
                                                                                 })
                                                                             }}>

@@ -52,7 +52,7 @@ const LoginForm = (props: FormikProps<UserLogin>) => {
 };
 
 const Login = (props: RouteComponentProps<{}>) => (
-  <LoginMutationComponent mutation={LOGIN_MUTATION}>
+  <LoginMutationComponent mutation={LOGIN_MUTATION} fetchPolicy="no-cache">
     {login => (
       <Row>
         <Col offset={{ lg: 4 }} lg={4}>
