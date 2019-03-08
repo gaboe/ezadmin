@@ -58,18 +58,6 @@ module GraphQLSchema =
                 ]
             )
 
-    let Subscription =
-        Define.SubscriptionObject<Root>(
-            name = "Subscription",
-            fields = [
-                Define.SubscriptionField(
-                    "watchMoon",
-                    RootType,
-                    SqlSchemaType,
-                    "Fake subscription",
-                    [ Define.Input("id", String) ],
-                    (fun ctx _ (p: SqlSchema) -> if ctx.Arg("id") = p.SchemaName then Some p else None)) ])
-    
     let Mutation =
         Define.Object<Root>(
             name = "Mutation",
@@ -132,7 +120,7 @@ module GraphQLSchema =
     ]
     )
 
-    let schema = Schema(Query, Mutation, Subscription, schemaConfig)
+    let schema = Schema(Query, Mutation, config = schemaConfig)
 
     let middlewares = 
         [ Define.QueryWeightMiddleware(2.0, true)
