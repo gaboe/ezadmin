@@ -2,45 +2,48 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { ApplicationCreate } from '../Applications/ApplicationCreate';
 import { Applications } from '../Applications/Applications';
-import { AuthorizedComponent } from '../Auth/AuthorizedComponent';
+import { AuthorizedComponent } from '../Auth/Authorization/AuthorizedComponent';
 import { DatabaseExplorer } from './../DbExplorer/DatabaseExplorer';
 import { Designer } from '../Designer/Designer';
 import { GeneratedApp } from '../Engine/GeneratedApp';
 import { Login } from '../Auth/Login/Login';
 import { Registration } from '../Auth/Registration/Registration';
-import { Route } from 'react-router-dom';
-import { SelectedApplicationComponent } from '../Auth/SelectedApplicationComponent';
+import { Route, Switch } from 'react-router-dom';
+import { SelectedApplicationComponent } from '../Auth/Authorization/SelectedApplicationComponent';
 
-const ContenWrapper = styled.div`
+const ContentWrapper = styled.div`
   margin: 2em;
 `;
 
 const Routes = () => {
   return (
     <>
-      <ContenWrapper>
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Registration} />
+      <ContentWrapper>
+        <Switch>
 
-        <Route exact={true} path="/apps" component={Applications} />
-        <Route exact={true} path="/addapplication" component={ApplicationCreate} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Registration} />
 
-        <Route exact={true} path="/app/:id?" component={GeneratedApp} />
-        <SelectedApplicationComponent >
+          <AuthorizedComponent exact={true} path="/apps" component={Applications} />
+          <AuthorizedComponent exact={true} path="/addapplication" component={ApplicationCreate} />
+
+          <AuthorizedComponent exact={true} path="/app/:id?" component={GeneratedApp} />
+
           <AuthorizedComponent
+            exact={true}
+            path="/:schemaName-:tableName"
+            component={DatabaseExplorer}
+          />
+          <AuthorizedComponent path="/table/:schema/:name/:cid?" component={Designer} />
+
+          <SelectedApplicationComponent
             exact={true}
             path="/"
             component={DatabaseExplorer}
           />
-        </SelectedApplicationComponent>
-        <AuthorizedComponent
-          exact={true}
-          path="/:schemaName-:tableName"
-          component={DatabaseExplorer}
-        />
-        <Route path="/table/:schema/:name/:cid?" component={Designer} />
+        </Switch>
 
-      </ContenWrapper>
+      </ContentWrapper>
     </>
   );
 };
