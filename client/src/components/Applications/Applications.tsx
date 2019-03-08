@@ -32,14 +32,17 @@ const Applications: React.FunctionComponent<RouteComponentProps> = props => {
                                         <UserApplicationsQueryComponent query={USER_APPLICATIONS_QUERY}>
                                             {
                                                 response => {
-                                                    if (!response.loading && response.data) {
+                                                    if (!response.loading && response.data && appIDData.data) {
+                                                        const currentApp = appIDData.data.appID;
                                                         return response.data.userApplications.map((e, i) => {
+                                                            const isUsed = (currentApp === e.appID)
                                                             return (
                                                                 <Table.Row key={i}>
                                                                     <Table.Cell>{e.name}</Table.Cell>
                                                                     <Table.Cell>{e.connection}</Table.Cell>
                                                                     <Table.Cell>
                                                                         <Button
+                                                                            positive={isUsed}
                                                                             onClick={() => {
                                                                                 setAppID({
                                                                                     variables: { appID: e.appID },
@@ -54,7 +57,7 @@ const Applications: React.FunctionComponent<RouteComponentProps> = props => {
                                                                                 })
                                                                             }}>
                                                                             <>
-                                                                                Use
+                                                                                {isUsed ? "Using" : "Use"}
                                                                             </>
                                                                         </Button>
                                                                     </Table.Cell>
