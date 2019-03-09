@@ -55,7 +55,7 @@ class Designer extends React.Component<Props, State> {
                               };
                               save({ variables }).then(e => {
                                 if (e && e.data && e.data.saveView) {
-                                  this.props.history.push(`/app/${e.data.saveView.cid}`);
+                                  this.props.history.push(`/app/`);
                                 }
                               });
                             }}

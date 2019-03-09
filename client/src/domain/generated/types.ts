@@ -124,7 +124,7 @@ export interface SaveViewMutation_saveView {
   /**
    * Cid
    */
-  cid: string;
+  appID: string | null;
 }
 
 export interface SaveViewMutation {

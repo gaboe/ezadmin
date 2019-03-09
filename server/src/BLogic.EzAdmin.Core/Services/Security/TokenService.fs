@@ -1,5 +1,6 @@
 ﻿namespace BLogic.EzAdmin.Core.Services.Security.TokenService
 open BLogic.EzAdmin.Core.Services.Users
+open BLogic.EzAdmin.Core.Services.Application
 
 module TokenService = 
     open JWT.Builder
@@ -59,6 +60,12 @@ module TokenService =
     let getUserID token = token |> getJwtToken |> Option.bind (fun jwtToken -> Some jwtToken.userID)
 
     let getAppID token = token |> getJwtToken |> Option.bind (fun jwtToken -> jwtToken.appID)
+
+    let withApp token fn = getAppID token |> Option.bind (fun appID -> ApplicationService.getUserApp appID |> fn)
+
+    let withUser token fn = getUserID token |> Option.bind (fun userID -> UserService.getUser userID |> fn)
+
+
         
 
 

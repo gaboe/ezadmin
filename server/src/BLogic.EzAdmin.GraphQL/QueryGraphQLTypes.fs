@@ -16,7 +16,7 @@ open BLogic.EzAdmin.Application.Models
 module QueryGraphQLTypes = 
     open BLogic.EzAdmin.Domain.UiTypes
 
-    type SaveViewResult = {Cid: string}
+    type SaveViewResult = {AppID: string option}
 
     type CreateApplicationResult = {Message: string}
 
@@ -214,7 +214,7 @@ module QueryGraphQLTypes =
             isTypeOf = (fun o -> o :? SaveViewResult),
             fieldsFn = fun () ->
             [
-                Define.Field("cid", String, "Cid", fun _ (x: SaveViewResult) -> x.Cid)
+                Define.Field("appID", Nullable(String), "Cid", fun _ (x: SaveViewResult) -> x.AppID)
             ]
         )
     and CreateApplicationResult = 

@@ -21,3 +21,7 @@ module SchemaTypesRepository =
 
     let getByUserID userID =
             appCollection().Find(fun e -> e.UserID = userID).ToList()
+
+    let update id definiton =
+            let _id = ObjectId.Parse(id)
+            appCollection().UpdateOne(Builders.Filter.Eq((fun x -> x.AppID), _id), definiton)

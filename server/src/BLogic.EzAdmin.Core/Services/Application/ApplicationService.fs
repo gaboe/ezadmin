@@ -1,5 +1,7 @@
 ﻿namespace BLogic.EzAdmin.Core.Services.Application
 
+open MongoDB.Driver
+
 module ApplicationService =
     open BLogic.EzAdmin.Domain.GraphQL
     open BLogic.EzAdmin.Domain.SchemaTypes
@@ -14,20 +16,24 @@ module ApplicationService =
             | head::_ -> Engine.getApp head app.Connection
             | [] -> {Pages = List.empty; MenuItems = List.empty; Connection = app.Connection}
 
-    let saveView (input: AppInput) = 
-        let app: AppSchema = { 
-                                AppID = ObjectId.GenerateNewId();
-                                UserID = ObjectId.GenerateNewId();
-                                Name = "";
-                                Connection = "";
-                                MenuItems = [{MenuItemID = ObjectId.GenerateNewId(); Name = input.tableTitle; Rank = 0}];
-                                Pages = [
-                                    { PageID = ObjectId.GenerateNewId();
-                                      Name = input.tableTitle;
-                                      Table = AppInputTransformer.tranformToSchema input }]}
-                                |> SchemaTypesRepository.createApp
+    let saveView (input: AppInput) id = 
+        let app = SchemaTypesRepository.getByID id
+        let rank = match app.MenuItems with 
+                    | head::tail -> (head::tail) |> Seq.maxBy (fun e -> e.Rank) |> (fun a -> a.Rank + 10)
+                    | [] -> 10
 
-        app.AppID.ToString()
+        let menuItem = {MenuItemID = ObjectId.GenerateNewId(); Name = input.tableTitle; Rank = rank}
+        let page = { PageID = ObjectId.GenerateNewId();
+                    Name = input.tableTitle;
+                    Table = AppInputTransformer.tranformToSchema input }
+
+        let updateDefinition = 
+            Builders<AppSchema>.Update
+                                .Set((fun x -> x.MenuItems), app.MenuItems @ [menuItem])
+                                .Set((fun x -> x.Pages), app.Pages @ [page])
+
+        SchemaTypesRepository.update id updateDefinition |> ignore
+        id
 
     let createApplication name connection userID = 
         let app: AppSchema = { 

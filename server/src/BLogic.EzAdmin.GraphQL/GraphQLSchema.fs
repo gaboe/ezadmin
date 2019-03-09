@@ -16,6 +16,7 @@ module GraphQLSchema =
     open FSharp.Data.GraphQL.Server.Middlewares
     open MongoDB.Bson
     open BLogic.EzAdmin.Application.Security
+    open BLogic.EzAdmin.Application.Schemas
 
     let schemaConfig = SchemaConfig.Default
     
@@ -107,7 +108,9 @@ module GraphQLSchema =
                     SaveViewResult,
                     "Saves designed view",
                      [ Define.Input("input", AppInputType) ],
-                     fun ctx _ -> ctx.Arg("input") |> saveView |> (fun cid -> {Cid = cid})
+                     fun ctx root -> let input = ctx.Arg("input")
+                                     SchemaAppService.saveView root.Token input 
+                                        |> (fun appID -> {AppID = appID})
                     );
                 Define.Field(
                     "createApplication",

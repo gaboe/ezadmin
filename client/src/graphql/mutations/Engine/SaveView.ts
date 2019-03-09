@@ -5,7 +5,7 @@ import { SaveViewMutation, SaveViewMutationVariables } from 'src/domain/generate
 const SAVE_VIEW_MUTATION = gql`
   mutation SaveViewMutation($input: AppInput!) {
     saveView(input: $input) {
-      cid
+      appID
     }
   }
 `;

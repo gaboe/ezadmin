@@ -5,10 +5,9 @@ open BLogic.EzAdmin.Core.Services.Application
 open BLogic.EzAdmin.Core.Services.SqlTypes
 
 module SqlTypesAppService = 
-    let private withApp token fn = TokenService.getAppID token |> Option.bind (fun appID -> ApplicationService.getUserApp appID |> fn)
 
     let private itemsOrEmptyList token fn = 
-                let maybeItems = withApp token (fun app -> fn app |> Async.RunSynchronously |> Array.toList |> Some)
+                let maybeItems = TokenService.withApp token (fun app -> fn app |> Async.RunSynchronously |> Array.toList |> Some)
                 match maybeItems with 
                     | Some items -> items
                     | None -> List.empty
@@ -24,5 +23,5 @@ module SqlTypesAppService =
     let getReferencesFromTable token tableName = itemsOrEmptyList token (fun app -> SqlTypeService.getReferencesFromTable tableName app.Connection)
 
     let getTable token schemaName tableName =
-        withApp token (fun app -> SqlTypeService.getTable schemaName tableName app.Connection |> Async.RunSynchronously)
+        TokenService.withApp token (fun app -> SqlTypeService.getTable schemaName tableName app.Connection |> Async.RunSynchronously)
 
