@@ -6,16 +6,12 @@
 
   <ItemGroup>
     <Compile Include="Models\AppModels.fs" />
-    <Compile Include="SqlTypes\SqlTypesAppService.fs" />
     <Compile Include="Security\SecurityAppService.fs" />
+    <Compile Include="SqlTypes\SqlTypesAppService.fs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BLogic.EzAdmin.Core\BLogic.EzAdmin.Core.fsproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.5.4" />
+    <ProjectReference Include="..\..\BLogic.EzAdmin.Core\BLogic.EzAdmin.Core.fsproj" />
   </ItemGroup>
 
 </Project>

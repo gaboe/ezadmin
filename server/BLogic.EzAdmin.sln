@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28705.295
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "BLogic.EzAdmin.Application", "src\BLogic.EzAdmin.Application\BLogic.EzAdmin.Application.fsproj", "{AF844798-1096-4BE4-B878-C352CF317700}"
-EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "BLogic.EzAdmin.Core", "src\BLogic.EzAdmin.Core\BLogic.EzAdmin.Core.fsproj", "{4D955430-FBFC-4DAF-89C3-B910E8389168}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "BLogic.EzAdmin.Data", "src\BLogic.EzAdmin.Data\BLogic.EzAdmin.Data.fsproj", "{6CF65F7C-3A2B-47A0-A4BA-E118BC3AFAB2}"
@@ -19,16 +17,14 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "BLogic.EzAdmin.Data.Tests",
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "BLogic.EzAdmin.Api", "src\BLogic.EzAdmin.Api\BLogic.EzAdmin.Api.fsproj", "{BEC9469A-2DDF-440D-A225-E0662F40E620}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BLogic.EzAdmin.Application", "src\BLogic.EzAdmin.Application\BLogic.EzAdmin.Application\BLogic.EzAdmin.Application.fsproj", "{9463DC4E-5F8E-45D6-B3B8-14563F0C1D9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AF844798-1096-4BE4-B878-C352CF317700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF844798-1096-4BE4-B878-C352CF317700}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF844798-1096-4BE4-B878-C352CF317700}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF844798-1096-4BE4-B878-C352CF317700}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D955430-FBFC-4DAF-89C3-B910E8389168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D955430-FBFC-4DAF-89C3-B910E8389168}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D955430-FBFC-4DAF-89C3-B910E8389168}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,6 +49,10 @@ Global
 		{BEC9469A-2DDF-440D-A225-E0662F40E620}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEC9469A-2DDF-440D-A225-E0662F40E620}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEC9469A-2DDF-440D-A225-E0662F40E620}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9463DC4E-5F8E-45D6-B3B8-14563F0C1D9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9463DC4E-5F8E-45D6-B3B8-14563F0C1D9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9463DC4E-5F8E-45D6-B3B8-14563F0C1D9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9463DC4E-5F8E-45D6-B3B8-14563F0C1D9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
