@@ -27,11 +27,15 @@ const AppPreview: React.FunctionComponent<Props> = props => {
           if (response.loading || !response.data) {
             return <>Loading...</>;
           }
-          return (
-            <>
-              <Layout preview={response.data.appPreview} />
-            </>
-          );
+          if (response.data.appPreview) {
+            return (
+              <>
+                <Layout preview={response.data.appPreview} />
+              </>
+            );
+          }
+          return <>App cannot be rendered</>;
+
         }}
       </AppPreviewQueryComponent>
     </>

@@ -33,13 +33,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "App",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "App",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -64,13 +60,9 @@
               }
             ],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "App",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "App",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null

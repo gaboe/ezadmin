@@ -438,7 +438,7 @@ export interface AppPreviewQuery {
   /**
    * Return preview of app
    */
-  appPreview: AppPreviewQuery_appPreview;
+  appPreview: AppPreviewQuery_appPreview | null;
 }
 
 export interface AppPreviewQueryVariables {
@@ -530,7 +530,7 @@ export interface GeneratedAppQuery {
   /**
    * Returns application
    */
-  app: GeneratedAppQuery_app;
+  app: GeneratedAppQuery_app | null;
 }
 
 export interface GeneratedAppQueryVariables {

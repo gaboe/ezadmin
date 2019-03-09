@@ -61,7 +61,9 @@ module TokenService =
 
     let getAppID token = token |> getJwtToken |> Option.bind (fun jwtToken -> jwtToken.appID)
 
-    let withApp token fn = getAppID token |> Option.bind (fun appID -> ApplicationService.getUserApp appID |> fn)
+    let withUserApp token fn = getAppID token |> Option.bind (fun appID -> ApplicationService.getUserApp appID |> fn)
+
+    let withApp token fn = getAppID token |> Option.bind (fun appID -> ApplicationService.getApp appID |> Option.bind fn)
 
     let withUser token fn = getUserID token |> Option.bind (fun userID -> UserService.getUser userID |> fn)
 

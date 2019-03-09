@@ -17,6 +17,7 @@ module GraphQLSchema =
     open MongoDB.Bson
     open BLogic.EzAdmin.Application.Security
     open BLogic.EzAdmin.Application.Schemas
+    open BLogic.EzAdmin.Application.Engines
 
     let schemaConfig = SchemaConfig.Default
     
@@ -45,8 +46,8 @@ module GraphQLSchema =
                             fun ctx root -> let schemaName = ctx.Arg("schemaName") 
                                             let tableName = ctx.Arg("tableName")
                                             SqlTypesAppService.getTable root.Token schemaName tableName)
-                Define.Field("appPreview", AppType, "Return preview of app", [ Define.Input("input", AppInputType) ],  fun ctx _ -> ctx.Arg("input") |> BLogic.EzAdmin.Core.Engines.Engine.getAppPreview)
-                Define.Field("app", AppType, "Returns application", [ Define.Input("id", String) ],  fun ctx _ -> ctx.Arg("id") |> ApplicationService.getApp)
+                Define.Field("appPreview", Nullable(AppType), "Return preview of app", [ Define.Input("input", AppInputType) ], fun ctx root -> ctx.Arg("input") |> EngineAppService.getAppPreview root.Token)
+                Define.Field("app", Nullable(AppType), "Returns application", [ Define.Input("id", String) ], fun ctx _ -> ctx.Arg("id") |> EngineAppService.getApp)
                 Define.AuthorizedField(
                                         "userApplications",
                                         ListOf(UserAppType),

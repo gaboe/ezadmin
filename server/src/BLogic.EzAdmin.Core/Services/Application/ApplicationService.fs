@@ -10,11 +10,11 @@ module ApplicationService =
     open MongoDB.Bson
     open BLogic.EzAdmin.Domain.UiTypes
 
-    let getApp id: App= 
+    let getApp id = 
         let app = SchemaTypesRepository.getByID id
         match app.Pages with 
-            | head::_ -> Engine.getApp head app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank}))
-            | [] -> {Pages = List.empty; MenuItems = List.empty; Connection = app.Connection}
+            | head::_ -> Engine.getApp head app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank})) |> Some
+            | [] -> None
 
     let saveView (input: AppInput) id = 
         let app = SchemaTypesRepository.getByID id

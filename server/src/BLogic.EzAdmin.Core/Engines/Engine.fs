@@ -7,7 +7,7 @@ module Engine =
     open BLogic.EzAdmin.Domain.SchemaTypes
     open MongoDB.Bson
 
-    let getApp (page: PageSchema) (connection: string) menuItems: App = 
+    let getApp (page: PageSchema) (connection: string) (menuItems: MenuItem list): App = 
         let isInAllowedColumns (column: Column) =
             page.Table.Columns 
                 |> Seq.filter (fun e -> e.IsHidden |> not) 
@@ -34,14 +34,14 @@ module Engine =
 
         let pages = [{Name = page.Name; Table = {Rows = rows; Headers = shownHeaders }}]
 
-        let preview: App = {MenuItems = menuItems; Pages = pages; Connection = connection}
+        let preview: App = {MenuItems = (menuItems |> Seq.sortBy (fun e -> e.Rank) |> Seq.toList); Pages = pages; Connection = connection}
         preview
 
-    let getAppPreview (input: AppInput) =
+    let getAppPreview (input: AppInput) (app: App) =
 
         let table = input |> AppInputTransformer.tranformToSchema 
         let page = {PageID = ObjectId.GenerateNewId(); Table = table; Name = input.tableTitle}
-        let menuItems = [{Name = input.tableTitle; Rank = int System.Int64.MaxValue}]
+        let menuItems = (app.MenuItems) @ [{Name = input.tableTitle; Rank = int System.Int16.MaxValue}]
         
         getApp page input.connection menuItems
                            

@@ -26,7 +26,7 @@ const GeneratedApp: React.FunctionComponent<Props> = props => {
                                             return <>Loading...</>
                                         }
                                         const app = response.data.app;
-                                        if (app.menuItems.length === 0 && app.pages.length === 0) {
+                                        if (!app) {
                                             return (<>
                                                 <Header content="Your app is empty" />
                                                 <div>Use Database Explorer to create app</div>
