@@ -1,6 +1,6 @@
 ﻿namespace BLogic.EzAdmin.Domain.UiTypes
 
-type [<CLIMutable>] MenuItem = {Name: string; Rank: int}
+type [<CLIMutable>] MenuItem = {Name: string; Rank: int; PageID: string}
 
 type [<CLIMutable>] Column = {Name: string; ColumnAlias: string; Value: string;}
 

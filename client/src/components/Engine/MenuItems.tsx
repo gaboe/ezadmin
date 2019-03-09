@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { GeneratedAppQuery_app_menuItems as menuItem } from 'src/domain/generated/types';
+import { Link } from 'react-router-dom';
 import { Menu, Sidebar } from 'semantic-ui-react';
 
 type Props = { menuItems: menuItem[] };
@@ -19,9 +20,9 @@ const MenuItems: React.FunctionComponent<Props> = props => {
           props.menuItems.map(x => {
             return (
               <Menu.Item key={x.name} name="database-explorer">
-                {/* <Link to={`${this.props.urlPath}/${x.pageCid}`}> */}
-                {x.name}
-                {/* </Link> */}
+                <Link to={`/app/${x.pageID}`}>
+                  {x.name}
+                </Link>
               </Menu.Item>
             );
           })}

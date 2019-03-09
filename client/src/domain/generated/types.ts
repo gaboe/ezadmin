@@ -371,6 +371,7 @@ export interface AppPreviewQuery_appPreview_menuItems {
    * Table on page
    */
   rank: number;
+  pageID: string;
 }
 
 export interface AppPreviewQuery_appPreview_pages_table_headers {
@@ -463,6 +464,7 @@ export interface GeneratedAppQuery_app_menuItems {
    * Table on page
    */
   rank: number;
+  pageID: string;
 }
 
 export interface GeneratedAppQuery_app_pages_table_headers {
@@ -535,6 +537,7 @@ export interface GeneratedAppQuery {
 
 export interface GeneratedAppQueryVariables {
   id: string;
+  pageID?: string | null;
 }
 
 /* tslint:disable */

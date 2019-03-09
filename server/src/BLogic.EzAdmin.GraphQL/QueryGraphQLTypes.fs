@@ -171,6 +171,7 @@ module QueryGraphQLTypes =
             [
                 Define.Field("name", String, "Table on page", fun _ (x: MenuItem) -> x.Name)
                 Define.Field("rank", SchemaDefinitions.Int, "Table on page", fun _ (x: MenuItem) -> x.Rank)
+                Define.Field("pageID", String, "", fun _ (x: MenuItem) -> x.PageID)
             ]
         )
     and AppType = 

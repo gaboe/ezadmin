@@ -41,7 +41,7 @@ module Engine =
 
         let table = input |> AppInputTransformer.tranformToSchema 
         let page = {PageID = ObjectId.GenerateNewId(); Table = table; Name = input.tableTitle}
-        let menuItems = (app.MenuItems) @ [{Name = input.tableTitle; Rank = int System.Int16.MaxValue}]
+        let menuItems = (app.MenuItems) @ [{Name = input.tableTitle; Rank = int System.Int16.MaxValue; PageID = page.PageID.ToString()}]
         
         getApp page input.connection menuItems
                            

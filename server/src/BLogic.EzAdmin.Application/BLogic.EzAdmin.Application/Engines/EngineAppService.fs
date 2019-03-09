@@ -11,4 +11,6 @@ module EngineAppService =
     
     let getApp = ApplicationService.getApp
 
+    let getAppWithPage = ApplicationService.getAppWithPage
+
 

@@ -13,8 +13,13 @@ module ApplicationService =
     let getApp id = 
         let app = SchemaTypesRepository.getByID id
         match app.Pages with 
-            | head::_ -> Engine.getApp head app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank})) |> Some
-            | [] -> None
+            | head::_ -> Engine.getApp head app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank; PageID = e.PageID.ToString()}))
+            | [] -> {Pages = List.empty; MenuItems = List.empty; Connection = app.Connection}
+
+    let getAppWithPage appID (pageID: string) = 
+        let app = SchemaTypesRepository.getByID appID
+        let page = (app.Pages |> Seq.find(fun e -> e.PageID = ObjectId(pageID)))
+        Engine.getApp page app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank; PageID = e.PageID.ToString()})) |> Some
 
     let saveView (input: AppInput) id = 
         let app = SchemaTypesRepository.getByID id
@@ -22,10 +27,10 @@ module ApplicationService =
                     | head::tail -> (head::tail) |> Seq.maxBy (fun e -> e.Rank) |> (fun a -> a.Rank + 10)
                     | [] -> 10
 
-        let menuItem = {MenuItemID = ObjectId.GenerateNewId(); Name = input.tableTitle; Rank = rank}
         let page = { PageID = ObjectId.GenerateNewId();
                     Name = input.tableTitle;
                     Table = AppInputTransformer.tranformToSchema input }
+        let menuItem = {MenuItemID = ObjectId.GenerateNewId(); Name = input.tableTitle; Rank = rank; PageID = page.PageID}
 
         let updateDefinition = 
             Builders<AppSchema>.Update

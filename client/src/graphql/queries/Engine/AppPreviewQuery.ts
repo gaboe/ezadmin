@@ -8,6 +8,7 @@ const APP_PREVIEW_QUERY = gql`
       menuItems {
         name
         rank
+        pageID
       }
       pages {
         name

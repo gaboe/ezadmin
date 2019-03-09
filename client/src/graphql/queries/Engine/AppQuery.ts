@@ -3,31 +3,32 @@ import { GeneratedAppQuery, GeneratedAppQueryVariables } from 'src/domain/genera
 import { Query } from 'react-apollo';
 
 const GENERATED_APP_QUERY = gql`
-query GeneratedAppQuery($id: String!) {
-    app(id: $id) {
-      menuItems {
-        name
-        rank
-      }
-      pages {
-        name
-        table {
-          headers {
-            alias
+query GeneratedAppQuery($id: String!, $pageID: String) {
+  app(id: $id, pageID: $pageID) {
+    menuItems {
+      name
+      rank
+      pageID
+    }
+    pages {
+      name
+      table {
+        headers {
+          alias
+          name
+        }
+        rows {
+          columns {
+            columnAlias
             name
+            value
           }
-          rows {
-            columns {
-              columnAlias
-              name
-              value
-            }
-            key
-          }
+          key
         }
       }
     }
   }
+}
 `;
 
 class GeneratedAppQueryComponent extends Query<GeneratedAppQuery, GeneratedAppQueryVariables> { }

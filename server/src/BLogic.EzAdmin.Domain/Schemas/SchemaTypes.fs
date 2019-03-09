@@ -6,7 +6,8 @@ open MongoDB.Bson.Serialization.Attributes
 type [<CLIMutable>] MenuItemSchema = 
             {[<BsonId>] MenuItemID : ObjectId;
             Name: string;
-            Rank: int;} 
+            Rank: int;
+            PageID: ObjectId} 
 
 type ColumnType = PrimaryKey | ForeignKey | Column
 

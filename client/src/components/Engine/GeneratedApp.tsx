@@ -5,7 +5,7 @@ import { GeneratedAppQueryVariables } from 'src/domain/generated/types';
 import { Header } from 'semantic-ui-react';
 import { Layout } from './Layout/Layout';
 import { RouteComponentProps } from 'react-router';
-type Props = RouteComponentProps<{ id: string; }>;
+type Props = RouteComponentProps<{ pageID?: string; }>;
 
 
 const GeneratedApp: React.FunctionComponent<Props> = props => {
@@ -17,7 +17,8 @@ const GeneratedApp: React.FunctionComponent<Props> = props => {
                     appIDResponse => {
                         if (appIDResponse.data && appIDResponse.data.currentApp) {
                             const variables: GeneratedAppQueryVariables = {
-                                id: appIDResponse.data.currentApp.appID
+                                id: appIDResponse.data.currentApp.appID,
+                                pageID: props.match.params.pageID
                             };
                             return (
                                 <GeneratedAppQueryComponent query={GENERATED_APP_QUERY} variables={variables}>
