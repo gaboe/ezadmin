@@ -8,4 +8,3 @@ module SecurityAppService =
                 match TokenService.createToken email password with  
                                 | Ok token -> {Token = Some (sprintf "Bearer %s" token); ValidationMessage = None}
                                 | Error err -> {Token = None; ValidationMessage = Some err}        
-
