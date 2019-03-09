@@ -7,7 +7,7 @@ module Engine =
     open BLogic.EzAdmin.Domain.SchemaTypes
     open MongoDB.Bson
 
-    let getApp (page: PageSchema): App = 
+    let getApp (page: PageSchema) (connection: string): App = 
         let isInAllowedColumns (column: Column) =
             page.Table.Columns 
                 |> Seq.filter (fun e -> e.IsHidden |> not) 
@@ -21,8 +21,8 @@ module Engine =
 
         let description = page.Table |> DescriptionConverter.convertToDescription
         
-        let rows = description      
-                    |> EngineRepository.getDynamicQueryResults
+        let rows = description 
+                    |> EngineRepository.getDynamicQueryResults connection  
                     |> Seq.map hideColumns
                     |> Seq.toList
 
@@ -36,12 +36,12 @@ module Engine =
 
         let pages = [{Name = page.Name; Table = {Rows = rows; Headers = shownHeaders }}]
 
-        let preview: App = {MenuItems = menuItems; Pages = pages; }
+        let preview: App = {MenuItems = menuItems; Pages = pages; Connection = connection}
         preview
 
     let getAppPreview (input: AppInput) =
 
         let table = input |> AppInputTransformer.tranformToSchema 
-        getApp {PageID = ObjectId.GenerateNewId(); Table = table; Name = input.tableTitle}
+        getApp {PageID = ObjectId.GenerateNewId(); Table = table; Name = input.tableTitle} input.connection
                            
 

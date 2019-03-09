@@ -9,8 +9,8 @@ module EngineRepository =
     open BLogic.EzAdmin.Data.Engines
     open BLogic.EzAdmin.Domain.Engines
 
-    let getDataFromDb query (headers: RowResultHeader) = seq { 
-      use conn = new SqlConnection(ConnectionProvider.connectionString)
+    let getDataFromDb query (headers: RowResultHeader) connection = seq { 
+      use conn = new SqlConnection(connection)
       use cmd = new SqlCommand(query, conn)
       cmd.CommandType <- CommandType.Text
 
@@ -28,11 +28,11 @@ module EngineRepository =
                 Columns = columns 
                }
         }     
-    let getDynamicQueryResults table =
+    let getDynamicQueryResults connection table =
       let query = DynamicQueryBuilder.buildQuery table 
       let headers = DynamicQueryBuilder.getHeaders table
       
-      let data = getDataFromDb query headers |> Seq.toList
+      let data = getDataFromDb query headers connection |> Seq.toList
       data
 
        

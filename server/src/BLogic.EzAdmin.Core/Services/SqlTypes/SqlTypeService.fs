@@ -6,13 +6,13 @@ open BLogic.EzAdmin.Data.Repositories.SqlTypes.SqlReferenceRepository
 module SqlTypeService = 
     let getAllSchemas = getAllSchemas
 
-    let getTable (schemaName, tableName) = getTable schemaName tableName
+    let getTable = getTable
 
-    let getTables schemaName = getTables schemaName
+    let getTables = getTables
 
-    let getColumns tableName = getColumns tableName
+    let getColumns = getColumns
 
-    let getReferencesToTable tableName = getReferencesToTable tableName
+    let getReferencesToTable = getReferencesToTable
 
-    let getReferencesFromTable tableName = getReferencesFromTable tableName
+    let getReferencesFromTable = getReferencesFromTable
 

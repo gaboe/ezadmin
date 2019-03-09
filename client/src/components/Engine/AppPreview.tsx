@@ -6,6 +6,7 @@ type Props = {
   tableTitle: string;
   tableName: string;
   schemaName: string;
+  connection: string;
   columns: ColumnInput[];
 };
 
@@ -15,7 +16,8 @@ const AppPreview: React.FunctionComponent<Props> = props => {
       tableTitle: props.tableTitle,
       schemaName: props.schemaName,
       tableName: props.tableName,
-      columns: props.columns
+      columns: props.columns,
+      connection: props.connection,
     }
   };
   return (

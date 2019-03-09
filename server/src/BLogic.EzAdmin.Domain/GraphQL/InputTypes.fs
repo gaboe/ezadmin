@@ -10,5 +10,6 @@ type ColumnInput = {schemaName: string;
 type AppInput = {tableTitle: string;
                 schemaName: string;
                 tableName: string;
-                columns: ColumnInput list}
+                columns: ColumnInput list;
+                connection: string;}
 

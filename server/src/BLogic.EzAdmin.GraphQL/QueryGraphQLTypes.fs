@@ -1,4 +1,8 @@
 ﻿namespace BLogic.EzAdmin.GraphQL
+
+open BLogic.EzAdmin.Application.SqlTypes
+open BLogic.EzAdmin.Domain.GraphQL
+
 #nowarn "40"
 
 open FSharp.Data.GraphQL
@@ -22,6 +26,14 @@ module QueryGraphQLTypes =
                                             | "int" -> Int 
                                             | "nvarchar" -> Nvarchar 
                                             | _ -> Unknown
+
+    let root (ctx : ResolveFieldContext) =
+        let value = ctx.Context.RootValue
+        match value with
+        | :? Root -> (downcast value : Root) |> Some
+        | _ -> None
+
+    let token (value) = root value |> Option.bind (fun e -> e.Token)
 
     let SqlColumnDataType =
         Define.Enum(
@@ -69,9 +81,9 @@ module QueryGraphQLTypes =
             [
                 Define.Field("tableName", String, "Table name", fun _ (x: SqlTable) -> x.TableName)
                 Define.Field("schemaName", String, "Schema name", fun _ (x: SqlTable) -> x.SchemaName)
-                Define.Field("columns", ListOf (SqlColumnType), "Columns of table", fun _ (x: SqlTable) -> getColumns x.TableName |> Async.RunSynchronously)
-                Define.Field("referencesToTable", ListOf (SqlReferenceType), "Column references to this table", fun _ (x: SqlTable) -> getReferencesToTable x.TableName |> Async.RunSynchronously)
-                Define.Field("referencesFromTable", ListOf (SqlReferenceType), "Column references from this table to other tables", fun _ (x: SqlTable) -> getReferencesFromTable x.TableName |> Async.RunSynchronously)
+                Define.Field("columns", ListOf (SqlColumnType), "Columns of table", fun ctx (x: SqlTable) -> SqlTypesAppService.getColumns (token ctx) x.TableName)
+                Define.Field("referencesToTable", ListOf (SqlReferenceType), "Column references to this table", fun ctx (x: SqlTable) -> SqlTypesAppService.getReferencesToTable (token ctx) x.TableName)
+                Define.Field("referencesFromTable", ListOf (SqlReferenceType), "Column references from this table to other tables", fun ctx (x: SqlTable) -> SqlTypesAppService.getReferencesFromTable (token ctx) x.TableName)
             ]
         )
 

@@ -9,7 +9,7 @@ module QueryHandler =
 
         let query<'T> q =
             async {
-                use connection = new SqlConnection(ConnectionProvider.connectionString)
+                use connection = new SqlConnection(q.Connection)
                 do! connection.OpenAsync() |> Async.AwaitTask
                 let! result =
                     connection.QueryAsync<'T>(q.Query, dict q.Parameters)
@@ -19,7 +19,7 @@ module QueryHandler =
 
         let querySingle<'T> q =
             async {
-                use connection = new SqlConnection(ConnectionProvider.connectionString)
+                use connection = new SqlConnection(q.Connection)
                 do! connection.OpenAsync() |> Async.AwaitTask
                 let! result =
                     connection.QuerySingleOrDefaultAsync<'T>(q.Query, dict q.Parameters)

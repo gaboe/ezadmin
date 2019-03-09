@@ -1,5 +1,6 @@
 import * as R from 'ramda';
 import * as React from 'react';
+import { APPID_QUERY, AppIDQueryComponent } from 'src/graphql/queries/Auth/AppIDQuery';
 import { AppPreview } from '../Engine/AppPreview';
 import { Col, Row } from 'react-grid-system';
 import { DbTableDetail } from './DbTableDetail/DbTableDetail';
@@ -25,47 +26,63 @@ class Designer extends React.Component<Props, State> {
 
     return (
       <>
-        <Row>
-          <Col md={6} lg={3}>
-            <SaveViewMutationComponent mutation={SAVE_VIEW_MUTATION}>
-              {save => (
-                <DbTableDetail
-                  variables={{ schemaName: schema, tableName: name }}
-                  onCheckboxClick={this.toggleColumn}
-                  isTableNameShown={this.state.activeColumns.length > 0}
-                  onNameChange={e => this.setState({ tableTitle: e })}
-                  activeColumns={this.state.activeColumns}
-                  tableTitle={this.state.tableTitle}
-                  onSaveViewClick={() => {
-                    const variables: AppPreviewQueryVariables = {
-                      input: {
-                        tableTitle: this.state.tableTitle,
-                        schemaName: schema,
-                        tableName: name,
-                        columns: this.state.activeColumns
-                      }
-                    };
-                    save({ variables }).then(e => {
-                      if (e && e.data && e.data.saveView) {
-                        this.props.history.push(`/app/${e.data.saveView.cid}`);
-                      }
-                    });
-                  }}
-                />
-              )}
-            </SaveViewMutationComponent>
-          </Col>
-          {this.state.activeColumns.length > 0 && (
-            <Col md={6} lg={9}>
-              <AppPreview
-                tableTitle={this.state.tableTitle}
-                tableName={name}
-                schemaName={schema}
-                columns={this.state.activeColumns}
-              />
-            </Col>
-          )}
-        </Row>
+        <AppIDQueryComponent query={APPID_QUERY}>
+          {
+            appIDResponse => {
+              if (appIDResponse.data && appIDResponse.data.currentApp) {
+                const connection = appIDResponse.data.currentApp.connection;
+                return (
+                  <Row>
+                    <Col md={6} lg={3}>
+                      <SaveViewMutationComponent mutation={SAVE_VIEW_MUTATION}>
+                        {save => (
+                          <DbTableDetail
+                            variables={{ schemaName: schema, tableName: name }}
+                            onCheckboxClick={this.toggleColumn}
+                            isTableNameShown={this.state.activeColumns.length > 0}
+                            onNameChange={e => this.setState({ tableTitle: e })}
+                            activeColumns={this.state.activeColumns}
+                            tableTitle={this.state.tableTitle}
+                            onSaveViewClick={() => {
+                              const variables: AppPreviewQueryVariables = {
+                                input: {
+                                  tableTitle: this.state.tableTitle,
+                                  schemaName: schema,
+                                  tableName: name,
+                                  columns: this.state.activeColumns,
+                                  connection
+                                }
+                              };
+                              save({ variables }).then(e => {
+                                if (e && e.data && e.data.saveView) {
+                                  this.props.history.push(`/app/${e.data.saveView.cid}`);
+                                }
+                              });
+                            }}
+                          />
+                        )}
+                      </SaveViewMutationComponent>
+                    </Col>
+                    {this.state.activeColumns.length > 0 && (
+                      <Col md={6} lg={9}>
+                        <AppPreview
+                          tableTitle={this.state.tableTitle}
+                          tableName={name}
+                          schemaName={schema}
+                          columns={this.state.activeColumns}
+                          connection={connection}
+                        />
+                      </Col>
+                    )}
+                  </Row>
+                )
+              }
+              return null;
+
+            }
+          }
+        </AppIDQueryComponent>
+
       </>
     );
   }

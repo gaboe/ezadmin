@@ -10,7 +10,7 @@ module ApplicationService =
 
     let getApp id: App= 
         let app = SchemaTypesRepository.getByID id
-        Engine.getApp app.Pages.Head
+        Engine.getApp app.Pages.Head app.Connection
 
     let saveView (input: AppInput) = 
         let app: AppSchema = { 

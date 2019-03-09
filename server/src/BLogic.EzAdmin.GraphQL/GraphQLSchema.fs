@@ -1,8 +1,8 @@
 ﻿namespace BLogic.EzAdmin.GraphQL
 
+open BLogic.EzAdmin.Application.SqlTypes
+
 module GraphQLSchema = 
-    open BLogic.EzAdmin.Domain.SqlTypes
-    open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
     open BLogic.EzAdmin.GraphQL.InputGraphQLTypes
     open BLogic.EzAdmin.GraphQL.QueryGraphQLTypes
     open BLogic.EzAdmin.Domain.GraphQL
@@ -15,8 +15,6 @@ module GraphQLSchema =
     open FSharp.Data.GraphQL.Types
     open FSharp.Data.GraphQL.Server.Middlewares
     open MongoDB.Bson
-    open BLogic.EzAdmin.Domain.UiTypes
-    open BLogic.EzAdmin.Core.Services.Security.TokenService.TokenService
     open BLogic.EzAdmin.Application.Security
 
     let schemaConfig = SchemaConfig.Default
@@ -35,10 +33,17 @@ module GraphQLSchema =
         Define.Object<Root>(
             name = "Query",
             fields = [
-                Define.AuthorizedField("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ __ -> getAllSchemas |> Async.RunSynchronously)
-                Define.Field("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("schemaName", String); Define.Input("tableName", String) ], fun ctx _ -> (ctx.Arg("schemaName"), ctx.Arg("tableName")) |> getTable |> Async.RunSynchronously)
-                Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ], fun ctx _ -> ctx.Arg("schemaName") |> getTables |> Async.RunSynchronously)
-                Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ], fun ctx _ -> ctx.Arg("tableName") |> getColumns |> Async.RunSynchronously)
+                Define.AuthorizedField("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ root -> SqlTypesAppService.getAllSchemas root.Token)
+                Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ],
+                            fun ctx root -> let schemaName = ctx.Arg("schemaName")
+                                            SqlTypesAppService.getTables root.Token schemaName)
+                Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ],
+                            fun ctx root -> let tableName = ctx.Arg("tableName")
+                                            SqlTypesAppService.getColumns root.Token tableName)
+                Define.Field("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("schemaName", String); Define.Input("tableName", String) ],
+                            fun ctx root -> let schemaName = ctx.Arg("schemaName") 
+                                            let tableName = ctx.Arg("tableName")
+                                            SqlTypesAppService.getTable root.Token schemaName tableName)
                 Define.Field("appPreview", AppType, "Return preview of app", [ Define.Input("input", AppInputType) ],  fun ctx _ -> ctx.Arg("input") |> BLogic.EzAdmin.Core.Engines.Engine.getAppPreview)
                 Define.Field("app", AppType, "Returns application", [ Define.Input("id", String) ],  fun ctx _ -> ctx.Arg("id") |> ApplicationService.getApp)
                 Define.AuthorizedField(

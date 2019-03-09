@@ -12,6 +12,6 @@ type [<CLIMutable>] Table = {Rows: Row list; Headers: Header list}
 
 type [<CLIMutable>] Page = {Table: Table; Name: string}
 
-type [<CLIMutable>] App = {Pages: Page list; MenuItems: MenuItem list; }
+type [<CLIMutable>] App = {Pages: Page list; MenuItems: MenuItem list; Connection: string}
 
 type [<CLIMutable>] UserApp = {AppID:string; Name: string; Connection: string}

@@ -28,5 +28,6 @@ module InputGraphQLTypes =
                 Define.Input("schemaName", String)
                 Define.Input("tableName", String)
                 Define.Input("columns", ListOf(ColumnInputType))
+                Define.Input("connection", String)
             ]
         )

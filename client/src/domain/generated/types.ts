@@ -584,6 +584,7 @@ export interface AppInput {
   schemaName: string;
   tableName: string;
   columns: ColumnInput[];
+  connection: string;
 }
 
 export interface ColumnInput {

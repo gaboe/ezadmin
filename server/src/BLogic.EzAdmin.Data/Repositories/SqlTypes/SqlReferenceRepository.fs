@@ -52,11 +52,12 @@ module SqlReferenceRepository =
                                                AND KCU.ORDINAL_POSITION = KCU2.ORDINAL_POSITION
                                     """
 
-        let getReferences referenceType =
+        let getReferences referenceType connection =
                                         let (condition, parameters) = resolveReferenceType referenceType
                                         query<SqlReference> {
-                                        Query = baseReferenceQuery + "WHERE " + condition;
-                                        Parameters = parameters
+                                        Query = sprintf "%s WHERE %s" baseReferenceQuery condition;
+                                        Parameters = parameters;
+                                        Connection = connection
                                         }
 
         let getReferencesToTable tableName = To tableName |> UniDirectionalReferenceType |> getReferences  

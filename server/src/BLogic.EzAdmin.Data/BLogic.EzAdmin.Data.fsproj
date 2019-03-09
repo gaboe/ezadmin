@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="ConnectionProvider.fs" />
     <Compile Include="QueryHandler.fs" />
     <Compile Include="Engines\ColumnAliasProvider.fs" />
     <Compile Include="Engines\DynamicQueryBuilder.fs" />

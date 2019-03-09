@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Include="Models\AppModels.fs" />
+    <Compile Include="SqlTypes\SqlTypesAppService.fs" />
     <Compile Include="Security\SecurityAppService.fs" />
   </ItemGroup>
 

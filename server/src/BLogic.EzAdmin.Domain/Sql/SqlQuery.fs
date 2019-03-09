@@ -2,8 +2,9 @@
 
 type SqlQuery =
     {
-        Query : string
-        Parameters : (string * obj) list
+        Query: string
+        Parameters: (string * obj) list
+        Connection: string
     }
 
 
@@ -13,8 +14,9 @@ module QueryHelpers =
         ( name, value )
 
 
-    let sql query parameters =
+    let sql query parameters connection =
         {
             Query = query
             Parameters = parameters
+            Connection = connection
         }

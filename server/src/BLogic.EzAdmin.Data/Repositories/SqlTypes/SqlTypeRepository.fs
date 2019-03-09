@@ -5,22 +5,25 @@ open BLogic.EzAdmin.Domain.Sql
 open BLogic.EzAdmin.Domain.SqlTypes
 
 module SqlTypeRepository =
-        let getAllSchemas = query<SqlSchema> {
+        let getAllSchemas connection = query<SqlSchema> {
                                     Query = "SELECT SCHEMA_NAME SchemaName FROM INFORMATION_SCHEMA.SCHEMATA ORDER BY SCHEMA_NAME";
                                     Parameters= []
+                                    Connection = connection
                                         }
 
-        let getTables schemaName = query<SqlTable> {
+        let getTables schemaName connection = query<SqlTable> {
                                         Query = "SELECT TABLE_NAME TableName, TABLE_SCHEMA SchemaName FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = @SchemaName ORDER BY TABLE_NAME";
                                         Parameters = ["SchemaName", box schemaName]
+                                        Connection = connection
                                         }
 
-        let getTable schemaName tableName = querySingle<SqlTable> {
+        let getTable schemaName tableName connection = querySingle<SqlTable> {
                                                 Query = "SELECT TOP 1 TABLE_NAME TableName, TABLE_SCHEMA SchemaName FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = @SchemaName AND TABLE_NAME = @TableName";
                                                 Parameters = [ "SchemaName", box schemaName; "TableName", box tableName]
+                                                Connection = connection
                                                 }
 
-        let getColumns tableName = query<SqlColumn> {
+        let getColumns tableName connection = query<SqlColumn> {
                                                 Query = """
                                                 SELECT 
                                                 [TABLE_SCHEMA] SchemaName,
@@ -49,4 +52,5 @@ module SqlTypeRepository =
                                                  WHERE [TABLE_NAME] = @TableName
                                                 """;
                                                 Parameters = ["TableName", box tableName]
+                                                Connection = connection
                                                 }
