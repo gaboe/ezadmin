@@ -10,7 +10,7 @@ const MenuItems: React.FunctionComponent<Props> = props => {
     const isAuthenticated = localStorage.getItem("AUTHORIZATION_TOKEN");
     return (<>
         {props.app && <>
-            <Menu.Item name="current-app" active={true} color="green">
+            <Menu.Item name="current-app" active={true} color="blue">
                 {props.app.name}
             </Menu.Item>
             <Menu.Item name="database-explorer">
