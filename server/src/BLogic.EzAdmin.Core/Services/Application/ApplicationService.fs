@@ -13,7 +13,7 @@ module ApplicationService =
     let getApp id: App= 
         let app = SchemaTypesRepository.getByID id
         match app.Pages with 
-            | head::_ -> Engine.getApp head app.Connection
+            | head::_ -> Engine.getApp head app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank}))
             | [] -> {Pages = List.empty; MenuItems = List.empty; Connection = app.Connection}
 
     let saveView (input: AppInput) id = 
