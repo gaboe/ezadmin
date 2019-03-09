@@ -10,7 +10,9 @@ module ApplicationService =
 
     let getApp id: App= 
         let app = SchemaTypesRepository.getByID id
-        Engine.getApp app.Pages.Head app.Connection
+        match app.Pages with 
+            | head::_ -> Engine.getApp head app.Connection
+            | [] -> {Pages = List.empty; MenuItems = List.empty; Connection = app.Connection}
 
     let saveView (input: AppInput) = 
         let app: AppSchema = { 
