@@ -3,6 +3,7 @@
 open System.Data.SqlClient
 open FSharp.Data
 open BLogic.EzAdmin.Domain.UiTypes
+open BLogic.EzAdmin.Data
 
 module EngineRepository =
     open System.Data
@@ -33,7 +34,14 @@ module EngineRepository =
       let headers = DynamicQueryBuilder.getHeaders table
       
       let data = getDataFromDb query headers connection |> Seq.toList
-      data
+
+      let count = QueryHandler.query<int> {
+                                      Query = DynamicQueryBuilder.buildCountQuery table;
+                                      Parameters = List.empty;
+                                      Connection = connection
+                                      } |> Async.RunSynchronously |> Array.head
+
+      (data, count)
 
        
 

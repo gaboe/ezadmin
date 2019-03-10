@@ -13,6 +13,7 @@ query GeneratedAppQuery($id: String!, $pageID: String, $offset: Int!, $limit: In
     pages {
       name
       table {
+        allRowsCount
         headers {
           alias
           name

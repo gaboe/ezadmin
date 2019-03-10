@@ -13,6 +13,7 @@ const APP_PREVIEW_QUERY = gql`
       pages {
         name
         table {
+          allRowsCount
           headers {
             alias
             name

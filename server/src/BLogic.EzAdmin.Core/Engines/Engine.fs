@@ -21,10 +21,9 @@ module Engine =
 
         let description = page.Table |> DescriptionConverter.convertToDescription
         
-        let rows = description 
-                    |> EngineRepository.getDynamicQueryResults connection offset limit  
-                    |> Seq.map hideColumns
-                    |> Seq.toList
+        let (resultRows, count) = description |> EngineRepository.getDynamicQueryResults connection offset limit  
+
+        let rows = resultRows |> Seq.map hideColumns |> Seq.toList
 
         let shownHeaders = [description.MainTable] @ description.JoinedTables
                             |> Seq.collect (fun e -> e.Columns)
@@ -32,7 +31,7 @@ module Engine =
                             |> Seq.map (fun e -> { Alias = e.ColumnAlias; Name = e.Column.ColumnName })
                             |> Seq.toList
 
-        let pages = [{Name = page.Name; Table = {Rows = rows; Headers = shownHeaders }}]
+        let pages = [{Name = page.Name; Table = {Rows = rows; Headers = shownHeaders; AllRowsCount = count }}]
 
         let preview: App = {MenuItems = (menuItems |> Seq.sortBy (fun e -> e.Rank) |> Seq.toList); Pages = pages; Connection = connection}
         preview

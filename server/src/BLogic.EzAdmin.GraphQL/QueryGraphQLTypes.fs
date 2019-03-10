@@ -158,6 +158,7 @@ module QueryGraphQLTypes =
             [
                 Define.Field("rows", ListOf (RowType), "Rows in talbe", fun _ (x: Table) -> x.Rows)
                 Define.Field("headers", ListOf (HeaderType), "Headers", fun _ (x: Table) -> x.Headers)
+                Define.Field("allRowsCount", SchemaDefinitions.Int, "All records in db without filter", fun _ (x: Table) -> x.AllRowsCount)
             ]
         )
 

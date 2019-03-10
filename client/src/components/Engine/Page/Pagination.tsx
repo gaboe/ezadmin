@@ -10,6 +10,7 @@ import {
 type Props = {
     onPageChange: (pageNo: number) => void;
     pageNo: number;
+    totalPages: number;
 }
 
 const Wrapper = styled.div`margin-top: 1em;`
@@ -25,7 +26,7 @@ const PagePagination: React.FunctionComponent<Props> = props => {
                             boundaryRange={1}
                             onPageChange={(__, data) => props.onPageChange(Number(data.activePage))}
                             siblingRange={1}
-                            totalPages={50}
+                            totalPages={props.totalPages}
                             firstItem={null}
                             lastItem={null}
                         />

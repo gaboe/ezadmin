@@ -14,7 +14,7 @@ const Page: React.FunctionComponent<Props> = props => {
     <>
       <Header>{props.page.name}</Header>
       <Table table={props.page.table} />
-      <PagePagination onPageChange={props.onPageChange} pageNo={props.pageNo} />
+      <PagePagination totalPages={Math.ceil(props.page.table.allRowsCount / 10)} onPageChange={props.onPageChange} pageNo={props.pageNo} />
     </>
   );
 };

@@ -402,6 +402,10 @@ export interface AppPreviewQuery_appPreview_pages_table_rows {
 export interface AppPreviewQuery_appPreview_pages_table {
   __typename: "Table";
   /**
+   * All records in db without filter
+   */
+  allRowsCount: number;
+  /**
    * Headers
    */
   headers: AppPreviewQuery_appPreview_pages_table_headers[];
@@ -494,6 +498,10 @@ export interface GeneratedAppQuery_app_pages_table_rows {
 
 export interface GeneratedAppQuery_app_pages_table {
   __typename: "Table";
+  /**
+   * All records in db without filter
+   */
+  allRowsCount: number;
   /**
    * Headers
    */

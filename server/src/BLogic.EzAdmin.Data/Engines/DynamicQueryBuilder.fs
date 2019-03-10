@@ -112,6 +112,18 @@ module DynamicQueryBuilder =
 
         sb.ToString()
     
+    let buildCountQuery (description: QueryDescription) = 
+        let allTables = description.MainTable :: description.JoinedTables
+
+        let sb = SB()
+
+        sb.AppendLine("SELECT COUNT(1) AS [Count]") |> ignore 
+
+        appendFrom description.MainTable sb
+
+        appendJoins description.JoinedTables sb allTables
+
+        sb.ToString()
 
     let getHeaders description =
         let tables = (description.MainTable :: description.JoinedTables) 
