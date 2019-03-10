@@ -538,6 +538,8 @@ export interface GeneratedAppQuery {
 export interface GeneratedAppQueryVariables {
   id: string;
   pageID?: string | null;
+  offset: number;
+  limit: number;
 }
 
 /* tslint:disable */

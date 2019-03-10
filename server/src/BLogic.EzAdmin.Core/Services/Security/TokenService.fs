@@ -63,7 +63,7 @@ module TokenService =
 
     let withUserApp token fn = getAppID token |> Option.bind (fun appID -> ApplicationService.getUserApp appID |> fn)
 
-    let withApp token fn = getAppID token |> Option.bind (fun appID -> ApplicationService.getApp appID |> fn)
+    let withApp token fn = getAppID token |> Option.bind (fun appID -> ApplicationService.getApp appID 10 10 |> fn)
 
     let withUser token fn = getUserID token |> Option.bind (fun userID -> UserService.getUser userID |> fn)
 

@@ -5,11 +5,11 @@ import { GeneratedAppQueryVariables } from 'src/domain/generated/types';
 import { Header } from 'semantic-ui-react';
 import { Layout } from './Layout/Layout';
 import { RouteComponentProps } from 'react-router';
-type Props = RouteComponentProps<{ pageID?: string; }>;
+type Props = RouteComponentProps<{ pageID?: string; offset?: string; limit?: string }>;
 
 
 const GeneratedApp: React.FunctionComponent<Props> = props => {
-
+    const { pageID, offset, limit } = props.match.params;
     return (
         <>
             <AppIDQueryComponent query={APPID_QUERY} fetchPolicy="cache-first">
@@ -18,7 +18,9 @@ const GeneratedApp: React.FunctionComponent<Props> = props => {
                         if (appIDResponse.data && appIDResponse.data.currentApp) {
                             const variables: GeneratedAppQueryVariables = {
                                 id: appIDResponse.data.currentApp.appID,
-                                pageID: props.match.params.pageID
+                                pageID,
+                                offset: offset ? Number(offset) : 0,
+                                limit: limit ? Number(limit) : 10
                             };
                             return (
                                 <GeneratedAppQueryComponent query={GENERATED_APP_QUERY} variables={variables}>

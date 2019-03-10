@@ -47,15 +47,18 @@ module GraphQLSchema =
                                             let tableName = ctx.Arg("tableName")
                                             SqlTypesAppService.getTable root.Token schemaName tableName)
                 Define.Field("appPreview", Nullable(AppType), "Return preview of app", [ Define.Input("input", AppInputType) ], fun ctx root -> ctx.Arg("input") |> EngineAppService.getAppPreview root.Token)
-                Define.Field("app", Nullable(AppType), "Returns application", [ Define.Input("id", String); Define.Input("pageID", Nullable(String)) ],
+                Define.Field("app", Nullable(AppType), "Returns application", 
+                            [ Define.Input("id", String); Define.Input("pageID", Nullable(String)); Define.Input("offset", Int); Define.Input("limit", Int);],
                             fun ctx _ -> let appID = ctx.Arg("id")
+                                         let offset = ctx.Arg("offset")
+                                         let limit = ctx.Arg("limit")
                                          let pageID = ctx.Args.TryFind "pageID"
                                          match pageID with 
                                             | Some maybeId -> let u: string option = unbox maybeId
                                                               match u with 
-                                                                | Some id -> EngineAppService.getAppWithPage appID id
-                                                                | None -> EngineAppService.getApp appID |> Some
-                                            | None -> EngineAppService.getApp appID |> Some)
+                                                                | Some id -> EngineAppService.getAppWithPage appID id offset limit
+                                                                | None -> EngineAppService.getApp appID offset limit |> Some
+                                            | None -> EngineAppService.getApp appID offset limit |> Some)
                 Define.AuthorizedField(
                                         "userApplications",
                                         ListOf(UserAppType),

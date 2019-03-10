@@ -10,16 +10,16 @@ module ApplicationService =
     open MongoDB.Bson
     open BLogic.EzAdmin.Domain.UiTypes
 
-    let getApp id = 
+    let getApp id offset limit = 
         let app = SchemaTypesRepository.getByID id
         match app.Pages with 
-            | head::_ -> Engine.getApp head app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank; PageID = e.PageID.ToString()}))
+            | head::_ -> Engine.getApp offset limit head app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank; PageID = e.PageID.ToString()}))
             | [] -> {Pages = List.empty; MenuItems = List.empty; Connection = app.Connection}
 
-    let getAppWithPage appID (pageID: string) = 
+    let getAppWithPage appID (pageID: string) offset limit = 
         let app = SchemaTypesRepository.getByID appID
         let page = (app.Pages |> Seq.find(fun e -> e.PageID = ObjectId(pageID)))
-        Engine.getApp page app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank; PageID = e.PageID.ToString()})) |> Some
+        Engine.getApp offset limit page app.Connection (app.MenuItems |> List.map (fun e -> {Name = e.Name; Rank = e.Rank; PageID = e.PageID.ToString()})) |> Some
 
     let saveView (input: AppInput) id = 
         let app = SchemaTypesRepository.getByID id

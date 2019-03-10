@@ -73,8 +73,24 @@ module DynamicQueryBuilder =
             |> Option.bind (fun column -> sprintf "%s.%s AS %s" column.TableAlias column.Column.ColumnName column.ColumnAlias
                                             |> Some)
 
+    let private getOrderingColumn tables = 
+        tables
+        |> Seq.collect (fun e -> e.Columns 
+                                |> Seq.map (fun e -> e.ColumnAlias))
+        |> Seq.head
 
-    let buildQuery (description: QueryDescription) = 
+    let appendOrder priamaryColumn firstAlias (sb: SB) = 
+        let alias = match priamaryColumn with 
+                    | Some column -> column.ColumnAlias
+                    | None -> firstAlias
+
+        sb.AppendLine(sprintf "ORDER BY %s" alias) |> ignore
+    
+    let private appendPagination offset limit (sb: SB) = 
+        sb.AppendLine(sprintf "OFFSET %d ROWS" offset) |> ignore
+        sb.AppendLine(sprintf "FETCH NEXT %d ROWS ONLY" limit) |> ignore
+
+    let buildQuery offset limit (description: QueryDescription) = 
         let allTables = description.MainTable :: description.JoinedTables
         let columnNames = allTables |> getColumnNamesWithAliasesExeptPrimary
 
@@ -89,6 +105,10 @@ module DynamicQueryBuilder =
         appendFrom description.MainTable sb
 
         appendJoins description.JoinedTables sb allTables
+
+        appendOrder (description.MainTable |> getPrimaryKey) (getOrderingColumn allTables) sb
+
+        appendPagination offset limit sb
 
         sb.ToString()
     

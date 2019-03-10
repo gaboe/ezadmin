@@ -28,8 +28,8 @@ module EngineRepository =
                 Columns = columns 
                }
         }     
-    let getDynamicQueryResults connection table =
-      let query = DynamicQueryBuilder.buildQuery table 
+    let getDynamicQueryResults connection offset limit table =
+      let query = DynamicQueryBuilder.buildQuery offset limit table 
       let headers = DynamicQueryBuilder.getHeaders table
       
       let data = getDataFromDb query headers connection |> Seq.toList

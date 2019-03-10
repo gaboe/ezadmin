@@ -3,8 +3,8 @@ import { GeneratedAppQuery, GeneratedAppQueryVariables } from 'src/domain/genera
 import { Query } from 'react-apollo';
 
 const GENERATED_APP_QUERY = gql`
-query GeneratedAppQuery($id: String!, $pageID: String) {
-  app(id: $id, pageID: $pageID) {
+query GeneratedAppQuery($id: String!, $pageID: String, $offset: Int!, $limit: Int!) {
+  app(id: $id, pageID: $pageID, offset: $offset, limit: $limit) {
     menuItems {
       name
       rank

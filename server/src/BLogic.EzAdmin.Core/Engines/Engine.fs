@@ -7,7 +7,7 @@ module Engine =
     open BLogic.EzAdmin.Domain.SchemaTypes
     open MongoDB.Bson
 
-    let getApp (page: PageSchema) (connection: string) (menuItems: MenuItem list): App = 
+    let getApp offset limit (page: PageSchema) (connection: string) (menuItems: MenuItem list): App = 
         let isInAllowedColumns (column: Column) =
             page.Table.Columns 
                 |> Seq.filter (fun e -> e.IsHidden |> not) 
@@ -22,7 +22,7 @@ module Engine =
         let description = page.Table |> DescriptionConverter.convertToDescription
         
         let rows = description 
-                    |> EngineRepository.getDynamicQueryResults connection  
+                    |> EngineRepository.getDynamicQueryResults connection offset limit  
                     |> Seq.map hideColumns
                     |> Seq.toList
 
@@ -43,6 +43,6 @@ module Engine =
         let page = {PageID = ObjectId.GenerateNewId(); Table = table; Name = input.tableTitle}
         let menuItems = (app.MenuItems) @ [{Name = input.tableTitle; Rank = int System.Int16.MaxValue; PageID = page.PageID.ToString()}]
         
-        getApp page input.connection menuItems
+        getApp 10 10 page input.connection menuItems
                            
 
