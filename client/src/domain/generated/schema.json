@@ -951,7 +951,25 @@
             "deprecationReason": null
           },
           {
-            "name": "Char",
+            "name": "Decimal",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Text",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "DateTime",
+            "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Bool",
             "description": "",
             "isDeprecated": false,
             "deprecationReason": null

@@ -577,8 +577,11 @@ export interface UserApplicationQuery {
 //==============================================================
 
 export enum SqlColumnDataType {
-  Char = "Char",
+  Bool = "Bool",
+  DateTime = "DateTime",
+  Decimal = "Decimal",
   Int = "Int",
+  Text = "Text",
   Unknown = "Unknown",
 }
 

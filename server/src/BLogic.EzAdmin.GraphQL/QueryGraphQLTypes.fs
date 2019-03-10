@@ -5,12 +5,9 @@ open BLogic.EzAdmin.Domain.GraphQL
 
 #nowarn "40"
 
-open FSharp.Data.GraphQL
 open FSharp.Data.GraphQL.Types
 open FSharp.Data.GraphQL.Server.Middlewares
 open BLogic.EzAdmin.Domain.SqlTypes
-open BLogic.EzAdmin.Domain.SqlTypes
-open BLogic.EzAdmin.Core.Services.SqlTypes.SqlTypeService
 open BLogic.EzAdmin.Application.Models
 
 module QueryGraphQLTypes = 
@@ -20,11 +17,21 @@ module QueryGraphQLTypes =
 
     type CreateApplicationResult = {Message: string}
 
-    type SqlColumnDataType = Int | Nvarchar | Unknown
+    type SqlColumnDataType = Int | Decimal | Text | DateTime | Bool | Unknown
         
     let getSqlColumnDataType sqlDataType = match sqlDataType with 
                                             | "int" -> Int 
-                                            | "nvarchar" -> Nvarchar 
+                                            | "bigint" -> Int 
+                                            | "decimal" -> Decimal
+                                            | "float" -> Decimal
+                                            | "nchar" -> Text 
+                                            | "varchar" -> Text 
+                                            | "nvarchar" -> Text 
+                                            | "uniqueidentifier" -> Text
+                                            | "date" -> DateTime
+                                            | "datetime" -> DateTime
+                                            | "datetime2" -> DateTime
+                                            | "bit" -> Bool
                                             | _ -> Unknown
 
     let root (ctx : ResolveFieldContext) =
@@ -40,7 +47,10 @@ module QueryGraphQLTypes =
             name = "SqlColumnDataType",
             options = [
                 Define.EnumValue("Int", SqlColumnDataType.Int, "")
-                Define.EnumValue("Char", SqlColumnDataType.Nvarchar, "")
+                Define.EnumValue("Decimal", SqlColumnDataType.Decimal, "")
+                Define.EnumValue("Text", SqlColumnDataType.Text, "")
+                Define.EnumValue("DateTime", SqlColumnDataType.DateTime, "")
+                Define.EnumValue("Bool", SqlColumnDataType.Bool, "")
                 Define.EnumValue("Unknown", SqlColumnDataType.Unknown, "")
              ])
 
