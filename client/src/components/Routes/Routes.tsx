@@ -5,7 +5,7 @@ import { Applications } from '../Applications/Applications';
 import { AuthorizedComponent } from '../Auth/Authorization/AuthorizedComponent';
 import { DatabaseExplorer } from './../DbExplorer/DatabaseExplorer';
 import { Designer } from '../Designer/Designer';
-import { GeneratedApp } from '../Engine/GeneratedApp';
+import { GeneratedApp } from '../GeneratedApp/GeneratedApp';
 import { Login } from '../Auth/Login/Login';
 import { Registration } from '../Auth/Registration/Registration';
 import { Route, Switch } from 'react-router-dom';
@@ -26,7 +26,7 @@ const Routes = () => {
 
           <AuthorizedComponent exact={true} path="/app/all" component={Applications} />
           <AuthorizedComponent exact={true} path="/app/add" component={ApplicationCreate} />
-          <AuthorizedComponent exact={true} path="/app/:pageID?" component={GeneratedApp} />
+          <AuthorizedComponent exact={true} path="/app/:pageID?/:offset?/:limit?" component={GeneratedApp} />
 
           <AuthorizedComponent
             exact={true}

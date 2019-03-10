@@ -7,18 +7,23 @@ import {
     Pagination
     } from 'semantic-ui-react';
 
+type Props = {
+    onPageChange: (pageNo: number) => void;
+    pageNo: number;
+}
+
 const Wrapper = styled.div`margin-top: 1em;`
 
-const PagePagination: React.FunctionComponent = _ => {
+const PagePagination: React.FunctionComponent<Props> = props => {
     return (<>
         <Container>
             <Grid textAlign="center">
                 <GridRow>
                     <Wrapper>
                         <Pagination
-                            activePage={5}
+                            activePage={props.pageNo}
                             boundaryRange={1}
-                            // onPageChange={this.handlePaginationChange}
+                            onPageChange={(__, data) => props.onPageChange(Number(data.activePage))}
                             siblingRange={1}
                             totalPages={50}
                             firstItem={null}

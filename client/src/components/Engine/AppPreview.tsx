@@ -30,7 +30,7 @@ const AppPreview: React.FunctionComponent<Props> = props => {
           if (response.data.appPreview) {
             return (
               <>
-                <Layout preview={response.data.appPreview} />
+                <Layout onPageChange={(pageNo) => console.log(pageNo)} preview={response.data.appPreview} pageNo={1} />
               </>
             );
           }
