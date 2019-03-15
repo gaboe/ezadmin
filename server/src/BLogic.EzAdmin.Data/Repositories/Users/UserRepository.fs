@@ -3,7 +3,6 @@ open BLogic.EzAdmin.Data.Core
 open BLogic.EzAdmin.Domain.Users
 
 module UserRepository =
-    open System.Linq
     open MongoDB.Driver
     open MongoDB.Bson
 
@@ -17,5 +16,3 @@ module UserRepository =
         match System.Object.ReferenceEquals(user, null) with
                         | true -> None
                         | false -> Some user
-        
-            
