@@ -79,8 +79,8 @@ module DynamicQueryBuilder =
                                 |> Seq.map (fun e -> e.ColumnAlias))
         |> Seq.head
 
-    let appendOrder priamaryColumn firstAlias (sb: SB) = 
-        let alias = match priamaryColumn with 
+    let appendOrder primaryColumn firstAlias (sb: SB) = 
+        let alias = match primaryColumn with 
                     | Some column -> column.ColumnAlias
                     | None -> firstAlias
 
