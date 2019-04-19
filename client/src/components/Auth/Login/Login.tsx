@@ -1,10 +1,10 @@
-import * as React from 'react';
-import * as yup from 'yup';
-import { Button, Form, Message } from 'semantic-ui-react';
-import { Col, Row } from 'react-grid-system';
-import { Formik, FormikProps } from 'formik';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { LOGIN_MUTATION, LoginMutationComponent } from 'src/graphql/mutations/Auth/LoginMutation';
+import * as React from "react";
+import * as yup from "yup";
+import { Button, Form, Message } from "semantic-ui-react";
+import { Col, Row } from "react-grid-system";
+import { Formik, FormikProps } from "formik";
+import { Link, RouteComponentProps } from "react-router-dom";
+import { LOGIN_MUTATION, LoginMutationComponent } from "../../../graphql/mutations/Auth/LoginMutation";
 
 type UserLogin = { email: string; password: string };
 

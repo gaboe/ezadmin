@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { APP_PREVIEW_QUERY, AppPreviewQueryComponent } from 'src/graphql/queries/Engine/AppPreviewQuery';
-import { AppPreviewQueryVariables, ColumnInput } from 'src/domain/generated/types';
-import { Layout } from './Layout/Layout';
+import * as React from "react";
+import { APP_PREVIEW_QUERY, AppPreviewQueryComponent } from "../../graphql/queries/Engine/AppPreviewQuery";
+import { AppPreviewQueryVariables, ColumnInput } from "../../domain/generated/types";
+import { Layout } from "./Layout/Layout";
+
 type Props = {
   tableTitle: string;
   tableName: string;

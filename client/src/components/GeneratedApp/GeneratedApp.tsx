@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { APPID_QUERY, AppIDQueryComponent } from 'src/graphql/queries/Auth/AppIDQuery';
-import { AppView } from './AppView';
-import { GENERATED_APP_QUERY, GeneratedAppQueryComponent } from 'src/graphql/queries/Engine/AppQuery';
-import { GeneratedAppQueryVariables } from 'src/domain/generated/types';
-import { RouteComponentProps } from 'react-router';
+import * as React from "react";
+import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/AppIDQuery";
+import { AppView } from "./AppView";
+import { GENERATED_APP_QUERY, GeneratedAppQueryComponent } from "../../graphql/queries/Engine/AppQuery";
+import { GeneratedAppQueryVariables } from "../../domain/generated/types";
+import { RouteComponentProps } from "react-router";
+
 type Props = RouteComponentProps<{ pageID?: string; offset?: string; limit?: string }>;
 
 type State = { pageNo: number }

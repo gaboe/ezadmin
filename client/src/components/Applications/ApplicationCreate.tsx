@@ -1,11 +1,11 @@
-import * as React from 'react';
-import * as yup from 'yup';
-import { Button, Form } from 'semantic-ui-react';
-import { Col, Row } from 'react-grid-system';
-import { CREATE_APPLICATION_MUTATION, CreateApplicationMutationComponent } from 'src/graphql/mutations/Applications/AddApplicationMutation';
-import { Formik, FormikProps } from 'formik';
-import { RouteComponentProps } from 'react-router-dom';
-import { USER_APPLICATIONS_QUERY } from 'src/graphql/queries/UserApplications/UserApplicationsQuery';
+import * as React from "react";
+import * as yup from "yup";
+import { Button, Form } from "semantic-ui-react";
+import { Col, Row } from "react-grid-system";
+import { CREATE_APPLICATION_MUTATION, CreateApplicationMutationComponent } from "../../graphql/mutations/Applications/AddApplicationMutation";
+import { Formik, FormikProps } from "formik";
+import { RouteComponentProps } from "react-router-dom";
+import { USER_APPLICATIONS_QUERY } from "../../graphql/queries/UserApplications/UserApplicationsQuery";
 
 type Application = { name: string; connection: string };
 const initialApplication: Application = { name: "", connection: "" };

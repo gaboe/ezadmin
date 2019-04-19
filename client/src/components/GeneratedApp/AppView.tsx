@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { GeneratedAppQuery, GeneratedAppQueryVariables } from 'src/domain/generated/types';
-import { Header } from 'semantic-ui-react';
-import { Layout } from '../Engine/Layout/Layout';
-import { QueryResult } from 'react-apollo';
+import * as React from "react";
+import { GeneratedAppQuery, GeneratedAppQueryVariables } from "../../domain/generated/types";
+import { Header } from "semantic-ui-react";
+import { Layout } from "../Engine/Layout/Layout";
+import { QueryResult } from "react-apollo";
 
 type Props = {
     app: QueryResult<GeneratedAppQuery, GeneratedAppQueryVariables>;

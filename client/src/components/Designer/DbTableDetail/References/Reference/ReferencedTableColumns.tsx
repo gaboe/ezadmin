@@ -1,7 +1,7 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { ColumnInput, DbTableDetailQueryVariables } from 'src/domain/generated/types';
-import { DbReferencedTableDetail } from '../../DbReferencedTableDetail';
+import * as React from "react";
+import styled from "styled-components";
+import { ColumnInput, DbTableDetailQueryVariables } from "../../../../../domain/generated/types";
+import { DbReferencedTableDetail } from "../../DbReferencedTableDetail";
 
 type Props = {
   schemaName: string;

@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { GeneratedAppQuery_app_menuItems as menuItem } from 'src/domain/generated/types';
-import { Link } from 'react-router-dom';
-import { Menu, Sidebar } from 'semantic-ui-react';
+import * as React from "react";
+import { GeneratedAppQuery_app_menuItems as menuItem } from "./../../domain/generated/types";
+import { Link } from "react-router-dom";
+import { Menu, Sidebar } from "semantic-ui-react";
 
 type Props = { menuItems: menuItem[] };
 

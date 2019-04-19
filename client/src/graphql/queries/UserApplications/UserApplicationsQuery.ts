@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
-import { UserApplicationQuery } from 'src/domain/generated/types';
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import { UserApplicationQuery } from "../../../domain/generated/types";
 
 const USER_APPLICATIONS_QUERY = gql`
 query UserApplicationQuery{

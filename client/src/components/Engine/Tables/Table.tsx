@@ -1,13 +1,15 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { AppPreviewQuery_appPreview_pages_table } from 'src/domain/generated/types';
-import { Col, Row as GridRow } from 'react-grid-system';
-import { Table as SemanticTable } from 'semantic-ui-react';
+import * as React from "react";
+import styled from "styled-components";
+import { AppPreviewQuery_appPreview_pages_table } from "../../../domain/generated/types";
+import { Col, Row as GridRow } from "react-grid-system";
+import { Table as SemanticTable } from "semantic-ui-react";
+
 const Wrapper = styled.div`
   margin-right: -6em;
 `;
 
 type Props = { table: AppPreviewQuery_appPreview_pages_table };
+
 const Table: React.FunctionComponent<Props> = props => {
   const columns =
     props.table.rows.length > 0 ? props.table.rows[0].columns : [];

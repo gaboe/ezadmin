@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { AppIDQuery_currentApp } from 'src/domain/generated/types';
-import { Icon, Menu } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { Logout } from '../Auth/Logout/Logout';
+import * as React from "react";
+import { AppIDQuery_currentApp } from "../../domain/generated/types";
+import { Icon, Menu } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import { Logout } from "../Auth/Logout/Logout";
 
 type Props = { app: AppIDQuery_currentApp | null };
 

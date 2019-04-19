@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { any } from 'ramda';
-import { ApolloClient } from 'apollo-client';
-import { ApolloProvider } from 'react-apollo';
-import { DefaultOptions } from 'apollo-client/ApolloClient';
-import { HashRouter as Router } from 'react-router-dom';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { Layout } from './components/Layout/Layout';
-import { onError } from 'apollo-link-error';
-import { Routes } from './components/Routes/Routes';
-import { setContext } from 'apollo-link-context';
+import * as React from "react";
+import { any } from "ramda";
+import { ApolloClient } from "apollo-client";
+import { ApolloProvider } from "react-apollo";
+import { DefaultOptions } from "apollo-client/ApolloClient";
+import { HashRouter as Router } from "react-router-dom";
+import { HttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { Layout } from "./components/Layout/Layout";
+import { onError } from "apollo-link-error";
+import { Routes } from "./components/Routes/Routes";
+import { setContext } from "apollo-link-context";
 
 const authLink = setContext((_, o) => {
   const h = {

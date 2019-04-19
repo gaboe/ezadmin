@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
-import { AppPreviewQuery, AppPreviewQueryVariables } from 'src/domain/generated/types';
-import { Query } from 'react-apollo';
+import gql from "graphql-tag";
+import { AppPreviewQuery, AppPreviewQueryVariables } from "../../../domain/generated/types";
+import { Query } from "react-apollo";
 
 const APP_PREVIEW_QUERY = gql`
   query AppPreviewQuery($input: AppInput!) {

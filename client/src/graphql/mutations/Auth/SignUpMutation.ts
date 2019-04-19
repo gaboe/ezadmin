@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
-import { SignUpMutation, SignUpMutationVariables } from 'src/domain/generated/types';
+import gql from "graphql-tag";
+import { Mutation } from "react-apollo";
+import { SignUpMutation, SignUpMutationVariables } from "../../../domain/generated/types";
 
 const SIGN_UP_MUTATION = gql`
   mutation SignUpMutation($email: String!, $password: String!) {

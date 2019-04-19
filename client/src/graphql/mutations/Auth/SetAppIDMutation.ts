@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
-import { SetAppIDMutation, SetAppIDMutationVariables } from 'src/domain/generated/types';
+import gql from "graphql-tag";
+import { Mutation } from "react-apollo";
+import { SetAppIDMutation, SetAppIDMutationVariables } from "../../../domain/generated/types";
 
 const SET_APPID_MUTATION = gql`
   mutation SetAppIDMutation($appID: String!) {
