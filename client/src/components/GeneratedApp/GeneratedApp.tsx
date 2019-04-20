@@ -2,8 +2,9 @@ import * as React from "react";
 import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/AppIDQuery";
 import { AppView } from "./AppView";
 import { DELETE_RECORD_MUTATION, DeleteRecordMutationComponent } from "../../graphql/mutations/Engine/DeleteRecord";
-import { DeleteRecordMutationVariables, GeneratedAppQueryVariables } from "../../domain/generated/types";
+import { DeleteRecordMutation, DeleteRecordMutationVariables, GeneratedAppQueryVariables } from "../../domain/generated/types";
 import { GENERATED_APP_QUERY, GeneratedAppQueryComponent } from "../../graphql/queries/Engine/AppQuery";
+import { MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
 
@@ -45,21 +46,7 @@ class GeneratedApp extends React.Component<Props, State> {
                                                             if (response.data && response.data.app) {
                                                                 const pageID = response.data.app.pages[0].pageID;
                                                                 const deleteVariables: DeleteRecordMutationVariables = { appID, pageID, recordKey };
-
-                                                                deleteRecord({
-                                                                    variables: deleteVariables,
-                                                                    awaitRefetchQueries: true,
-                                                                    refetchQueries: [{ query: GENERATED_APP_QUERY, variables: variables }]
-                                                                }).then(deleteResponse => {
-                                                                    if (deleteResponse && deleteResponse.data) {
-                                                                        if (deleteResponse.data.deleteRecord.wasDeleted) {
-                                                                            toast(<>Record was deleted</>, { type: "success", autoClose: 3000 })
-                                                                        }
-                                                                        else {
-                                                                            toast(<>{deleteResponse.data.deleteRecord.message}</>, { type: "error", autoClose: 15000 })
-                                                                        }
-                                                                    }
-                                                                })
+                                                                this.delete(deleteRecord, deleteVariables, variables)
                                                             }
                                                         }
 
@@ -83,6 +70,23 @@ class GeneratedApp extends React.Component<Props, State> {
         this.props.history.push(`/app/${this.props.match.params.pageID}/${pageNo}`)
 
         this.setState({ pageNo })
+    }
+
+    private delete = (deleteRecord: MutationFn<DeleteRecordMutation, DeleteRecordMutationVariables>, deleteVariables: DeleteRecordMutationVariables, appQueryVariables: GeneratedAppQueryVariables) => {
+        deleteRecord({
+            variables: deleteVariables,
+            awaitRefetchQueries: true,
+            refetchQueries: [{ query: GENERATED_APP_QUERY, variables: appQueryVariables }]
+        }).then(deleteResponse => {
+            if (deleteResponse && deleteResponse.data) {
+                if (deleteResponse.data.deleteRecord.wasDeleted) {
+                    toast(<>Record was deleted</>, { type: "success", autoClose: 3000 })
+                }
+                else {
+                    toast(<>{deleteResponse.data.deleteRecord.message}</>, { type: "error", autoClose: 15000 })
+                }
+            }
+        })
     }
 
 };
