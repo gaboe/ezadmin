@@ -43,5 +43,13 @@ module Engine =
         let menuItems = (app.MenuItems) @ [{Name = input.tableTitle; Rank = int System.Int16.MaxValue; PageID = page.PageID.ToString()}]
         
         getApp 10 10 page input.connection menuItems
+
+    let deleteRecord connection (table: TableSchema) recordKey =
+        let description = table |> DescriptionConverter.convertToDescription
+        let result = EngineCommands.deleteRecord connection description recordKey
+        result
+
+    
+        
                            
 

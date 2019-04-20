@@ -17,6 +17,8 @@ module QueryGraphQLTypes =
 
     type CreateApplicationResult = {Message: string}
 
+    type DeleteRecordResult = {WasDeleted: bool; Message: string}
+
     type SqlColumnDataType = Int | Decimal | Text | DateTime | Bool | Unknown
         
     let getSqlColumnDataType sqlDataType = match sqlDataType with 
@@ -241,5 +243,16 @@ module QueryGraphQLTypes =
                 Define.Field("message", String, "", fun _ (x: CreateApplicationResult) -> x.Message)
             ]
         )
+    and DeleteRecordResult = 
+           Define.Object<DeleteRecordResult>(
+               name = "DeleteRecordResult",
+               description = "",
+               isTypeOf = (fun o -> o :? DeleteRecordResult),
+               fieldsFn = fun () ->
+               [
+                   Define.Field("wasDeleted", Boolean, "", fun _ (x: DeleteRecordResult) -> x.WasDeleted)
+                   Define.Field("message", String, "", fun _ (x: DeleteRecordResult) -> x.Message)
+               ]
+           )
 
 

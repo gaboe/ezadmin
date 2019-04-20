@@ -9,6 +9,7 @@
     <Compile Include="Engines\ColumnAliasProvider.fs" />
     <Compile Include="Engines\DynamicQueryBuilder.fs" />
     <Compile Include="Engines\EngineRepository.fs" />
+    <Compile Include="Engines\EngineCommands.fs" />
     <Compile Include="Core\MongoHandler.fs" />
     <Compile Include="Repositories\Users\UserRepository.fs" />
     <Compile Include="Repositories\Schemas\SchemaTypesRepository.fs" />

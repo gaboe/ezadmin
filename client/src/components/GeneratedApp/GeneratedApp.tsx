@@ -1,9 +1,11 @@
 import * as React from "react";
 import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/AppIDQuery";
 import { AppView } from "./AppView";
+import { DELETE_RECORD_MUTATION, DeleteRecordMutationComponent } from "../../graphql/mutations/Engine/DeleteRecord";
+import { DeleteRecordMutationVariables, GeneratedAppQueryVariables } from "../../domain/generated/types";
 import { GENERATED_APP_QUERY, GeneratedAppQueryComponent } from "../../graphql/queries/Engine/AppQuery";
-import { GeneratedAppQueryVariables } from "../../domain/generated/types";
 import { RouteComponentProps } from "react-router";
+import { toast } from "react-toastify";
 
 type Props = RouteComponentProps<{ pageID?: string; offset?: string; limit?: string }>;
 
@@ -22,36 +24,55 @@ class GeneratedApp extends React.Component<Props, State> {
         const { pageID, limit } = this.props.match.params;
         return (
             <>
-                <AppIDQueryComponent query={APPID_QUERY} fetchPolicy="cache-first">
+                <DeleteRecordMutationComponent mutation={DELETE_RECORD_MUTATION}>
                     {
-                        appIDResponse => {
-                            if (appIDResponse.data && appIDResponse.data.currentApp) {
-                                const variables: GeneratedAppQueryVariables = {
-                                    id: appIDResponse.data.currentApp.appID,
-                                    pageID,
-                                    offset: (this.state.pageNo - 1) * 10,
-                                    limit: limit ? Number(limit) : 10
-                                };
-                                return (
-                                    <GeneratedAppQueryComponent query={GENERATED_APP_QUERY} variables={variables}>
-                                        {response => {
-                                            const onDelete = () => {
-                                                if (response.data && response.data.app) {
-                                                    const pageID = response.data.app.pages[0].pageID;
+                        deleteRecord =>
+                            <AppIDQueryComponent query={APPID_QUERY} fetchPolicy="cache-first">
+                                {
+                                    appIDResponse => {
+                                        if (appIDResponse.data && appIDResponse.data.currentApp) {
+                                            const appID = appIDResponse.data.currentApp.appID;
+                                            const variables: GeneratedAppQueryVariables = {
+                                                id: appID,
+                                                pageID,
+                                                offset: (this.state.pageNo - 1) * 10,
+                                                limit: limit ? Number(limit) : 10
+                                            };
+                                            return (
+                                                <GeneratedAppQueryComponent query={GENERATED_APP_QUERY} variables={variables}>
+                                                    {response => {
+                                                        const onDelete = (recordKey: string) => {
+                                                            if (response.data && response.data.app) {
+                                                                const pageID = response.data.app.pages[0].pageID;
+                                                                const variables: DeleteRecordMutationVariables = { appID, pageID, recordKey };
 
-                                                }
-                                            }
+                                                                deleteRecord({
+                                                                    variables,
+                                                                }).then(deleteResponse => {
+                                                                    if (deleteResponse && deleteResponse.data) {
+                                                                        if (deleteResponse.data.deleteRecord.wasDeleted) {
+                                                                            toast(<>Record was deleted</>, { type: "success" })
+                                                                        }
+                                                                        else {
+                                                                            toast(<>{deleteResponse.data.deleteRecord.message}</>, { type: "error", autoClose: 15000 })
+                                                                        }
+                                                                    }
+                                                                })
+                                                            }
+                                                        }
 
-                                            return <AppView onDelete={onDelete} app={response} pageNo={this.state.pageNo} onPageChange={this.changePage} />
-                                        }}
-                                    </GeneratedAppQueryComponent>
-                                )
-                            }
-                            return null;
-                        }
+                                                        return <AppView onDelete={onDelete} app={response} pageNo={this.state.pageNo} onPageChange={this.changePage} />
+                                                    }}
+                                                </GeneratedAppQueryComponent>
+                                            )
+                                        }
+                                        return null;
+                                    }
 
+                                }
+                            </AppIDQueryComponent>
                     }
-                </AppIDQueryComponent>
+                </DeleteRecordMutationComponent>
             </>
         );
     }

@@ -138,6 +138,20 @@ module GraphQLSchema =
                                                      { Message = "OK" }
                                     | None -> {Message = ""}
                     );
+                 Define.Field(
+                    "deleteRecord",
+                    DeleteRecordResult,
+                    "",
+                    [ Define.Input("appID", String); Define.Input("pageID", String); Define.Input("recordKey", String) ],
+                     fun ctx _ ->
+                                let appID = ctx.Arg("appID") 
+                                let recordKey = ctx.Arg("recordKey") 
+                                let pageID = ctx.Arg("pageID") 
+                                let result = EngineAppService.deleteRecord appID pageID recordKey 
+                                match result with 
+                                    | Ok _ -> { WasDeleted = true; Message = "" }
+                                    | Error e -> { WasDeleted = false; Message = e }
+                    );
                     
     ]
     )
