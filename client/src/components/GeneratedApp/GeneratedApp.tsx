@@ -1,8 +1,8 @@
 import * as React from "react";
 import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/AppIDQuery";
 import { AppView } from "./AppView";
-import { DELETE_RECORD_MUTATION, DeleteRecordMutationComponent } from "../../graphql/mutations/Engine/DeleteRecord";
-import { DeleteRecordMutation, DeleteRecordMutationVariables, GeneratedAppQueryVariables } from "../../domain/generated/types";
+import { DELETE_ENTITY_MUTATION, DeleteEntityMutationComponent } from "../../graphql/mutations/Engine/DeleteRecord";
+import { DeleteEntityMutation, DeleteEntityMutationVariables, GeneratedAppQueryVariables } from "../../domain/generated/types";
 import { GENERATED_APP_QUERY, GeneratedAppQueryComponent } from "../../graphql/queries/Engine/AppQuery";
 import { MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
@@ -25,9 +25,9 @@ class GeneratedApp extends React.Component<Props, State> {
         const { pageID, limit } = this.props.match.params;
         return (
             <>
-                <DeleteRecordMutationComponent mutation={DELETE_RECORD_MUTATION}>
+                <DeleteEntityMutationComponent mutation={DELETE_ENTITY_MUTATION}>
                     {
-                        deleteRecord =>
+                        deleteEntity =>
                             <AppIDQueryComponent query={APPID_QUERY} fetchPolicy="cache-first">
                                 {
                                     appIDResponse => {
@@ -42,11 +42,11 @@ class GeneratedApp extends React.Component<Props, State> {
                                             return (
                                                 <GeneratedAppQueryComponent query={GENERATED_APP_QUERY} variables={variables}>
                                                     {response => {
-                                                        const onDelete = (recordKey: string) => {
+                                                        const onDelete = (entityID: string) => {
                                                             if (response.data && response.data.app) {
                                                                 const pageID = response.data.app.pages[0].pageID;
-                                                                const deleteVariables: DeleteRecordMutationVariables = { appID, pageID, recordKey };
-                                                                this.delete(deleteRecord, deleteVariables, variables)
+                                                                const deleteVariables: DeleteEntityMutationVariables = { appID, pageID, entityID };
+                                                                this.delete(deleteEntity, deleteVariables, variables)
                                                             }
                                                         }
 
@@ -68,7 +68,7 @@ class GeneratedApp extends React.Component<Props, State> {
                                 }
                             </AppIDQueryComponent>
                     }
-                </DeleteRecordMutationComponent>
+                </DeleteEntityMutationComponent>
             </>
         );
     }
@@ -79,18 +79,17 @@ class GeneratedApp extends React.Component<Props, State> {
         this.setState({ pageNo })
     }
 
-    private delete = (deleteRecord: MutationFn<DeleteRecordMutation, DeleteRecordMutationVariables>, deleteVariables: DeleteRecordMutationVariables, appQueryVariables: GeneratedAppQueryVariables) => {
+    private delete = (deleteRecord: MutationFn<DeleteEntityMutation, DeleteEntityMutationVariables>, deleteVariables: DeleteEntityMutationVariables, appQueryVariables: GeneratedAppQueryVariables) => {
         deleteRecord({
             variables: deleteVariables,
-            awaitRefetchQueries: true,
             refetchQueries: [{ query: GENERATED_APP_QUERY, variables: appQueryVariables }]
         }).then(deleteResponse => {
             if (deleteResponse && deleteResponse.data) {
-                if (deleteResponse.data.deleteRecord.wasDeleted) {
+                if (deleteResponse.data.deleteEntity.wasDeleted) {
                     toast(<>Record was deleted</>, { type: "success", autoClose: 3000 })
                 }
                 else {
-                    toast(<>{deleteResponse.data.deleteRecord.message}</>, { type: "error", autoClose: 15000 })
+                    toast(<>{deleteResponse.data.deleteEntity.message}</>, { type: "error", autoClose: 15000 })
                 }
             }
         })

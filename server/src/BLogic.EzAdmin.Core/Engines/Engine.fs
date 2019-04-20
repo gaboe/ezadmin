@@ -44,9 +44,9 @@ module Engine =
         
         getApp 10 10 page input.connection menuItems
 
-    let deleteRecord connection (table: TableSchema) recordKey =
+    let deleteEntity connection (table: TableSchema) entityID =
         let description = table |> DescriptionConverter.convertToDescription
-        let result = EngineCommands.deleteRecord connection description recordKey
+        let result = EngineCommands.deleteEntity connection description entityID
         result
 
     

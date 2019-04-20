@@ -13,8 +13,8 @@ const Wrapper = styled.div`
 type Props = {
   table: AppPreviewQuery_appPreview_pages_table;
   isPreview: boolean;
-  onDelete: (key: string) => void;
-  onEdit: (key: string) => void;
+  onDelete: (entityID: string) => void;
+  onEdit: (entityID: string) => void;
 };
 
 const Table: React.FunctionComponent<Props> = props => {

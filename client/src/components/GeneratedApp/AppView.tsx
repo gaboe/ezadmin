@@ -8,8 +8,8 @@ type Props = {
     app: QueryResult<GeneratedAppQuery, GeneratedAppQueryVariables>;
     pageNo: number;
     onPageChange: (pageNo: number) => void;
-    onDelete: (key: string) => void;
-    onEdit: (key: string) => void;
+    onDelete: (entityID: string) => void;
+    onEdit: (entityID: string) => void;
 };
 
 type State = { response?: QueryResult<GeneratedAppQuery, GeneratedAppQueryVariables> };

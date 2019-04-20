@@ -15,10 +15,10 @@ module EngineAppService =
 
     let getAppWithPage = ApplicationService.getAppWithPage
 
-    let deleteRecord appID pageID recordKey = 
+    let deleteEntity appID pageID entityID = 
         let app = SchemaTypeService.getApp appID
         let page = app.Pages |> Seq.find (fun e -> e.PageID = ObjectId.Parse(pageID))
-        let result = Engine.deleteRecord app.Connection page.Table recordKey
+        let result = Engine.deleteEntity app.Connection page.Table entityID
         result
 
 

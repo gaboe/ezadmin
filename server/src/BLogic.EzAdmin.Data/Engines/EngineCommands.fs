@@ -4,13 +4,13 @@ open BLogic.EzAdmin.Domain.SchemaTypes
 open BLogic.EzAdmin.Data
 
 module EngineCommands =
-    let deleteRecord connection (description: QueryDescription) recordKey =
+    let deleteEntity connection (description: QueryDescription) entityID =
         
         let mainTable = sprintf "%s.%s" description.MainTable.SchemaName description.MainTable.TableName
 
         let primaryKey = description.MainTable.Columns |> Seq.find (fun e -> e.Column.ColumnType = ColumnType.PrimaryKey)
         
-        let query = sprintf "DELETE FROM %s WHERE %s = %s" mainTable primaryKey.Column.ColumnName recordKey
+        let query = sprintf "DELETE FROM %s WHERE %s = %s" mainTable primaryKey.Column.ColumnName entityID
 
         let execute () = 
             QueryHandler.execute {
@@ -18,8 +18,7 @@ module EngineCommands =
                                                        Parameters = List.empty;
                                                        Connection = connection
                                                        }
-                                 |> Async.RunSynchronously |> ignore
-            recordKey
+                                 |> Async.RunSynchronously
 
         let result = try execute() |> Result.Ok 
                       with

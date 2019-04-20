@@ -6,8 +6,8 @@ import { Icon, Table as SemanticTable } from "semantic-ui-react";
 type Props = {
     rows: AppPreviewQuery_appPreview_pages_table_rows[];
     isPreview: boolean;
-    onEdit: (key: string) => void;
-    onDelete: (key: string) => void;
+    onEdit: (entityID: string) => void;
+    onDelete: (entityID: string) => void;
 }
 
 const ActionsWrapper = styled.span`

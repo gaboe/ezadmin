@@ -9,8 +9,8 @@ type Props = {
   pageNo: number;
   isPreview: boolean;
   onPageChange: (pageNo: number) => void;
-  onDelete: (key: string) => void;
-  onEdit: (key: string) => void;
+  onDelete: (entityID: string) => void;
+  onEdit: (entityID: string) => void;
 };
 
 const Page: React.FunctionComponent<Props> = props => {

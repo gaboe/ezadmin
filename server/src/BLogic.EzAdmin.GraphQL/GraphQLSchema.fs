@@ -139,15 +139,15 @@ module GraphQLSchema =
                                     | None -> {Message = ""}
                     );
                  Define.Field(
-                    "deleteRecord",
-                    DeleteRecordResult,
+                    "deleteEntity",
+                    DeleteEnityResult,
                     "",
-                    [ Define.Input("appID", String); Define.Input("pageID", String); Define.Input("recordKey", String) ],
+                    [ Define.Input("appID", String); Define.Input("pageID", String); Define.Input("entityID", String) ],
                      fun ctx _ ->
                                 let appID = ctx.Arg("appID") 
-                                let recordKey = ctx.Arg("recordKey") 
+                                let entityID = ctx.Arg("entityID") 
                                 let pageID = ctx.Arg("pageID") 
-                                let result = EngineAppService.deleteRecord appID pageID recordKey 
+                                let result = EngineAppService.deleteEntity appID pageID entityID 
                                 match result with 
                                     | Ok _ -> { WasDeleted = true; Message = "" }
                                     | Error e -> { WasDeleted = false; Message = e }

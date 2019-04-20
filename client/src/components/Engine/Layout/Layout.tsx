@@ -10,8 +10,8 @@ type Props = {
   pageNo: number;
   isPreview: boolean;
   onPageChange: (pageNo: number) => void;
-  onDelete: (key: string) => void;
-  onEdit: (key: string) => void;
+  onDelete: (entityID: string) => void;
+  onEdit: (entityID: string) => void;
 };
 
 const Pushable = styled.div`

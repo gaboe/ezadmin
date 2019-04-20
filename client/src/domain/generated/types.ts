@@ -116,23 +116,23 @@ export interface SignUpMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: DeleteRecordMutation
+// GraphQL mutation operation: DeleteEntityMutation
 // ====================================================
 
-export interface DeleteRecordMutation_deleteRecord {
+export interface DeleteEntityMutation_deleteEntity {
   __typename: "DeleteRecordResult";
   wasDeleted: boolean;
   message: string;
 }
 
-export interface DeleteRecordMutation {
-  deleteRecord: DeleteRecordMutation_deleteRecord;
+export interface DeleteEntityMutation {
+  deleteEntity: DeleteEntityMutation_deleteEntity;
 }
 
-export interface DeleteRecordMutationVariables {
+export interface DeleteEntityMutationVariables {
   appID: string;
   pageID: string;
-  recordKey: string;
+  entityID: string;
 }
 
 /* tslint:disable */

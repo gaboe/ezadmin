@@ -1418,7 +1418,7 @@
             "deprecationReason": null
           },
           {
-            "name": "deleteRecord",
+            "name": "deleteEntity",
             "description": "",
             "args": [
               {
@@ -1450,7 +1450,7 @@
                 "defaultValue": null
               },
               {
-                "name": "recordKey",
+                "name": "entityID",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",

@@ -17,7 +17,7 @@ module QueryGraphQLTypes =
 
     type CreateApplicationResult = {Message: string}
 
-    type DeleteRecordResult = {WasDeleted: bool; Message: string}
+    type DeleteEntityResult = {WasDeleted: bool; Message: string}
 
     type SqlColumnDataType = Int | Decimal | Text | DateTime | Bool | Unknown
         
@@ -243,15 +243,15 @@ module QueryGraphQLTypes =
                 Define.Field("message", String, "", fun _ (x: CreateApplicationResult) -> x.Message)
             ]
         )
-    and DeleteRecordResult = 
-           Define.Object<DeleteRecordResult>(
+    and DeleteEnityResult = 
+           Define.Object<DeleteEntityResult>(
                name = "DeleteRecordResult",
                description = "",
-               isTypeOf = (fun o -> o :? DeleteRecordResult),
+               isTypeOf = (fun o -> o :? DeleteEntityResult),
                fieldsFn = fun () ->
                [
-                   Define.Field("wasDeleted", Boolean, "", fun _ (x: DeleteRecordResult) -> x.WasDeleted)
-                   Define.Field("message", String, "", fun _ (x: DeleteRecordResult) -> x.Message)
+                   Define.Field("wasDeleted", Boolean, "", fun _ (x: DeleteEntityResult) -> x.WasDeleted)
+                   Define.Field("message", String, "", fun _ (x: DeleteEntityResult) -> x.Message)
                ]
            )
 

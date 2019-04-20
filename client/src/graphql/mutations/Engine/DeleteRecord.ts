@@ -1,16 +1,16 @@
 import gql from "graphql-tag";
-import { DeleteRecordMutation, DeleteRecordMutationVariables } from "../../../domain/generated/types";
+import { DeleteEntityMutation, DeleteEntityMutationVariables } from "../../../domain/generated/types";
 import { Mutation } from "react-apollo";
 
-const DELETE_RECORD_MUTATION = gql`
-  mutation DeleteRecordMutation($appID: String!, $pageID: String!, $recordKey: String!) {
-    deleteRecord(appID: $appID, pageID: $pageID, recordKey: $recordKey) {
+const DELETE_ENTITY_MUTATION = gql`
+  mutation DeleteEntityMutation($appID: String!, $pageID: String!, $entityID: String!) {
+    deleteEntity(appID: $appID, pageID: $pageID, entityID: $entityID) {
       wasDeleted
       message
     }
   }
 `;
 
-class DeleteRecordMutationComponent extends Mutation<DeleteRecordMutation, DeleteRecordMutationVariables>{ }
+class DeleteEntityMutationComponent extends Mutation<DeleteEntityMutation, DeleteEntityMutationVariables>{ }
 
-export { DELETE_RECORD_MUTATION, DeleteRecordMutationComponent };
+export { DELETE_ENTITY_MUTATION, DeleteEntityMutationComponent };
