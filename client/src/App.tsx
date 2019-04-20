@@ -10,6 +10,8 @@ import { Layout } from "./components/Layout/Layout";
 import { onError } from "apollo-link-error";
 import { Routes } from "./components/Routes/Routes";
 import { setContext } from "apollo-link-context";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const authLink = setContext((_, o) => {
   const h = {
@@ -58,20 +60,20 @@ const client = new ApolloClient({
   link: httpLink
 });
 
-class App extends React.Component {
-  public render() {
-    return (
-      <>
-        <ApolloProvider client={client}>
-          <Router>
-            <Layout>
-              <Routes />
-            </Layout>
-          </Router>
-        </ApolloProvider>
-      </>
-    );
-  }
+toast.configure()
+
+const App = () => {
+  return (
+    <>
+      <ApolloProvider client={client}>
+        <Router>
+          <Layout>
+            <Routes />
+          </Layout>
+        </Router>
+      </ApolloProvider>
+    </>
+  );
 }
 
 export default App;

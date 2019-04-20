@@ -44,14 +44,16 @@ class GeneratedApp extends React.Component<Props, State> {
                                                         const onDelete = (recordKey: string) => {
                                                             if (response.data && response.data.app) {
                                                                 const pageID = response.data.app.pages[0].pageID;
-                                                                const variables: DeleteRecordMutationVariables = { appID, pageID, recordKey };
+                                                                const deleteVariables: DeleteRecordMutationVariables = { appID, pageID, recordKey };
 
                                                                 deleteRecord({
-                                                                    variables,
+                                                                    variables: deleteVariables,
+                                                                    awaitRefetchQueries: true,
+                                                                    refetchQueries: [{ query: GENERATED_APP_QUERY, variables: variables }]
                                                                 }).then(deleteResponse => {
                                                                     if (deleteResponse && deleteResponse.data) {
                                                                         if (deleteResponse.data.deleteRecord.wasDeleted) {
-                                                                            toast(<>Record was deleted</>, { type: "success" })
+                                                                            toast(<>Record was deleted</>, { type: "success", autoClose: 3000 })
                                                                         }
                                                                         else {
                                                                             toast(<>{deleteResponse.data.deleteRecord.message}</>, { type: "error", autoClose: 15000 })
