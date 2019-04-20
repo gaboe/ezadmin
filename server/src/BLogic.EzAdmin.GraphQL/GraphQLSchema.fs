@@ -59,6 +59,11 @@ module GraphQLSchema =
                                                                 | Some id -> EngineAppService.getAppWithPage appID id offset limit
                                                                 | None -> EngineAppService.getApp appID offset limit |> Some
                                             | None -> EngineAppService.getApp appID offset limit |> Some)
+                Define.Field("entity", Nullable(EntityType), "Get db tables by schema name", [ Define.Input("pageID", String); Define.Input("entityID", String) ],
+                                           fun ctx root -> let pageID = ctx.Arg("pageID")
+                                                           let entityID = ctx.Arg("entityID")
+                                                           EngineAppService.getEntity root.Token pageID entityID 
+                            )
                 Define.AuthorizedField(
                                         "userApplications",
                                         ListOf(UserAppType),

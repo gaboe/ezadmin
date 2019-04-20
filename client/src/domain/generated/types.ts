@@ -580,6 +580,49 @@ export interface GeneratedAppQueryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: EntityQuery
+// ====================================================
+
+export interface EntityQuery_entity_row_columns {
+  __typename: "Column";
+  columnAlias: string;
+  name: string;
+  value: string;
+}
+
+export interface EntityQuery_entity_row {
+  __typename: "Row";
+  /**
+   * Multiple properties of record
+   */
+  columns: EntityQuery_entity_row_columns[];
+}
+
+export interface EntityQuery_entity {
+  __typename: "Entity";
+  /**
+   * Multiple properties of record
+   */
+  row: EntityQuery_entity_row;
+}
+
+export interface EntityQuery {
+  /**
+   * Get db tables by schema name
+   */
+  entity: EntityQuery_entity | null;
+}
+
+export interface EntityQueryVariables {
+  pageID: string;
+  entityID: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: UserApplicationQuery
 // ====================================================
 

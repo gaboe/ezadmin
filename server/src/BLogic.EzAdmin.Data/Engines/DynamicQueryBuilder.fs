@@ -10,7 +10,7 @@ module DynamicQueryBuilder =
     let private appendLines (sb: SB) lines = lines |> Seq.iter (fun l -> sb.AppendLine l |> ignore)
 
     let private appendFrom table (sb: SB) =
-        sprintf "FROM %s.%s AS %s" table.SchemaName table.TableName table.TableAlias 
+        sprintf " FROM %s.%s AS %s" table.SchemaName table.TableName table.TableAlias 
             |> sb.AppendLine |> ignore
     
     let private getPrimaryKey table =
@@ -122,6 +122,30 @@ module DynamicQueryBuilder =
         appendFrom description.MainTable sb
 
         appendJoins description.JoinedTables sb allTables
+
+        sb.ToString()
+
+    let buildEntityQuery entityID (description: QueryDescription) = 
+        let allTables = description.MainTable :: description.JoinedTables
+        let columnNames = allTables |> getColumnNamesWithAliasesExeptPrimary
+
+        let sb = SB()
+        
+        match mainTablePrimaryKey description with
+                   | Some mk -> (sprintf "SELECT TOP 1 %s" mk)
+                   | None -> "SELECT TOP 1 1"
+                   |> sb.AppendLine |> ignore
+
+        appendColumnNames sb columnNames
+
+        appendFrom description.MainTable sb
+
+        appendJoins description.JoinedTables sb allTables
+
+        match getPrimaryKey description.MainTable with
+                   | Some primaryCol -> (sprintf "WHERE %s.%s = %s" description.MainTable.TableAlias primaryCol.Column.ColumnName entityID)
+                   | None -> ""
+                   |> sb.AppendLine |> ignore
 
         sb.ToString()
 

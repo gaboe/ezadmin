@@ -7,9 +7,9 @@ module Engine =
     open BLogic.EzAdmin.Domain.SchemaTypes
     open MongoDB.Bson
 
-    let getApp offset limit (page: PageSchema) (connection: string) (menuItems: MenuItem list): App = 
+    let getVisibleColumns (table: TableSchema) resultRows = 
         let isInAllowedColumns (column: Column) =
-            page.Table.Columns 
+            table.Columns 
                 |> Seq.filter (fun e -> e.IsHidden |> not) 
                 |> Seq.exists (fun e -> e.ColumnName = column.Name)
 
@@ -19,11 +19,16 @@ module Engine =
                             |> Seq.toList
             { Key = row.Key; Columns = columns }
 
+        let rows = resultRows |> Seq.map hideColumns |> Seq.toList
+        rows
+
+    let getApp offset limit (page: PageSchema) (connection: string) (menuItems: MenuItem list): App = 
+        
         let description = page.Table |> DescriptionConverter.convertToDescription
         
         let (resultRows, count) = description |> EngineRepository.getDynamicQueryResults connection offset limit  
 
-        let rows = resultRows |> Seq.map hideColumns |> Seq.toList
+        let rows = getVisibleColumns page.Table resultRows 
 
         let shownHeaders = [description.MainTable] @ description.JoinedTables
                             |> Seq.collect (fun e -> e.Columns)
@@ -43,6 +48,16 @@ module Engine =
         let menuItems = (app.MenuItems) @ [{Name = input.tableTitle; Rank = int System.Int16.MaxValue; PageID = page.PageID.ToString()}]
         
         getApp 10 10 page input.connection menuItems
+
+    let getEntity connection (table: TableSchema) entityID = 
+        let description = table |> DescriptionConverter.convertToDescription
+    
+        let resultRow = description |> EngineRepository.getDynamicQueryResult connection entityID
+
+        let rows = getVisibleColumns table [resultRow]
+
+        rows.Head
+
 
     let deleteEntity connection (table: TableSchema) entityID =
         let description = table |> DescriptionConverter.convertToDescription

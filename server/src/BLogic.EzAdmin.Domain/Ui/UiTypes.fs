@@ -14,4 +14,6 @@ type [<CLIMutable>] Page = {Table: Table; Name: string; PageID: string}
 
 type [<CLIMutable>] App = {Pages: Page list; MenuItems: MenuItem list; Connection: string}
 
-type [<CLIMutable>] UserApp = {AppID:string; Name: string; Connection: string}
+type [<CLIMutable>] UserApp = {AppID: string; Name: string; Connection: string}
+
+type [<CLIMutable>] Entity = {Row: Row; }

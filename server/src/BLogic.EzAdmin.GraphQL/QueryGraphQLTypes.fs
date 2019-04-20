@@ -254,5 +254,15 @@ module QueryGraphQLTypes =
                    Define.Field("message", String, "", fun _ (x: DeleteEntityResult) -> x.Message)
                ]
            )
+    and EntityType = 
+           Define.Object<Entity>(
+               name = "Entity",
+               description = "Entity from storage",
+               isTypeOf = (fun o -> o :? Entity),
+               fieldsFn = fun () ->
+               [
+                   Define.Field("row", RowType, "Multiple properties of record", fun _ (x: Entity) -> x.Row)
+               ]
+           )
 
 
