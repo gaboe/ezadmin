@@ -6,18 +6,19 @@ import { Table } from "../Tables/Table";
 
 type Props = {
   page: AppPreviewQuery_appPreview_pages;
-  onPageChange: (pageNo: number) => void;
   pageNo: number;
   isPreview: boolean;
+  onPageChange: (pageNo: number) => void;
   onDelete: (key: string) => void;
+  onEdit: (key: string) => void;
 };
 
 const Page: React.FunctionComponent<Props> = props => {
-  const { pageNo, onPageChange, isPreview, page: { table, name }, onDelete } = props;
+  const { pageNo, onPageChange, isPreview, page: { table, name }, onDelete, onEdit } = props;
   return (
     <>
       <Header>{name}</Header>
-      <Table isPreview={isPreview} table={table} onDelete={onDelete} />
+      <Table onEdit={onEdit} isPreview={isPreview} table={table} onDelete={onDelete} />
       <PagePagination totalPages={Math.ceil(table.allRowsCount / 10)} onPageChange={onPageChange} pageNo={pageNo} />
     </>
   );

@@ -50,7 +50,14 @@ class GeneratedApp extends React.Component<Props, State> {
                                                             }
                                                         }
 
-                                                        return <AppView onDelete={onDelete} app={response} pageNo={this.state.pageNo} onPageChange={this.changePage} />
+                                                        const onEdit = (recordKey: string) => {
+                                                            if (response.data && response.data.app) {
+                                                                const pageID = response.data.app.pages[0].pageID;
+                                                                this.props.history.push(`/app/edit/${pageID}/${recordKey}`)
+                                                            }
+                                                        }
+
+                                                        return <AppView onEdit={onEdit} onDelete={onDelete} app={response} pageNo={this.state.pageNo} onPageChange={this.changePage} />
                                                     }}
                                                 </GeneratedAppQueryComponent>
                                             )

@@ -14,6 +14,7 @@ type Props = {
   table: AppPreviewQuery_appPreview_pages_table;
   isPreview: boolean;
   onDelete: (key: string) => void;
+  onEdit: (key: string) => void;
 };
 
 const Table: React.FunctionComponent<Props> = props => {
@@ -34,7 +35,7 @@ const Table: React.FunctionComponent<Props> = props => {
               compact={columns.length > 3 ? true : false}
             >
               <Header headers={headers} />
-              <Body onDelete={props.onDelete} isPreview={props.isPreview} rows={rows} />
+              <Body onEdit={props.onEdit} onDelete={props.onDelete} isPreview={props.isPreview} rows={rows} />
             </SemanticTable>
           </Col>
         </GridRow>

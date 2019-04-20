@@ -6,6 +6,7 @@ import { Icon, Table as SemanticTable } from "semantic-ui-react";
 type Props = {
     rows: AppPreviewQuery_appPreview_pages_table_rows[];
     isPreview: boolean;
+    onEdit: (key: string) => void;
     onDelete: (key: string) => void;
 }
 
@@ -15,7 +16,7 @@ cursor: pointer;
 `;
 
 const Body: React.FunctionComponent<Props> = props => {
-    const { rows, isPreview, onDelete } = props;
+    const { rows, isPreview, onDelete, onEdit } = props;
 
     return (<>
         <SemanticTable.Body>
@@ -31,6 +32,7 @@ const Body: React.FunctionComponent<Props> = props => {
                                         </span>
                                         {!isPreview && (row.columns.length - 1) === index &&
                                             <ActionsWrapper>
+                                                <Icon name="pencil" onClick={() => onEdit(row.key)} />
                                                 <Icon name="trash" onClick={() => onDelete(row.key)} />
                                             </ActionsWrapper>
                                         }

@@ -7,10 +7,11 @@ import { Segment, Sidebar } from "semantic-ui-react";
 
 type Props = {
   app: AppPreviewQuery_appPreview;
-  onPageChange: (pageNo: number) => void;
   pageNo: number;
   isPreview: boolean;
+  onPageChange: (pageNo: number) => void;
   onDelete: (key: string) => void;
+  onEdit: (key: string) => void;
 };
 
 const Pushable = styled.div`
@@ -18,7 +19,7 @@ const Pushable = styled.div`
 `;
 
 const Layout: React.FunctionComponent<Props> = props => {
-  const { isPreview, onPageChange, app, pageNo, onDelete } = props;
+  const { isPreview, onPageChange, app, pageNo, onDelete, onEdit } = props;
 
   return (
     <>
@@ -27,7 +28,7 @@ const Layout: React.FunctionComponent<Props> = props => {
           <MenuItems menuItems={app.menuItems} />
           <Sidebar.Pusher>
             <Segment basic={true}>
-              <Page isPreview={isPreview} onPageChange={onPageChange} page={app.pages[0]} pageNo={pageNo} onDelete={onDelete} />
+              <Page onEdit={onEdit} isPreview={isPreview} onPageChange={onPageChange} page={app.pages[0]} pageNo={pageNo} onDelete={onDelete} />
             </Segment>
           </Sidebar.Pusher>
         </Pushable>

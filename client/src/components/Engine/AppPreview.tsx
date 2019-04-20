@@ -31,7 +31,7 @@ const AppPreview: React.FunctionComponent<Props> = props => {
           if (response.data.appPreview) {
             return (
               <>
-                <Layout onDelete={() => false} isPreview={true} onPageChange={(pageNo) => console.log(pageNo)} app={response.data.appPreview} pageNo={1} />
+                <Layout onEdit={() => false} onDelete={() => false} isPreview={true} onPageChange={(pageNo) => console.log(pageNo)} app={response.data.appPreview} pageNo={1} />
               </>
             );
           }
