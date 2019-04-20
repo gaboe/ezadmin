@@ -27,7 +27,7 @@ module ApplicationService =
                     | head::tail -> (head::tail) |> Seq.maxBy (fun e -> e.Rank) |> (fun a -> a.Rank + 10)
                     | [] -> 10
 
-        let page = { PageID = ObjectId.GenerateNewId();
+        let page: PageSchema = { PageID = ObjectId.GenerateNewId();
                     Name = input.tableTitle;
                     Table = AppInputTransformer.tranformToSchema input }
         let menuItem = {MenuItemID = ObjectId.GenerateNewId(); Name = input.tableTitle; Rank = rank; PageID = page.PageID}

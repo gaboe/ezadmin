@@ -24,6 +24,7 @@ module QueryGraphQLTypes =
                                             | "bigint" -> Int 
                                             | "decimal" -> Decimal
                                             | "float" -> Decimal
+                                            | "char" -> Text 
                                             | "nchar" -> Text 
                                             | "varchar" -> Text 
                                             | "nvarchar" -> Text 
@@ -108,7 +109,7 @@ module QueryGraphQLTypes =
                 Define.Field("columnName", String, "Column name", fun _ (x: SqlColumn) -> x.ColumnName)
                 Define.Field("tableName", String, "Table name", fun _ (x: SqlColumn) -> x.TableName)
                 Define.Field("schemaName", String, "Schema name", fun _ (x: SqlColumn) -> x.SchemaName)
-                Define.Field("dataType", SqlColumnDataType, "", fun _ (h : SqlColumn) -> h.DataType |> getSqlColumnDataType )
+                Define.Field("dataType", SqlColumnDataType, "", fun _ (x : SqlColumn) -> x.DataType |> getSqlColumnDataType )
             ]
         )
     
@@ -169,6 +170,7 @@ module QueryGraphQLTypes =
             isTypeOf = (fun o -> o :? Page),
             fieldsFn = fun () ->
             [
+                Define.Field("pageID", String, "", fun _ (x: Page) -> x.PageID)
                 Define.Field("table", TableType, "Table on page", fun _ (x: Page) -> x.Table)
                 Define.Field("name", String, "Name", fun _ (x: Page) -> x.Name)
             ]

@@ -6,9 +6,11 @@ import { Page } from "../Page/Page";
 import { Segment, Sidebar } from "semantic-ui-react";
 
 type Props = {
-  preview: AppPreviewQuery_appPreview;
+  app: AppPreviewQuery_appPreview;
   onPageChange: (pageNo: number) => void;
   pageNo: number;
+  isPreview: boolean;
+  onDelete: (key: string) => void;
 };
 
 const Pushable = styled.div`
@@ -16,14 +18,16 @@ const Pushable = styled.div`
 `;
 
 const Layout: React.FunctionComponent<Props> = props => {
+  const { isPreview, onPageChange, app, pageNo, onDelete } = props;
+
   return (
     <>
       <Sidebar.Pushable as={Segment}>
         <Pushable>
-          <MenuItems menuItems={props.preview.menuItems} />
+          <MenuItems menuItems={app.menuItems} />
           <Sidebar.Pusher>
             <Segment basic={true}>
-              <Page onPageChange={props.onPageChange} page={props.preview.pages[0]} pageNo={props.pageNo} />
+              <Page isPreview={isPreview} onPageChange={onPageChange} page={app.pages[0]} pageNo={pageNo} onDelete={onDelete} />
             </Segment>
           </Sidebar.Pusher>
         </Pushable>

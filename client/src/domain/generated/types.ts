@@ -514,6 +514,7 @@ export interface GeneratedAppQuery_app_pages_table {
 
 export interface GeneratedAppQuery_app_pages {
   __typename: "Page";
+  pageID: string;
   /**
    * Name
    */

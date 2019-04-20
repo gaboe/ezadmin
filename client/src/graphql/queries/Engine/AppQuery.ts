@@ -11,6 +11,7 @@ query GeneratedAppQuery($id: String!, $pageID: String, $offset: Int!, $limit: In
       pageID
     }
     pages {
+      pageID
       name
       table {
         allRowsCount

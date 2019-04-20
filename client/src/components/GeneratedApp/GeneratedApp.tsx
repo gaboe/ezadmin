@@ -10,6 +10,7 @@ type Props = RouteComponentProps<{ pageID?: string; offset?: string; limit?: str
 type State = { pageNo: number }
 
 class GeneratedApp extends React.Component<Props, State> {
+
     constructor(props: Props) {
         super(props);
 
@@ -34,7 +35,14 @@ class GeneratedApp extends React.Component<Props, State> {
                                 return (
                                     <GeneratedAppQueryComponent query={GENERATED_APP_QUERY} variables={variables}>
                                         {response => {
-                                            return <AppView app={response} pageNo={this.state.pageNo} onPageChange={this.changePage} />
+                                            const onDelete = () => {
+                                                if (response.data && response.data.app) {
+                                                    const pageID = response.data.app.pages[0].pageID;
+
+                                                }
+                                            }
+
+                                            return <AppView onDelete={onDelete} app={response} pageNo={this.state.pageNo} onPageChange={this.changePage} />
                                         }}
                                     </GeneratedAppQueryComponent>
                                 )
@@ -53,6 +61,7 @@ class GeneratedApp extends React.Component<Props, State> {
 
         this.setState({ pageNo })
     }
+
 };
 
 export { GeneratedApp };

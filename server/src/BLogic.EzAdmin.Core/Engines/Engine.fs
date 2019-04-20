@@ -31,7 +31,7 @@ module Engine =
                             |> Seq.map (fun e -> { Alias = e.ColumnAlias; Name = e.Column.ColumnName })
                             |> Seq.toList
 
-        let pages = [{Name = page.Name; Table = {Rows = rows; Headers = shownHeaders; AllRowsCount = count }}]
+        let pages: Page list = [{ PageID = page.PageID.ToString(); Name = page.Name; Table = {Rows = rows; Headers = shownHeaders; AllRowsCount = count }}]
 
         let preview: App = {MenuItems = (menuItems |> Seq.sortBy (fun e -> e.Rank) |> Seq.toList); Pages = pages; Connection = connection}
         preview

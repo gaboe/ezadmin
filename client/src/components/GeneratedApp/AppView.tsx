@@ -7,6 +7,7 @@ import { QueryResult } from "react-apollo";
 type Props = {
     app: QueryResult<GeneratedAppQuery, GeneratedAppQueryVariables>;
     onPageChange: (pageNo: number) => void;
+    onDelete: (key: string) => void;
     pageNo: number
 };
 
@@ -40,7 +41,7 @@ class AppView extends React.Component<Props, State>{
 
         return (
             <>
-                <Layout onPageChange={this.props.onPageChange} preview={app} pageNo={this.props.pageNo} />
+                <Layout onDelete={this.props.onDelete} isPreview={false} onPageChange={this.props.onPageChange} app={app} pageNo={this.props.pageNo} />
             </>
         );
     }
