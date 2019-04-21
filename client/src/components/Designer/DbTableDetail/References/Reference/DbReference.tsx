@@ -10,6 +10,7 @@ type Props = {
   reference: DbTableDetailQuery_table_referencesToTable;
   direction: DbReferenceDirection;
   onCheckboxClick: (column: ColumnInput) => void;
+  primaryColumn: ColumnInput;
 };
 
 type State = {
@@ -43,7 +44,8 @@ const getParentReference = (props: Props) => {
     tableName,
     columnName: mainTableKeyColumn,
     isHidden: true,
-    isPrimaryKey: true
+    isPrimaryKey: false,
+    keyReference: props.primaryColumn
   };
 
   return parentReference;

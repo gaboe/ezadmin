@@ -1,17 +1,17 @@
-import * as React from 'react';
-import { any } from 'ramda';
+import * as React from "react";
+import { any } from "ramda";
 import {
   Button,
   Checkbox,
   Header,
   List
-  } from 'semantic-ui-react';
-import { ColumnInput, DbTableDetailQueryVariables } from '../../../domain/generated/types';
-import { DB_TABLE_DETAIL_QUERY, DbTablesDetailQueryComponent } from '../../../graphql/queries/DbExplorer/TableDetail';
-import { DbReferenceDirection } from '../../../domain/Designer/DesignerTypes';
-import { DbReferences } from './References/DbReferences';
-import { Link } from 'react-router-dom';
-import { NameInput } from './NameInput';
+  } from "semantic-ui-react";
+import { ColumnInput, DbTableDetailQueryVariables } from "../../../domain/generated/types";
+import { DB_TABLE_DETAIL_QUERY, DbTablesDetailQueryComponent } from "../../../graphql/queries/DbExplorer/TableDetail";
+import { DbReferenceDirection } from "../../../domain/Designer/DesignerTypes";
+import { DbReferences } from "./References/DbReferences";
+import { Link } from "react-router-dom";
+import { NameInput } from "./NameInput";
 
 type Props = {
   variables: DbTableDetailQueryVariables;
@@ -116,12 +116,14 @@ class DbTableDetail extends React.Component<Props> {
                     direction={DbReferenceDirection.From}
                     title="Referenced columns from this table"
                     references={response.data.table.referencesFromTable}
+                    primaryColumn={primaryColumn}
                   />
                   <DbReferences
                     onCheckboxClick={e => this.props.onCheckboxClick(e)}
                     direction={DbReferenceDirection.To}
                     title="Referencing columns to this table"
                     references={response.data.table.referencesToTable}
+                    primaryColumn={primaryColumn}
                   />
                 </ActiveColumnsContext.Provider>
               </>

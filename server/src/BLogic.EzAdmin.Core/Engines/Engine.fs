@@ -47,7 +47,7 @@ module Engine =
         let page = {PageID = ObjectId.GenerateNewId(); Table = table; Name = input.tableTitle}
         let menuItems = (app.MenuItems) @ [{Name = input.tableTitle; Rank = int System.Int16.MaxValue; PageID = page.PageID.ToString()}]
         
-        getApp 10 10 page input.connection menuItems
+        getApp 0 10 page input.connection menuItems
 
     let getEntity connection (page: PageSchema) entityID: Entity = 
         let table = page.Table
