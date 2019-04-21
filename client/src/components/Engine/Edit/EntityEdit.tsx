@@ -5,16 +5,21 @@ import { Divider, Header, Icon } from "semantic-ui-react";
 import { ENTITY_QUERY, EntityQueryComponent } from "../../../graphql/queries/Engine/EntityQuery";
 import { EntityForm } from "./EntityForm";
 
-type Props = { pageID: string; entityID: string };
+export type Field = { name: string; value: string }
+
+type Props = {
+    pageID: string;
+    entityID: string;
+    onSubmit: (changedColumns: Field[]) => void
+};
 
 const Wrapper = styled.div`
     margin-top: 5em;
 `
 
-export type Field = { name: string; value: string }
 
 const EntityEdit: React.FunctionComponent<Props> = props => {
-    const { pageID, entityID } = props;
+    const { pageID, entityID, onSubmit } = props;
 
     const [changedColumns, setChangedColumns] = React.useState<Field[]>([]);
 
@@ -33,7 +38,7 @@ const EntityEdit: React.FunctionComponent<Props> = props => {
                                     Edit record from {entityQuery.data.entity.pageName}
                                 </Header>
                             </Divider>
-                            <EntityForm fields={changedColumns} columns={entityQuery.data.entity.row.columns} onChange={onChange} />
+                            <EntityForm onSubmit={() => onSubmit(changedColumns)} fields={changedColumns} columns={entityQuery.data.entity.row.columns} onChange={onChange} />
                         </>
                     )
                 }

@@ -3,8 +3,7 @@ import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/App
 import { AppView } from "./AppView";
 import { DELETE_ENTITY_MUTATION, DeleteEntityMutationComponent } from "../../graphql/mutations/Engine/DeleteRecord";
 import { DeleteEntityMutation, DeleteEntityMutationVariables, GeneratedAppQueryVariables } from "../../domain/generated/types";
-import { Divider, Header, Icon } from "semantic-ui-react";
-import { EntityEdit } from "../Engine/Edit/EntityEdit";
+import { EntityEdit, Field } from "../Engine/Edit/EntityEdit";
 import { GENERATED_APP_QUERY, GeneratedAppQueryComponent } from "../../graphql/queries/Engine/AppQuery";
 import { MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
@@ -24,7 +23,6 @@ class GeneratedApp extends React.Component<Props, State> {
             entityPageID: undefined,
             entityID: undefined
         }
-
     }
 
     public render() {
@@ -78,7 +76,11 @@ class GeneratedApp extends React.Component<Props, State> {
                                                                 onPageChange={this.changePage}
                                                                 onMenuItemClick={onMenuItemClick}>
                                                                 {entityPageID && entityID &&
-                                                                    <EntityEdit entityID={entityID} pageID={entityPageID} />
+                                                                    <EntityEdit
+                                                                        onSubmit={(changedColumns) => this.onEntitySubmit(entityPageID, entityID, changedColumns)}
+                                                                        entityID={entityID}
+                                                                        pageID={entityPageID}
+                                                                    />
                                                                 }
                                                             </AppView>
                                                         );
@@ -92,14 +94,12 @@ class GeneratedApp extends React.Component<Props, State> {
                             </AppIDQueryComponent>
                     }
                 </DeleteEntityMutationComponent>
-
             </>
         );
     }
 
     private changePage = (pageNo: number) => {
         this.props.history.push(`/app/${this.props.match.params.pageID}/${pageNo}`)
-
         this.setState({ pageNo })
     }
 
@@ -117,6 +117,10 @@ class GeneratedApp extends React.Component<Props, State> {
                 }
             }
         })
+    }
+
+    private onEntitySubmit = (entityPageID: string, entityID: string, changedColumns: Field[]) => {
+        console.log(entityPageID, entityID, changedColumns)
     }
 
 };
