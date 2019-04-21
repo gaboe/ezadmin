@@ -19,7 +19,7 @@ const ButtonsWrapper = styled.div`
 `;
 
 const EntityForm: React.FunctionComponent<Props> = props => {
-    const { columns, changedColumns, onChange, onSubmit, pageID, entityID } = props;
+    const { columns, changedColumns, onChange, onSubmit } = props;
     return (
         <Row>
             <Col offset={{ lg: 1 }} lg={9}>
@@ -39,7 +39,7 @@ const EntityForm: React.FunctionComponent<Props> = props => {
                     )}
                 </Form>
                 <ButtonsWrapper>
-                    <Button positive={true} onClick={() => onSubmit()} type="submit">
+                    <Button disabled={changedColumns.length === 0} positive={true} onClick={() => onSubmit()} type="submit">
                         Save
                     </Button>
                 </ButtonsWrapper>
