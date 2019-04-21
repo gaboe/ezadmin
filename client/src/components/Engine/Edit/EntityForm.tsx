@@ -1,14 +1,13 @@
 import * as React from "react";
 import styled from "styled-components";
 import { Button, Form } from "semantic-ui-react";
+import { ChangedColumn, EntityQuery_entity_row_columns } from "../../../domain/generated/types";
 import { Col, Row } from "react-grid-system";
-import { EntityQuery_entity_row_columns } from "../../../domain/generated/types";
-import { Field } from "./EntityEdit";
 import { selectFirstOrDefault } from "../../../utils/Utils";
 
 type Props = {
     columns: EntityQuery_entity_row_columns[];
-    fields: Field[];
+    changedColumns: ChangedColumn[];
     onChange: (columnKey: string, value: string) => void;
     onSubmit: () => void
 };
@@ -18,7 +17,7 @@ const ButtonsWrapper = styled.div`
 `;
 
 const EntityForm: React.FunctionComponent<Props> = props => {
-    const { columns, fields, onChange, onSubmit } = props;
+    const { columns, changedColumns: fields, onChange, onSubmit } = props;
     return (
         <Row>
             <Col offset={{ lg: 1 }} lg={9}>

@@ -167,6 +167,28 @@ export interface SaveViewMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: UpdateEntityMutation
+// ====================================================
+
+export interface UpdateEntityMutation_updateEntity {
+  __typename: "UpdateEntityResult";
+  wasUpdated: boolean;
+  message: string;
+}
+
+export interface UpdateEntityMutation {
+  updateEntity: UpdateEntityMutation_updateEntity;
+}
+
+export interface UpdateEntityMutationVariables {
+  input: UpdateEntityInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: AppIDQuery
 // ====================================================
 
@@ -672,6 +694,11 @@ export interface AppInput {
   connection: string;
 }
 
+export interface ChangedColumn {
+  name: string;
+  value: string;
+}
+
 export interface ColumnInput {
   schemaName: string;
   tableName: string;
@@ -679,6 +706,12 @@ export interface ColumnInput {
   isPrimaryKey: boolean;
   isHidden: boolean;
   keyReference?: ColumnInput | null;
+}
+
+export interface UpdateEntityInput {
+  pageID: string;
+  entityID: string;
+  changedColumns: ChangedColumn[];
 }
 
 //==============================================================

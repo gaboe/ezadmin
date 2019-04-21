@@ -1,13 +1,21 @@
 import * as React from "react";
 import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/AppIDQuery";
 import { AppView } from "./AppView";
+import {
+    ChangedColumn,
+    DeleteEntityMutation,
+    DeleteEntityMutationVariables,
+    GeneratedAppQueryVariables,
+    UpdateEntityMutation,
+    UpdateEntityMutationVariables
+    } from "../../domain/generated/types";
 import { DELETE_ENTITY_MUTATION, DeleteEntityMutationComponent } from "../../graphql/mutations/Engine/DeleteRecord";
-import { DeleteEntityMutation, DeleteEntityMutationVariables, GeneratedAppQueryVariables } from "../../domain/generated/types";
-import { EntityEdit, Field } from "../Engine/Edit/EntityEdit";
 import { GENERATED_APP_QUERY, GeneratedAppQueryComponent } from "../../graphql/queries/Engine/AppQuery";
 import { MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
 import { toast } from "react-toastify";
+import { UPDATE_ENTITY_MUTATION, UpdateEntityMutationComponent } from "../../graphql/mutations/Engine/UpdateRecord";
+import { EntityEdit, } from "../Engine/Edit/EntityEdit";
 
 type Props = RouteComponentProps<{ pageID?: string; offset?: string; limit?: string }>;
 
@@ -30,70 +38,75 @@ class GeneratedApp extends React.Component<Props, State> {
         const { pageNo, entityPageID, entityID } = this.state;
         return (
             <>
-                <DeleteEntityMutationComponent mutation={DELETE_ENTITY_MUTATION}>
+                <UpdateEntityMutationComponent mutation={UPDATE_ENTITY_MUTATION}>
                     {
-                        deleteEntity =>
-                            <AppIDQueryComponent query={APPID_QUERY} fetchPolicy="cache-first">
+                        updateEntity =>
+                            <DeleteEntityMutationComponent mutation={DELETE_ENTITY_MUTATION}>
                                 {
-                                    appIDResponse => {
-                                        if (appIDResponse.data && appIDResponse.data.currentApp) {
-                                            const appID = appIDResponse.data.currentApp.appID;
-                                            const variables: GeneratedAppQueryVariables = {
-                                                id: appID,
-                                                pageID,
-                                                offset: (pageNo - 1) * 10,
-                                                limit: limit ? Number(limit) : 10
-                                            };
-                                            return (
-                                                <GeneratedAppQueryComponent query={GENERATED_APP_QUERY} variables={variables}>
-                                                    {response => {
-                                                        const onDelete = (entityID: string) => {
-                                                            if (response.data && response.data.app) {
-                                                                const pageID = response.data.app.pages[0].pageID;
-                                                                const deleteVariables: DeleteEntityMutationVariables = { appID, pageID, entityID };
-                                                                this.delete(deleteEntity, deleteVariables, variables)
-                                                            }
-                                                        }
-
-                                                        const onEdit = (entityID: string) => {
-                                                            if (response.data && response.data.app) {
-                                                                const pageID = response.data.app.pages[0].pageID;
-                                                                this.setState({ entityPageID: pageID, entityID })
-                                                            }
-                                                        }
-
-                                                        const onMenuItemClick = (pageID: string) => {
-                                                            this.setState({ pageNo: 1 },
-                                                                () => this.props.history.push(`/app/${pageID}`));
-                                                        }
-
+                                    deleteEntity =>
+                                        <AppIDQueryComponent query={APPID_QUERY} fetchPolicy="cache-first">
+                                            {
+                                                appIDResponse => {
+                                                    if (appIDResponse.data && appIDResponse.data.currentApp) {
+                                                        const appID = appIDResponse.data.currentApp.appID;
+                                                        const variables: GeneratedAppQueryVariables = {
+                                                            id: appID,
+                                                            pageID,
+                                                            offset: (pageNo - 1) * 10,
+                                                            limit: limit ? Number(limit) : 10
+                                                        };
                                                         return (
-                                                            <AppView
-                                                                app={response}
-                                                                pageNo={this.state.pageNo}
-                                                                onEdit={onEdit}
-                                                                onDelete={onDelete}
-                                                                onPageChange={this.changePage}
-                                                                onMenuItemClick={onMenuItemClick}>
-                                                                {entityPageID && entityID &&
-                                                                    <EntityEdit
-                                                                        onSubmit={(changedColumns) => this.onEntitySubmit(entityPageID, entityID, changedColumns)}
-                                                                        entityID={entityID}
-                                                                        pageID={entityPageID}
-                                                                    />
-                                                                }
-                                                            </AppView>
-                                                        );
-                                                    }}
-                                                </GeneratedAppQueryComponent>
-                                            )
-                                        }
-                                        return null;
-                                    }
+                                                            <GeneratedAppQueryComponent query={GENERATED_APP_QUERY} variables={variables}>
+                                                                {response => {
+                                                                    const onDelete = (entityID: string) => {
+                                                                        if (response.data && response.data.app) {
+                                                                            const pageID = response.data.app.pages[0].pageID;
+                                                                            const deleteVariables: DeleteEntityMutationVariables = { appID, pageID, entityID };
+                                                                            this.delete(deleteEntity, deleteVariables, variables)
+                                                                        }
+                                                                    }
+
+                                                                    const onEdit = (entityID: string) => {
+                                                                        if (response.data && response.data.app) {
+                                                                            const pageID = response.data.app.pages[0].pageID;
+                                                                            this.setState({ entityPageID: pageID, entityID })
+                                                                        }
+                                                                    }
+
+                                                                    const onMenuItemClick = (pageID: string) => {
+                                                                        this.setState({ pageNo: 1 },
+                                                                            () => this.props.history.push(`/app/${pageID}`));
+                                                                    }
+
+                                                                    return (
+                                                                        <AppView
+                                                                            app={response}
+                                                                            pageNo={this.state.pageNo}
+                                                                            onEdit={onEdit}
+                                                                            onDelete={onDelete}
+                                                                            onPageChange={this.changePage}
+                                                                            onMenuItemClick={onMenuItemClick}>
+                                                                            {entityPageID && entityID &&
+                                                                                <EntityEdit
+                                                                                    onSubmit={(changedColumns) => this.onEntitySubmit(updateEntity, entityPageID, entityID, changedColumns, variables)}
+                                                                                    entityID={entityID}
+                                                                                    pageID={entityPageID}
+                                                                                />
+                                                                            }
+                                                                        </AppView>
+                                                                    );
+                                                                }}
+                                                            </GeneratedAppQueryComponent>
+                                                        )
+                                                    }
+                                                    return null;
+                                                }
+                                            }
+                                        </AppIDQueryComponent>
                                 }
-                            </AppIDQueryComponent>
+                            </DeleteEntityMutationComponent>
                     }
-                </DeleteEntityMutationComponent>
+                </UpdateEntityMutationComponent>
             </>
         );
     }
@@ -119,7 +132,21 @@ class GeneratedApp extends React.Component<Props, State> {
         })
     }
 
-    private onEntitySubmit = (entityPageID: string, entityID: string, changedColumns: Field[]) => {
+    private onEntitySubmit = (updateEntity: MutationFn<UpdateEntityMutation, UpdateEntityMutationVariables>, entityPageID: string, entityID: string, changedColumns: ChangedColumn[], appQueryVariables: GeneratedAppQueryVariables) => {
+        const variables: UpdateEntityMutationVariables = {
+            input: {
+                entityID,
+                pageID: entityPageID,
+                changedColumns: changedColumns
+            }
+        }
+
+        updateEntity({
+            variables,
+            refetchQueries: [{ query: GENERATED_APP_QUERY, variables: appQueryVariables }]
+        }).then(() => {
+            toast(<>Record was updated</>, { type: "success", autoClose: 3000 })
+        })
         console.log(entityPageID, entityID, changedColumns)
     }
 

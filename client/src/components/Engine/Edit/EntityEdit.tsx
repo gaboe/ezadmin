@@ -1,27 +1,25 @@
 import * as R from "ramda";
 import * as React from "react";
 import styled from "styled-components";
+import { ChangedColumn } from "../../../domain/generated/types";
 import { Divider, Header, Icon } from "semantic-ui-react";
 import { ENTITY_QUERY, EntityQueryComponent } from "../../../graphql/queries/Engine/EntityQuery";
 import { EntityForm } from "./EntityForm";
 
-export type Field = { name: string; value: string }
-
 type Props = {
     pageID: string;
     entityID: string;
-    onSubmit: (changedColumns: Field[]) => void
+    onSubmit: (changedColumns: ChangedColumn[]) => void
 };
 
 const Wrapper = styled.div`
     margin-top: 5em;
 `
 
-
 const EntityEdit: React.FunctionComponent<Props> = props => {
     const { pageID, entityID, onSubmit } = props;
 
-    const [changedColumns, setChangedColumns] = React.useState<Field[]>([]);
+    const [changedColumns, setChangedColumns] = React.useState<ChangedColumn[]>([]);
 
     const onChange = (name: string, value: string) =>
         setChangedColumns(R.append({ name, value }, changedColumns.filter(e => e.name != name)))
@@ -38,7 +36,7 @@ const EntityEdit: React.FunctionComponent<Props> = props => {
                                     Edit record from {entityQuery.data.entity.pageName}
                                 </Header>
                             </Divider>
-                            <EntityForm onSubmit={() => onSubmit(changedColumns)} fields={changedColumns} columns={entityQuery.data.entity.row.columns} onChange={onChange} />
+                            <EntityForm onSubmit={() => onSubmit(changedColumns)} changedColumns={changedColumns} columns={entityQuery.data.entity.row.columns} onChange={onChange} />
                         </>
                     )
                 }

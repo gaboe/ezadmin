@@ -49,6 +49,6 @@ module InputGraphQLTypes =
             [
                 Define.Input("pageID", String)
                 Define.Input("entityID", String)
-                Define.Input("columns", ListOf(ChangedColumnType))
+                Define.Input("changedColumns", ListOf(ChangedColumnType))
             ]
         )
