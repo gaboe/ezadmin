@@ -8,7 +8,7 @@ type Props = { columns: EntityQuery_entity_row_columns[] };
 const EntityForm: React.FunctionComponent<Props> = props => {
     return (
         <Row>
-            <Col offset={{ lg: 1 }} lg={10}>
+            <Col offset={{ lg: 1 }} lg={9}>
                 <Form>
                     {props.columns.map(x =>
                         <Form.Field>

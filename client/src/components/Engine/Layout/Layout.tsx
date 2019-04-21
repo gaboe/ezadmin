@@ -19,7 +19,7 @@ const Pushable = styled.div`
 `;
 
 const Layout: React.FunctionComponent<Props> = props => {
-  const { isPreview, onPageChange, app, pageNo, onDelete, onEdit } = props;
+  const { isPreview, onPageChange, app, pageNo, onDelete, onEdit, children } = props;
 
   return (
     <>
@@ -28,7 +28,14 @@ const Layout: React.FunctionComponent<Props> = props => {
           <MenuItems menuItems={app.menuItems} />
           <Sidebar.Pusher>
             <Segment basic={true}>
-              <Page onEdit={onEdit} isPreview={isPreview} onPageChange={onPageChange} page={app.pages[0]} pageNo={pageNo} onDelete={onDelete} />
+              <Page onEdit={onEdit}
+                isPreview={isPreview}
+                onPageChange={onPageChange}
+                page={app.pages[0]}
+                pageNo={pageNo}
+                onDelete={onDelete}>
+                {children}
+              </Page>
             </Segment>
           </Sidebar.Pusher>
         </Pushable>

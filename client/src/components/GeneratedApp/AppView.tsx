@@ -42,7 +42,15 @@ class AppView extends React.Component<Props, State>{
 
         return (
             <>
-                <Layout onEdit={this.props.onEdit} onDelete={this.props.onDelete} isPreview={false} onPageChange={this.props.onPageChange} app={app} pageNo={this.props.pageNo} />
+                <Layout
+                    onEdit={this.props.onEdit}
+                    onDelete={this.props.onDelete}
+                    isPreview={false}
+                    onPageChange={this.props.onPageChange}
+                    app={app}
+                    pageNo={this.props.pageNo}>
+                    {this.props.children}
+                </Layout>
             </>
         );
     }

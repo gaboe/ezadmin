@@ -3,6 +3,8 @@ import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/App
 import { AppView } from "./AppView";
 import { DELETE_ENTITY_MUTATION, DeleteEntityMutationComponent } from "../../graphql/mutations/Engine/DeleteRecord";
 import { DeleteEntityMutation, DeleteEntityMutationVariables, GeneratedAppQueryVariables } from "../../domain/generated/types";
+import { Divider, Header, Icon } from "semantic-ui-react";
+import { EntityEdit } from "../Engine/Edit/EntityEdit";
 import { GENERATED_APP_QUERY, GeneratedAppQueryComponent } from "../../graphql/queries/Engine/AppQuery";
 import { MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
@@ -10,7 +12,7 @@ import { toast } from "react-toastify";
 
 type Props = RouteComponentProps<{ pageID?: string; offset?: string; limit?: string }>;
 
-type State = { pageNo: number }
+type State = { pageNo: number, pageID?: string, entityID?: string }
 
 class GeneratedApp extends React.Component<Props, State> {
 
@@ -23,6 +25,7 @@ class GeneratedApp extends React.Component<Props, State> {
 
     public render() {
         const { pageID, limit } = this.props.match.params;
+        const { pageNo, pageID: statePageID, entityID } = this.state;
         return (
             <>
                 <DeleteEntityMutationComponent mutation={DELETE_ENTITY_MUTATION}>
@@ -36,7 +39,7 @@ class GeneratedApp extends React.Component<Props, State> {
                                             const variables: GeneratedAppQueryVariables = {
                                                 id: appID,
                                                 pageID,
-                                                offset: (this.state.pageNo - 1) * 10,
+                                                offset: (pageNo - 1) * 10,
                                                 limit: limit ? Number(limit) : 10
                                             };
                                             return (
@@ -50,25 +53,31 @@ class GeneratedApp extends React.Component<Props, State> {
                                                             }
                                                         }
 
-                                                        const onEdit = (recordKey: string) => {
+                                                        const onEdit = (entityID: string) => {
                                                             if (response.data && response.data.app) {
                                                                 const pageID = response.data.app.pages[0].pageID;
-                                                                this.props.history.push(`/app/edit/${pageID}/${recordKey}`)
+                                                                this.setState({ pageID, entityID })
                                                             }
                                                         }
 
-                                                        return <AppView onEdit={onEdit} onDelete={onDelete} app={response} pageNo={this.state.pageNo} onPageChange={this.changePage} />
+                                                        return (
+                                                            <AppView onEdit={onEdit} onDelete={onDelete} app={response} pageNo={this.state.pageNo} onPageChange={this.changePage}>
+                                                                {statePageID && entityID &&
+                                                                    <EntityEdit entityID={entityID} pageID={statePageID} />
+                                                                }
+                                                            </AppView>
+                                                        );
                                                     }}
                                                 </GeneratedAppQueryComponent>
                                             )
                                         }
                                         return null;
                                     }
-
                                 }
                             </AppIDQueryComponent>
                     }
                 </DeleteEntityMutationComponent>
+
             </>
         );
     }

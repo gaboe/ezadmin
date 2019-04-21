@@ -27,7 +27,6 @@ const Routes = () => {
 
           <AuthorizedComponent exact={true} path="/app/all" component={Applications} />
           <AuthorizedComponent exact={true} path="/app/add" component={ApplicationCreate} />
-          <AuthorizedComponent exact={true} path="/app/edit/:pageID/:entityID" component={EntityEdit} />
           <AuthorizedComponent exact={true} path="/app/:pageID?/:offset?/:limit?" component={GeneratedApp} />
 
           <AuthorizedComponent
