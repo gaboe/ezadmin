@@ -12,6 +12,7 @@ type Props = {
   onPageChange: (pageNo: number) => void;
   onDelete: (entityID: string) => void;
   onEdit: (entityID: string) => void;
+  onMenuItemClick: (pageID: string) => void;
 };
 
 const Pushable = styled.div`
@@ -19,13 +20,13 @@ const Pushable = styled.div`
 `;
 
 const Layout: React.FunctionComponent<Props> = props => {
-  const { isPreview, onPageChange, app, pageNo, onDelete, onEdit, children } = props;
+  const { isPreview, onPageChange, app, pageNo, onDelete, onEdit, children, onMenuItemClick } = props;
 
   return (
     <>
       <Sidebar.Pushable as={Segment}>
         <Pushable>
-          <MenuItems menuItems={app.menuItems} />
+          <MenuItems menuItems={app.menuItems} onMenuItemClick={onMenuItemClick} />
           <Sidebar.Pusher>
             <Segment basic={true}>
               <Page onEdit={onEdit}

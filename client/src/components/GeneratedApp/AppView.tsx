@@ -10,6 +10,7 @@ type Props = {
     onPageChange: (pageNo: number) => void;
     onDelete: (entityID: string) => void;
     onEdit: (entityID: string) => void;
+    onMenuItemClick: (pageID: string) => void;
 };
 
 type State = { response?: QueryResult<GeneratedAppQuery, GeneratedAppQueryVariables> };
@@ -43,12 +44,14 @@ class AppView extends React.Component<Props, State>{
         return (
             <>
                 <Layout
+                    isPreview={false}
+                    pageNo={this.props.pageNo}
+                    app={app}
                     onEdit={this.props.onEdit}
                     onDelete={this.props.onDelete}
-                    isPreview={false}
                     onPageChange={this.props.onPageChange}
-                    app={app}
-                    pageNo={this.props.pageNo}>
+                    onMenuItemClick={this.props.onMenuItemClick}>
+                    >
                     {this.props.children}
                 </Layout>
             </>

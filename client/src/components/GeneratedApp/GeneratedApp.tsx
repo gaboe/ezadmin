@@ -12,20 +12,24 @@ import { toast } from "react-toastify";
 
 type Props = RouteComponentProps<{ pageID?: string; offset?: string; limit?: string }>;
 
-type State = { pageNo: number, pageID?: string, entityID?: string }
+type State = { pageNo: number, entityPageID: string | undefined, entityID: string | undefined }
 
 class GeneratedApp extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
 
-        this.state = { pageNo: props.match.params.offset ? Number(props.match.params.offset) / 10 : 1 }
+        this.state = {
+            pageNo: props.match.params.offset ? Number(props.match.params.offset) / 10 : 1,
+            entityPageID: undefined,
+            entityID: undefined
+        }
 
     }
 
     public render() {
         const { pageID, limit } = this.props.match.params;
-        const { pageNo, pageID: statePageID, entityID } = this.state;
+        const { pageNo, entityPageID, entityID } = this.state;
         return (
             <>
                 <DeleteEntityMutationComponent mutation={DELETE_ENTITY_MUTATION}>
@@ -56,14 +60,25 @@ class GeneratedApp extends React.Component<Props, State> {
                                                         const onEdit = (entityID: string) => {
                                                             if (response.data && response.data.app) {
                                                                 const pageID = response.data.app.pages[0].pageID;
-                                                                this.setState({ pageID, entityID })
+                                                                this.setState({ entityPageID: pageID, entityID })
                                                             }
                                                         }
 
+                                                        const onMenuItemClick = (pageID: string) => {
+                                                            this.setState({ pageNo: 1 },
+                                                                () => this.props.history.push(`/app/${pageID}`));
+                                                        }
+
                                                         return (
-                                                            <AppView onEdit={onEdit} onDelete={onDelete} app={response} pageNo={this.state.pageNo} onPageChange={this.changePage}>
-                                                                {statePageID && entityID &&
-                                                                    <EntityEdit entityID={entityID} pageID={statePageID} />
+                                                            <AppView
+                                                                app={response}
+                                                                pageNo={this.state.pageNo}
+                                                                onEdit={onEdit}
+                                                                onDelete={onDelete}
+                                                                onPageChange={this.changePage}
+                                                                onMenuItemClick={onMenuItemClick}>
+                                                                {entityPageID && entityID &&
+                                                                    <EntityEdit entityID={entityID} pageID={entityPageID} />
                                                                 }
                                                             </AppView>
                                                         );
