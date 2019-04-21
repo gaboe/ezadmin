@@ -23,7 +23,7 @@ module EngineAppService =
     let getEntity token pageID entityID = 
         let entity = TokenService.withAppSchema token (fun app ->   let page = getPage pageID app
                                                                     Engine.getEntity app.Connection page.Table entityID 
-                                                                    |> (fun e -> {Row = e}) 
+                                                                    |> (fun e -> {Row = e; PageName = page.Name}) 
                                                                     |> Some)
         entity                                                               
 

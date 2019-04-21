@@ -12,6 +12,7 @@ query EntityQuery($pageID: String!, $entityID: String!) {
             value
           }
       }
+      pageName
     }
   }
 `;

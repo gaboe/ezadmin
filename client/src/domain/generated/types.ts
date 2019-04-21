@@ -604,6 +604,7 @@ export interface EntityQuery_entity {
    * Multiple properties of record
    */
   row: EntityQuery_entity_row;
+  pageName: string;
 }
 
 export interface EntityQuery {

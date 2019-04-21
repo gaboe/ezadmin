@@ -262,6 +262,7 @@ module QueryGraphQLTypes =
                fieldsFn = fun () ->
                [
                    Define.Field("row", RowType, "Multiple properties of record", fun _ (x: Entity) -> x.Row)
+                   Define.Field("pageName", String, "", fun _ (x: Entity) -> x.PageName)
                ]
            )
 
