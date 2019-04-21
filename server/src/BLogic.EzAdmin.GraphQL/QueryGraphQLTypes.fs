@@ -267,6 +267,17 @@ module QueryGraphQLTypes =
                    Define.Field("message", String, "", fun _ (x: UpdateEntityResult) -> x.Message)
                ]
            )
+    and EntityColumnType = 
+        Define.Object<EntityColumn>(
+            name = "EntityColumn",
+            description = "",
+            isTypeOf = (fun o -> o :? EntityColumn),
+            fieldsFn = fun () ->
+            [
+                Define.Field("columnID", String, "", fun _ (x: EntityColumn) -> x.ColumnID)
+                Define.Field("column", ColumnType, "", fun _ (x: EntityColumn) -> x.Column)
+            ]
+        )
     and EntityType = 
            Define.Object<Entity>(
                name = "Entity",
@@ -274,8 +285,9 @@ module QueryGraphQLTypes =
                isTypeOf = (fun o -> o :? Entity),
                fieldsFn = fun () ->
                [
-                   Define.Field("row", RowType, "Multiple properties of record", fun _ (x: Entity) -> x.Row)
+                   Define.Field("entityID", String, "", fun _ (x: Entity) -> x.EntityID)
                    Define.Field("pageName", String, "", fun _ (x: Entity) -> x.PageName)
+                   Define.Field("columns", ListOf (EntityColumnType), "Multiple properties of record", fun _ (x: Entity) -> x.Columns)
                ]
            )
 

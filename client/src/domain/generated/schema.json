@@ -1149,7 +1149,31 @@
         "description": "Entity from storage",
         "fields": [
           {
-            "name": "pageName",
+            "name": "columns",
+            "description": "Multiple properties of record",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "EntityColumn",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "entityID",
             "description": "",
             "args": [],
             "type": {
@@ -1165,15 +1189,58 @@
             "deprecationReason": null
           },
           {
-            "name": "row",
-            "description": "Multiple properties of record",
+            "name": "pageName",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "EntityColumn",
+        "description": "",
+        "fields": [
+          {
+            "name": "column",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "Row",
+                "name": "Column",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "columnID",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -1945,7 +2012,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "name",
+            "name": "columnID",
             "description": null,
             "type": {
               "kind": "NON_NULL",

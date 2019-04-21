@@ -605,28 +605,27 @@ export interface GeneratedAppQueryVariables {
 // GraphQL query operation: EntityQuery
 // ====================================================
 
-export interface EntityQuery_entity_row_columns {
+export interface EntityQuery_entity_columns_column {
   __typename: "Column";
   columnAlias: string;
   name: string;
   value: string;
 }
 
-export interface EntityQuery_entity_row {
-  __typename: "Row";
-  /**
-   * Multiple properties of record
-   */
-  columns: EntityQuery_entity_row_columns[];
+export interface EntityQuery_entity_columns {
+  __typename: "EntityColumn";
+  columnID: string;
+  column: EntityQuery_entity_columns_column;
 }
 
 export interface EntityQuery_entity {
   __typename: "Entity";
+  entityID: string;
+  pageName: string;
   /**
    * Multiple properties of record
    */
-  row: EntityQuery_entity_row;
-  pageName: string;
+  columns: EntityQuery_entity_columns[];
 }
 
 export interface EntityQuery {
@@ -695,7 +694,7 @@ export interface AppInput {
 }
 
 export interface ChangedColumn {
-  name: string;
+  columnID: string;
   value: string;
 }
 

@@ -6,7 +6,6 @@ open BLogic.EzAdmin.Core.Services.Schemas
 open BLogic.EzAdmin.Core.Engines
 open MongoDB.Bson
 open BLogic.EzAdmin.Domain.SchemaTypes
-open BLogic.EzAdmin.Domain.UiTypes
 open BLogic.EzAdmin.Domain.GraphQL
 
 module EngineAppService = 
@@ -23,8 +22,7 @@ module EngineAppService =
 
     let getEntity token pageID entityID = 
         let entity = TokenService.withAppSchema token (fun app ->   let page = getPage pageID app
-                                                                    Engine.getEntity app.Connection page.Table entityID 
-                                                                    |> (fun e -> {Row = e; PageName = page.Name}) 
+                                                                    Engine.getEntity app.Connection page entityID 
                                                                     |> Some)
         entity                                                               
 
@@ -36,7 +34,7 @@ module EngineAppService =
     
     let updateEntity token (input: UpdateEntityInput) = 
         let result = TokenService.withAppSchema token (fun app ->   let page = getPage input.pageID app
-                                                                    let changedColumns = input.changedColumns |> List.map (fun e -> (e.name, e.value)) |> Map
+                                                                    let changedColumns = input.changedColumns |> List.map (fun e -> (e.columnID, e.value)) |> Map
                                                                     Engine.updateEntity app.Connection page.Table input.entityID changedColumns |> Some
                                                                     )
         match result with 

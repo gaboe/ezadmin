@@ -9,7 +9,7 @@ import { EntityForm } from "./EntityForm";
 type Props = {
     pageID: string;
     entityID: string;
-    onSubmit: (changedColumns: ChangedColumn[]) => void
+    onSubmit: (changedColumns: ChangedColumn[], callback: () => void) => void
 };
 
 const Wrapper = styled.div`
@@ -21,8 +21,12 @@ const EntityEdit: React.FunctionComponent<Props> = props => {
 
     const [changedColumns, setChangedColumns] = React.useState<ChangedColumn[]>([]);
 
-    const onChange = (name: string, value: string) =>
-        setChangedColumns(R.append({ name, value }, changedColumns.filter(e => e.name != name)))
+    const onChange = (columnID: string, value: string) =>
+        setChangedColumns(R.append({ columnID, value }, changedColumns.filter(e => e.columnID != columnID)))
+
+    const submit = () => {
+        onSubmit(changedColumns, () => setChangedColumns([]));
+    }
 
     return (<Wrapper>
         <EntityQueryComponent variables={{ pageID, entityID }} query={ENTITY_QUERY} >
@@ -36,7 +40,7 @@ const EntityEdit: React.FunctionComponent<Props> = props => {
                                     Edit record from {entityQuery.data.entity.pageName}
                                 </Header>
                             </Divider>
-                            <EntityForm onSubmit={() => onSubmit(changedColumns)} changedColumns={changedColumns} columns={entityQuery.data.entity.row.columns} onChange={onChange} />
+                            <EntityForm pageID={pageID} entityID={entityID} onSubmit={submit} changedColumns={changedColumns} columns={entityQuery.data.entity.columns} onChange={onChange} />
                         </>
                     )
                 }

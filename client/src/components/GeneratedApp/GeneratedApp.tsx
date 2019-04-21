@@ -5,11 +5,13 @@ import {
     ChangedColumn,
     DeleteEntityMutation,
     DeleteEntityMutationVariables,
+    EntityQueryVariables,
     GeneratedAppQueryVariables,
     UpdateEntityMutation,
     UpdateEntityMutationVariables
     } from "../../domain/generated/types";
 import { DELETE_ENTITY_MUTATION, DeleteEntityMutationComponent } from "../../graphql/mutations/Engine/DeleteRecord";
+import { ENTITY_QUERY } from "../../graphql/queries/Engine/EntityQuery";
 import { GENERATED_APP_QUERY, GeneratedAppQueryComponent } from "../../graphql/queries/Engine/AppQuery";
 import { MutationFn } from "react-apollo";
 import { RouteComponentProps } from "react-router";
@@ -88,7 +90,7 @@ class GeneratedApp extends React.Component<Props, State> {
                                                                             onMenuItemClick={onMenuItemClick}>
                                                                             {entityPageID && entityID &&
                                                                                 <EntityEdit
-                                                                                    onSubmit={(changedColumns) => this.onEntitySubmit(updateEntity, entityPageID, entityID, changedColumns, variables)}
+                                                                                    onSubmit={(changedColumns, callback) => this.onEntitySubmit(updateEntity, entityPageID, entityID, changedColumns, callback, variables)}
                                                                                     entityID={entityID}
                                                                                     pageID={entityPageID}
                                                                                 />
@@ -132,7 +134,7 @@ class GeneratedApp extends React.Component<Props, State> {
         })
     }
 
-    private onEntitySubmit = (updateEntity: MutationFn<UpdateEntityMutation, UpdateEntityMutationVariables>, entityPageID: string, entityID: string, changedColumns: ChangedColumn[], appQueryVariables: GeneratedAppQueryVariables) => {
+    private onEntitySubmit = (updateEntity: MutationFn<UpdateEntityMutation, UpdateEntityMutationVariables>, entityPageID: string, entityID: string, changedColumns: ChangedColumn[], callback: () => void, appQueryVariables: GeneratedAppQueryVariables) => {
         const variables: UpdateEntityMutationVariables = {
             input: {
                 entityID,
@@ -141,13 +143,23 @@ class GeneratedApp extends React.Component<Props, State> {
             }
         }
 
+        const entityQueryVariables: EntityQueryVariables = { pageID: entityPageID, entityID }
+
         updateEntity({
             variables,
-            refetchQueries: [{ query: GENERATED_APP_QUERY, variables: appQueryVariables }]
-        }).then(() => {
-            toast(<>Record was updated</>, { type: "success", autoClose: 3000 })
+            refetchQueries: [{ query: GENERATED_APP_QUERY, variables: appQueryVariables }, { query: ENTITY_QUERY, variables: entityQueryVariables }],
+            awaitRefetchQueries: true
+        }).then((updateResponse) => {
+            if (updateResponse && updateResponse.data) {
+                if (updateResponse.data.updateEntity.wasUpdated) {
+                    toast(<>Record was updated</>, { type: "success", autoClose: 3000 })
+                }
+                else {
+                    toast(<>{updateResponse.data.updateEntity.message}</>, { type: "error", autoClose: 15000 })
+                }
+                callback();
+            }
         })
-        console.log(entityPageID, entityID, changedColumns)
     }
 
 };

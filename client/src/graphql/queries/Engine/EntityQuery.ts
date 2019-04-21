@@ -4,17 +4,20 @@ import { Query } from "react-apollo";
 
 const ENTITY_QUERY = gql`
 query EntityQuery($pageID: String!, $entityID: String!) {
-    entity(pageID: $pageID, entityID: $entityID) {
-      row {
-        columns {
-            columnAlias
-            name
-            value
-          }
+  entity(pageID: $pageID, entityID: $entityID) {
+    entityID
+    pageName
+    columns {
+      columnID
+      column {
+        columnAlias
+        name
+        value
       }
-      pageName
     }
   }
+}
+
 `;
 
 class EntityQueryComponent extends Query<EntityQuery, EntityQueryVariables> { }

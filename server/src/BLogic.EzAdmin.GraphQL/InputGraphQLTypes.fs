@@ -38,7 +38,7 @@ module InputGraphQLTypes =
             name = "ChangedColumn",
             fieldsFn = fun () ->
             [
-                Define.Input("name", String)
+                Define.Input("columnID", String)
                 Define.Input("value", String)
             ]
         )

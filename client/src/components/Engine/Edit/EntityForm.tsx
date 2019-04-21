@@ -1,14 +1,16 @@
 import * as React from "react";
 import styled from "styled-components";
 import { Button, Form } from "semantic-ui-react";
-import { ChangedColumn, EntityQuery_entity_row_columns } from "../../../domain/generated/types";
 import { Col, Row } from "react-grid-system";
 import { selectFirstOrDefault } from "../../../utils/Utils";
+import { ChangedColumn, EntityQuery_entity_columns, } from "../../../domain/generated/types";
 
 type Props = {
-    columns: EntityQuery_entity_row_columns[];
+    columns: EntityQuery_entity_columns[];
     changedColumns: ChangedColumn[];
-    onChange: (columnKey: string, value: string) => void;
+    pageID: string;
+    entityID: string;
+    onChange: (columnID: string, value: string) => void;
     onSubmit: () => void
 };
 
@@ -17,19 +19,20 @@ const ButtonsWrapper = styled.div`
 `;
 
 const EntityForm: React.FunctionComponent<Props> = props => {
-    const { columns, changedColumns: fields, onChange, onSubmit } = props;
+    const { columns, changedColumns, onChange, onSubmit, pageID, entityID } = props;
     return (
         <Row>
             <Col offset={{ lg: 1 }} lg={9}>
                 <Form>
-                    {columns.map(column => {
-                        const value = selectFirstOrDefault(fields, (field) => field.name === column.name, (field) => field.value, column.value);
-                        return <Form.Field key={column.name}>
+                    {columns.map(c => {
+                        const column = c.column;
+                        const value = selectFirstOrDefault(changedColumns, (x) => x.columnID === c.columnID, (x) => x.value, column.value);
+                        return <Form.Field key={c.columnID}>
                             <label>{column.name}</label>
                             <input
                                 name="x.name"
                                 value={value}
-                                onChange={(e) => onChange(column.name, e.target.value)}
+                                onChange={(e) => onChange(c.columnID, e.target.value)}
                             />
                         </Form.Field>
                     }

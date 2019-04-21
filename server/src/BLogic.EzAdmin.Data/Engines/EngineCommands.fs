@@ -2,6 +2,7 @@
 
 open BLogic.EzAdmin.Domain.SchemaTypes
 open BLogic.EzAdmin.Data
+open MongoDB.Bson
 
 module EngineCommands =
     type SB = System.Text.StringBuilder
@@ -33,6 +34,13 @@ module EngineCommands =
     let private appendLines (sb: SB) lines = lines |> Seq.iter (fun l -> sb.AppendLine l |> ignore)
     
     let updateEntity connection (description: QueryDescription) entityID (columns: Map<string,string>)= 
+
+        let columnDescriptions = [description.MainTable] @ description.JoinedTables
+                                |> Seq.collect (fun e -> e.Columns)
+                                |> Seq.toList
+
+        let getColumnNameByID id = columnDescriptions |> Seq.find (fun e -> e.Column.ColumnID = id) |> (fun e -> e.Column.ColumnName)
+        
         let sb = new SB()
         let primaryKey = description.MainTable.Columns |> Seq.find (fun e -> e.Column.ColumnType = ColumnType.PrimaryKey)
 
@@ -40,7 +48,7 @@ module EngineCommands =
 
         "SET " |> sb.AppendLine |> ignore
 
-        columns |> Seq.map (fun e -> sprintf "%s = '%s'" e.Key e.Value) |> appendLines sb
+        columns |> Seq.map (fun e -> sprintf "%s = '%s'" (e.Key |> ObjectId.Parse |> getColumnNameByID) e.Value) |> appendLines sb
 
         sprintf "FROM %s.%s %s" description.MainTable.SchemaName description.MainTable.TableName description.MainTable.TableAlias |> sb.AppendLine |> ignore
 

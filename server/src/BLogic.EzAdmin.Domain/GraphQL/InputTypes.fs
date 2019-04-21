@@ -13,7 +13,7 @@ type AppInput = {   tableTitle: string;
                     columns: ColumnInput list;
                     connection: string;}
 
-type ChangedColumn = {name: string; value: string }
+type ChangedColumn = {columnID: string; value: string }
 
 type UpdateEntityInput = {  pageID: string;
                             entityID: string;

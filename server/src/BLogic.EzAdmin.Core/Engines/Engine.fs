@@ -49,14 +49,25 @@ module Engine =
         
         getApp 10 10 page input.connection menuItems
 
-    let getEntity connection (table: TableSchema) entityID = 
+    let getEntity connection (page: PageSchema) entityID: Entity = 
+        let table = page.Table
         let description = table |> DescriptionConverter.convertToDescription
     
         let resultRow = description |> EngineRepository.getDynamicQueryResult connection entityID
 
         let rows = getVisibleColumns table [resultRow]
 
-        rows.Head
+        let columns = [description.MainTable] @ description.JoinedTables
+                        |> Seq.collect (fun e -> e.Columns)
+    
+        let columnHeaders = rows.Head.Columns
+                                            |> Seq.map (fun e -> let columnDesc = columns |> Seq.find(fun x -> x.ColumnAlias = e.ColumnAlias)
+                                                                 { Column= e; ColumnID = columnDesc.Column.ColumnID.ToString()} )
+                                            |> Seq.toList
+
+        { EntityID = entityID;
+          PageName = page.Name;
+          Columns = columnHeaders; }
 
 
     let deleteEntity connection (table: TableSchema) entityID =
