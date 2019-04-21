@@ -11,15 +11,15 @@ const Wrapper = styled.div`
     margin-top: 5em;
 `
 
-type Field = { name: string; value: string }
+export type Field = { name: string; value: string }
 
 const EntityEdit: React.FunctionComponent<Props> = props => {
     const { pageID, entityID } = props;
 
-    const [changedFields, setChangedFields] = React.useState<Field[]>([]);
+    const [changedColumns, setChangedColumns] = React.useState<Field[]>([]);
 
     const onChange = (name: string, value: string) =>
-        setChangedFields(R.append({ name, value }, changedFields.filter(e => e.name != name)))
+        setChangedColumns(R.append({ name, value }, changedColumns.filter(e => e.name != name)))
 
     return (<Wrapper>
         <EntityQueryComponent variables={{ pageID, entityID }} query={ENTITY_QUERY} >
@@ -33,7 +33,7 @@ const EntityEdit: React.FunctionComponent<Props> = props => {
                                     Edit record from {entityQuery.data.entity.pageName}
                                 </Header>
                             </Divider>
-                            <EntityForm fields={changedFields} columns={entityQuery.data.entity.row.columns} onChange={onChange} />
+                            <EntityForm fields={changedColumns} columns={entityQuery.data.entity.row.columns} onChange={onChange} />
                         </>
                     )
                 }

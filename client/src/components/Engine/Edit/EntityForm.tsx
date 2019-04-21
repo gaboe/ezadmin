@@ -1,10 +1,9 @@
 import * as React from "react";
 import { Col, Row } from "react-grid-system";
 import { EntityQuery_entity_row_columns } from "../../../domain/generated/types";
+import { Field } from "./EntityEdit";
 import { Form } from "semantic-ui-react";
 import { selectFirstOrDefault } from "../../../utils/Utils";
-
-type Field = { name: string; value: string }
 
 type Props = {
     columns: EntityQuery_entity_row_columns[];
