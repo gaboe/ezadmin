@@ -50,8 +50,8 @@ class AppView extends React.Component<Props, State>{
                     onEdit={this.props.onEdit}
                     onDelete={this.props.onDelete}
                     onPageChange={this.props.onPageChange}
-                    onMenuItemClick={this.props.onMenuItemClick}>
-                    >
+                    onMenuItemClick={this.props.onMenuItemClick}
+                >
                     {this.props.children}
                 </Layout>
             </>
