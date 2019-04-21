@@ -90,7 +90,7 @@ module GraphQLSchema =
             fields = [
                 Define.Field(
                     "signup",
-                    LoginResult,
+                    LoginResultType,
                     "If succesfull returns token",
                     [ Define.Input("email", String); Define.Input("password", String) ],
                     fun ctx _ ->  
@@ -101,7 +101,7 @@ module GraphQLSchema =
                     );
                 Define.Field(
                     "login",
-                    LoginResult,
+                    LoginResultType,
                     "If succesfull returns token",
                     [ Define.Input("email", String); Define.Input("password", String) ],
                     fun ctx _ ->  
@@ -111,7 +111,7 @@ module GraphQLSchema =
                     );
                 Define.Field(
                     "setAppID",
-                    LoginResult,
+                    LoginResultType,
                     "If succesfull returns token",
                     [ Define.Input("appID", String); ],
                     fun ctx root ->  
@@ -122,7 +122,7 @@ module GraphQLSchema =
                     );                
                 Define.Field(
                     "saveView",
-                    SaveViewResult,
+                    SaveViewResultType,
                     "Saves designed view",
                      [ Define.Input("input", AppInputType) ],
                      fun ctx root -> let input = ctx.Arg("input")
@@ -131,7 +131,7 @@ module GraphQLSchema =
                     );
                 Define.Field(
                     "createApplication",
-                    CreateApplicationResult,
+                    CreateApplicationResultType,
                     "",
                     [ Define.Input("name", String); Define.Input("connection", String) ],
                      fun ctx root ->
@@ -145,7 +145,7 @@ module GraphQLSchema =
                     );
                  Define.Field(
                     "deleteEntity",
-                    DeleteEnityResult,
+                    DeleteEnityResultType,
                     "",
                     [ Define.Input("appID", String); Define.Input("pageID", String); Define.Input("entityID", String) ],
                      fun ctx _ ->
@@ -157,6 +157,18 @@ module GraphQLSchema =
                                     | Ok _ -> { WasDeleted = true; Message = "" }
                                     | Error e -> { WasDeleted = false; Message = e }
                     );
+                    Define.Field(
+                       "updateEntity",
+                       UpdateEntityResultType,
+                       "",
+                       [ Define.Input("input", UpdateEntityInputType)],
+                        fun ctx root ->
+                                   let input = ctx.Arg("input") 
+                                   let result = EngineAppService.updateEntity root.Token input
+                                   match result with 
+                                       | Ok _ -> { WasUpdated = true; Message = "" }
+                                       | Error e -> { WasUpdated= false; Message = e }
+                       );
                     
     ]
     )

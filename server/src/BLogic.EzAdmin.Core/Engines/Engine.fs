@@ -64,6 +64,13 @@ module Engine =
         let result = EngineCommands.deleteEntity connection description entityID
         result
 
+    let updateEntity connection (table: TableSchema) entityID columns = 
+        let description = table |> DescriptionConverter.convertToDescription
+        let result = EngineCommands.updateEntity connection description entityID columns
+        result
+
+        
+
     
         
                            

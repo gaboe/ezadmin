@@ -31,6 +31,8 @@ module InputTypeConverter =
     let convertToInput input =
         let result = convert<AppInput>(input |> ConversionResult.Nothing) 
                     |> convert<ColumnInput>
+                    |> convert<ChangedColumn>
+                    |> convert<UpdateEntityInput>
 
         match result with 
             | ConvertedInput (object,_) -> object 

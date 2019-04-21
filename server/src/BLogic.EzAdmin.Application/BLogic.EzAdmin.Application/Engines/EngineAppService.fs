@@ -7,6 +7,7 @@ open BLogic.EzAdmin.Core.Engines
 open MongoDB.Bson
 open BLogic.EzAdmin.Domain.SchemaTypes
 open BLogic.EzAdmin.Domain.UiTypes
+open BLogic.EzAdmin.Domain.GraphQL
 
 module EngineAppService = 
     let getAppPreview token input =
@@ -32,5 +33,15 @@ module EngineAppService =
         let page = getPage pageID app
         let result = Engine.deleteEntity app.Connection page.Table entityID
         result
+    
+    let updateEntity token (input: UpdateEntityInput) = 
+        let result = TokenService.withAppSchema token (fun app ->   let page = getPage input.pageID app
+                                                                    let changedColumns = input.changedColumns |> List.map (fun e -> (e.name, e.value)) |> Map
+                                                                    Engine.updateEntity app.Connection page.Table input.entityID changedColumns |> Some
+                                                                    )
+        match result with 
+            | Some result -> result
+            | None -> Result.Error "Problem with token"
+                                                                
 
 
