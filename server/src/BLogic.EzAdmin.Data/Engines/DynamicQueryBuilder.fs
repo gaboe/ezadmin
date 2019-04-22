@@ -32,13 +32,16 @@ module DynamicQueryBuilder =
         join 
 
     let private appendJoins (foreignTables: TableQueryDescription list) (sb: SB) allTables = 
-        let joins = foreignTables 
-                            |> Seq.collect
-                                (fun e -> e.Columns 
-                                            |> Seq.filter 
-                                                (fun c -> c.Column.Reference.IsSome 
-                                                          && c.Column.ColumnType = ColumnType.ForeignKey))
-                            |> Seq.distinct
+        let joinedTables = foreignTables 
+                        |> Seq.collect
+                            (fun e -> e.Columns 
+                                        |> Seq.filter 
+                                            (fun c -> c.Column.Reference.IsSome 
+                                                      && c.Column.ColumnType = ColumnType.ForeignKey))
+                        |> Seq.distinctBy (fun e -> sprintf"%s_%s_%s" e.Column.SchemaName e.Column.TableName e.Column.ColumnName)
+                        |> Seq.toList
+
+        let joins = joinedTables
                             |> Seq.map (fun e -> match e.Column.Reference with
                                                                 | Some r -> appendJoin allTables e r
                                                                 | None -> "")

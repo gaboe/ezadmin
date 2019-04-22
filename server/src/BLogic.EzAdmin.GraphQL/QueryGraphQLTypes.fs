@@ -21,7 +21,7 @@ module QueryGraphQLTypes =
 
     type UpdateEntityResult = {WasUpdated: bool; Message: string}
 
-    type SqlColumnDataType = Int | Decimal | Text | DateTime | Bool | Unknown
+    type SqlColumnDataType = Int | Decimal | Text | DateTime | Bool | Money | Unknown 
         
     let getSqlColumnDataType sqlDataType = match sqlDataType with 
                                             | "int" -> Int 
@@ -37,6 +37,7 @@ module QueryGraphQLTypes =
                                             | "datetime" -> DateTime
                                             | "datetime2" -> DateTime
                                             | "bit" -> Bool
+                                            | "money" -> Money
                                             | _ -> Unknown
 
     let root (ctx : ResolveFieldContext) =

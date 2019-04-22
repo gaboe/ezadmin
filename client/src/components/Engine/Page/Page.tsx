@@ -19,7 +19,8 @@ const Page: React.FunctionComponent<Props> = props => {
     <>
       <Header>{name}</Header>
       <Table onEdit={onEdit} isPreview={isPreview} table={table} onDelete={onDelete} />
-      <PagePagination totalPages={Math.ceil(table.allRowsCount / 10)} onPageChange={onPageChange} pageNo={pageNo} />
+      {!isPreview &&
+        <PagePagination totalPages={Math.ceil(table.allRowsCount / 10)} onPageChange={onPageChange} pageNo={pageNo} />}
       {props.children}
     </>
   );
