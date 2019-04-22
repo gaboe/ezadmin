@@ -36,18 +36,18 @@ module GraphQLSchema =
             name = "Query",
             fields = [
                 Define.AuthorizedField("schemas", ListOf (SqlSchemaType), "Get db schemas", fun _ root -> SqlTypesAppService.getAllSchemas root.Token)
-                Define.Field("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ],
+                Define.AuthorizedField("tables", ListOf (SqlTableType), "Get db tables by schema name", [ Define.Input("schemaName", String) ],
                             fun ctx root -> let schemaName = ctx.Arg("schemaName")
                                             SqlTypesAppService.getTables root.Token schemaName)
-                Define.Field("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ],
+                Define.AuthorizedField("columns", ListOf (SqlColumnType), "Get table columns by table name", [ Define.Input("tableName", String) ],
                             fun ctx root -> let tableName = ctx.Arg("tableName")
                                             SqlTypesAppService.getColumns root.Token tableName)
-                Define.Field("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("schemaName", String); Define.Input("tableName", String) ],
+                Define.AuthorizedField("table", Nullable (SqlTableType), "Get db table by table name", [ Define.Input("schemaName", String); Define.Input("tableName", String) ],
                             fun ctx root -> let schemaName = ctx.Arg("schemaName") 
                                             let tableName = ctx.Arg("tableName")
                                             SqlTypesAppService.getTable root.Token schemaName tableName)
-                Define.Field("appPreview", Nullable(AppType), "Return preview of app", [ Define.Input("input", AppInputType) ], fun ctx root -> ctx.Arg("input") |> EngineAppService.getAppPreview root.Token)
-                Define.Field("app", Nullable(AppType), "Returns application", 
+                Define.AuthorizedField("appPreview", Nullable(AppType), "Return preview of app", [ Define.Input("input", AppInputType) ], fun ctx root -> ctx.Arg("input") |> EngineAppService.getAppPreview root.Token)
+                Define.AuthorizedField("app", Nullable(AppType), "Returns application", 
                             [ Define.Input("id", String); Define.Input("pageID", Nullable(String)); Define.Input("offset", Int); Define.Input("limit", Int);],
                             fun ctx _ -> let appID = ctx.Arg("id")
                                          let offset = ctx.Arg("offset")
@@ -59,11 +59,11 @@ module GraphQLSchema =
                                                                 | Some id -> EngineAppService.getAppWithPage appID id offset limit
                                                                 | None -> EngineAppService.getApp appID offset limit |> Some
                                             | None -> EngineAppService.getApp appID offset limit |> Some)
-                Define.Field("entity", Nullable(EntityType), "Get db tables by schema name", [ Define.Input("pageID", String); Define.Input("entityID", String) ],
+                Define.AuthorizedField("entity", Nullable(EntityType), "Get db tables by schema name", [ Define.Input("pageID", String); Define.Input("entityID", String) ],
                                            fun ctx root -> let pageID = ctx.Arg("pageID")
                                                            let entityID = ctx.Arg("entityID")
                                                            EngineAppService.getEntity root.Token pageID entityID 
-                            )
+                                        )
                 Define.AuthorizedField(
                                         "userApplications",
                                         ListOf(UserAppType),
@@ -109,7 +109,7 @@ module GraphQLSchema =
                             let password = ctx.Arg("password") 
                             SecurityAppService.login email password
                     );
-                Define.Field(
+                Define.AuthorizedField(
                     "setAppID",
                     LoginResultType,
                     "If succesfull returns token",
@@ -120,7 +120,7 @@ module GraphQLSchema =
                                 |> (fun e -> {  Token = e |> Option.bind (fun token -> sprintf "Bearer %s" token |> Some);
                                                 ValidationMessage = None})
                     );                
-                Define.Field(
+                Define.AuthorizedField(
                     "saveView",
                     SaveViewResultType,
                     "Saves designed view",
@@ -129,7 +129,7 @@ module GraphQLSchema =
                                      SchemaAppService.saveView root.Token input 
                                         |> (fun appID -> {AppID = appID})
                     );
-                Define.Field(
+                Define.AuthorizedField(
                     "createApplication",
                     CreateApplicationResultType,
                     "",
@@ -143,7 +143,7 @@ module GraphQLSchema =
                                                      { Message = "OK" }
                                     | None -> {Message = ""}
                     );
-                 Define.Field(
+                 Define.AuthorizedField(
                     "deleteEntity",
                     DeleteEnityResultType,
                     "",
@@ -157,7 +157,7 @@ module GraphQLSchema =
                                     | Ok _ -> { WasDeleted = true; Message = "" }
                                     | Error e -> { WasDeleted = false; Message = e }
                     );
-                    Define.Field(
+                    Define.AuthorizedField(
                        "updateEntity",
                        UpdateEntityResultType,
                        "",
