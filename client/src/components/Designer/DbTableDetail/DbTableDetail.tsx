@@ -1,4 +1,5 @@
 import * as React from "react";
+import styled from "styled-components";
 import { any } from "ramda";
 import {
   Button,
@@ -24,6 +25,10 @@ type Props = {
 };
 
 const ActiveColumnsContext = React.createContext<ColumnInput[]>([]);
+
+const TextWrapper = styled.span`
+font-size: 2vh;
+`
 
 class DbTableDetail extends React.Component<Props> {
   public render() {
@@ -105,7 +110,9 @@ class DbTableDetail extends React.Component<Props> {
                             })
                           }
                         />
-                        {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
+                        <TextWrapper>
+                          {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
+                        </TextWrapper>
                       </List.Item>
                     );
                   })}

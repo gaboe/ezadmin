@@ -1,4 +1,5 @@
 import * as React from "react";
+import styled from "styled-components";
 import { ActiveColumnsContext } from "./DbTableDetail";
 import { any } from "ramda";
 import { Checkbox, Header, List } from "semantic-ui-react";
@@ -13,6 +14,10 @@ type Props = {
   onCheckboxClick: (column: ColumnInput, primaryColumn: ColumnInput) => void;
   parentReference: ColumnInput;
 };
+
+const TextWrapper = styled.span`
+font-size: 2vh;
+`
 
 class DbReferencedTableDetail extends React.Component<Props> {
   public render() {
@@ -80,9 +85,9 @@ class DbReferencedTableDetail extends React.Component<Props> {
                                     )
                                   }
                                 />
-                                {` [${
-                                  x.columnName
-                                  }]: ${x.dataType.toLowerCase()}`}
+                                <TextWrapper>
+                                  {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
+                                </TextWrapper>
                               </List.Item>
                             );
                           })}
