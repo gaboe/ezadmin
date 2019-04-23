@@ -34,7 +34,7 @@ class AppView extends React.Component<Props, State>{
             return <>Loading...</>
         }
         const app = response.data.app;
-        if (!app) {
+        if (!app || app.pages.length === 0) {
             return (<>
                 <Header content="Your app is empty" />
                 <div>Use Database Explorer to create app</div>
