@@ -1,5 +1,4 @@
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -21,7 +20,6 @@ export interface CreateApplicationMutationVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -53,7 +51,6 @@ export interface LoginMutationVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -80,7 +77,6 @@ export interface SetAppIDMutationVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -112,7 +108,6 @@ export interface SignUpMutationVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -139,7 +134,6 @@ export interface SaveViewMutationVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -167,7 +161,6 @@ export interface AppIDQuery {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -207,7 +200,6 @@ export interface DbColumnsByTableNameQueryVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -230,7 +222,6 @@ export interface DbSchemasQuery {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -261,7 +252,6 @@ export interface DbTablesBySchemaQueryVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -354,7 +344,6 @@ export interface DbTableDetailQueryVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -451,7 +440,6 @@ export interface AppPreviewQueryVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -551,7 +539,6 @@ export interface GeneratedAppQueryVariables {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -579,7 +566,6 @@ export interface UserApplicationQuery {
 }
 
 /* tslint:disable */
-/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 //==============================================================

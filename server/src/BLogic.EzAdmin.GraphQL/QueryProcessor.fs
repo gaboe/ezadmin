@@ -7,14 +7,14 @@ module QueryProcessor =
     open FSharp.Data.GraphQL.Execution
     open BLogic.EzAdmin.Core.Converters
 
-    let removeSpacesAndNewLines (str : string) = str.Trim().Replace("\r\n", " ")
+    let removeSpacesAndNewLines (str: string) = str.Trim().Replace("\r\n", " ")
 
     let getOptionString str = 
         if System.String.IsNullOrEmpty(str)
                         then None
                         else Some str
 
-    let processQuery (body:UnsafeGraphQlQuery) token =
+    let processQuery (body: UnsafeGraphQlQuery) token =
 
         let getResultData =
                 function
