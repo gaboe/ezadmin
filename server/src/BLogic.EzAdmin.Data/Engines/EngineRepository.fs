@@ -43,5 +43,12 @@ module EngineRepository =
 
       (data, count)
 
+    let getDynamicQueryResult connection entityID table = 
+        let query = DynamicQueryBuilder.buildEntityQuery entityID table 
+        let headers = DynamicQueryBuilder.getHeaders table
+        
+        let data = getDataFromDb query headers connection |> Seq.head
+        data
+
        
 

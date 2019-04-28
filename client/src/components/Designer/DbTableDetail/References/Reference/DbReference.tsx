@@ -1,15 +1,16 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { Button, List } from 'semantic-ui-react';
-import { ColumnInput, DbTableDetailQuery_table_referencesToTable } from '../../../../../domain/generated/types';
-import { DbReferenceDescription } from './DbReferenceDescription';
-import { DbReferenceDirection } from 'src/domain/Designer/DesignerTypes';
-import { ReferencedTableColumns } from './ReferencedTableColumns';
+import * as React from "react";
+import styled from "styled-components";
+import { Button, List } from "semantic-ui-react";
+import { ColumnInput, DbTableDetailQuery_table_referencesToTable } from "../../../../../domain/generated/types";
+import { DbReferenceDescription } from "./DbReferenceDescription";
+import { DbReferenceDirection } from "../../../../../domain/Designer/DesignerTypes";
+import { ReferencedTableColumns } from "./ReferencedTableColumns";
 
 type Props = {
   reference: DbTableDetailQuery_table_referencesToTable;
   direction: DbReferenceDirection;
   onCheckboxClick: (column: ColumnInput) => void;
+  primaryColumn: ColumnInput;
 };
 
 type State = {
@@ -43,7 +44,8 @@ const getParentReference = (props: Props) => {
     tableName,
     columnName: mainTableKeyColumn,
     isHidden: true,
-    isPrimaryKey: true
+    isPrimaryKey: false,
+    keyReference: props.primaryColumn
   };
 
   return parentReference;

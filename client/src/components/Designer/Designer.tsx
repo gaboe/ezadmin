@@ -1,21 +1,25 @@
-import * as R from 'ramda';
-import * as React from 'react';
-import { APPID_QUERY, AppIDQueryComponent } from 'src/graphql/queries/Auth/AppIDQuery';
-import { AppPreview } from '../Engine/AppPreview';
-import { Col, Row } from 'react-grid-system';
-import { DbTableDetail } from './DbTableDetail/DbTableDetail';
-import { RouteComponentProps } from 'react-router-dom';
-import { SAVE_VIEW_MUTATION, SaveViewMutationComponent } from 'src/graphql/mutations/Engine/SaveView';
-import {
-  AppPreviewQueryVariables,
-  ColumnInput,
-} from 'src/domain/generated/types';
+import * as R from "ramda";
+import * as React from "react";
+import styled from "styled-components";
+import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/AppIDQuery";
+import { AppPreview } from "../Engine/AppPreview";
+import { AppPreviewQueryVariables, ColumnInput } from "../../domain/generated/types";
+import { Col, Row } from "react-grid-system";
+import { DbTableDetail } from "./DbTableDetail/DbTableDetail";
+import { RouteComponentProps } from "react-router-dom";
+import { SAVE_VIEW_MUTATION, SaveViewMutationComponent } from "../../graphql/mutations/Engine/SaveView";
 
 type Props = RouteComponentProps<{ name: string; schema: string }>;
 type State = {
   activeColumns: ColumnInput[];
   tableTitle: string;
 };
+
+const ColWrapper = styled(Col)`
+max-height: 860px;
+overflow-y: scroll;
+`
+
 class Designer extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -33,7 +37,7 @@ class Designer extends React.Component<Props, State> {
                 const connection = appIDResponse.data.currentApp.connection;
                 return (
                   <Row>
-                    <Col md={6} lg={3}>
+                    <ColWrapper md={6} lg={3}>
                       <SaveViewMutationComponent mutation={SAVE_VIEW_MUTATION}>
                         {save => (
                           <DbTableDetail
@@ -62,7 +66,7 @@ class Designer extends React.Component<Props, State> {
                           />
                         )}
                       </SaveViewMutationComponent>
-                    </Col>
+                    </ColWrapper>
                     {this.state.activeColumns.length > 0 && (
                       <Col md={6} lg={9}>
                         <AppPreview

@@ -1,15 +1,16 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { ApplicationCreate } from '../Applications/ApplicationCreate';
-import { Applications } from '../Applications/Applications';
-import { AuthorizedComponent } from '../Auth/Authorization/AuthorizedComponent';
-import { DatabaseExplorer } from './../DbExplorer/DatabaseExplorer';
-import { Designer } from '../Designer/Designer';
-import { GeneratedApp } from '../GeneratedApp/GeneratedApp';
-import { Login } from '../Auth/Login/Login';
-import { Registration } from '../Auth/Registration/Registration';
-import { Route, Switch } from 'react-router-dom';
-import { SelectedApplicationComponent } from '../Auth/Authorization/SelectedApplicationComponent';
+import * as React from "react";
+import styled from "styled-components";
+import { ApplicationCreate } from "../Applications/ApplicationCreate";
+import { Applications } from "../Applications/Applications";
+import { AuthorizedComponent } from "../Auth/Authorization/AuthorizedComponent";
+import { DatabaseExplorer } from "./../DbExplorer/DatabaseExplorer";
+import { Designer } from "../Designer/Designer";
+import { EntityEdit } from "../Engine/Edit/EntityEdit";
+import { GeneratedApp } from "../GeneratedApp/GeneratedApp";
+import { Login } from "../Auth/Login/Login";
+import { Registration } from "../Auth/Registration/Registration";
+import { Route, Switch } from "react-router-dom";
+import { SelectedApplicationComponent } from "../Auth/Authorization/SelectedApplicationComponent";
 
 const ContentWrapper = styled.div`
   margin: 2em;

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { APPID_QUERY, AppIDQueryComponent } from 'src/graphql/queries/Auth/AppIDQuery';
-import { IPrivateRouteProps, RenderComponent } from './Common';
+import * as React from "react";
+import { APPID_QUERY, AppIDQueryComponent } from "../../../graphql/queries/Auth/AppIDQuery";
+import { IPrivateRouteProps, RenderComponent } from "./Common";
 import {
     Redirect,
     Route,

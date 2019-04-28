@@ -1,17 +1,18 @@
-import * as React from 'react';
-import { any } from 'ramda';
+import * as React from "react";
+import styled from "styled-components";
+import { any } from "ramda";
 import {
   Button,
   Checkbox,
   Header,
   List
-  } from 'semantic-ui-react';
-import { ColumnInput, DbTableDetailQueryVariables } from '../../../domain/generated/types';
-import { DB_TABLE_DETAIL_QUERY, DbTablesDetailQueryComponent } from '../../../graphql/queries/DbExplorer/TableDetail';
-import { DbReferenceDirection } from '../../../domain/Designer/DesignerTypes';
-import { DbReferences } from './References/DbReferences';
-import { Link } from 'react-router-dom';
-import { NameInput } from './NameInput';
+  } from "semantic-ui-react";
+import { ColumnInput, DbTableDetailQueryVariables } from "../../../domain/generated/types";
+import { DB_TABLE_DETAIL_QUERY, DbTablesDetailQueryComponent } from "../../../graphql/queries/DbExplorer/TableDetail";
+import { DbReferenceDirection } from "../../../domain/Designer/DesignerTypes";
+import { DbReferences } from "./References/DbReferences";
+import { Link } from "react-router-dom";
+import { NameInput } from "./NameInput";
 
 type Props = {
   variables: DbTableDetailQueryVariables;
@@ -24,6 +25,10 @@ type Props = {
 };
 
 const ActiveColumnsContext = React.createContext<ColumnInput[]>([]);
+
+const TextWrapper = styled.span`
+font-size: 2vh;
+`
 
 class DbTableDetail extends React.Component<Props> {
   public render() {
@@ -105,7 +110,9 @@ class DbTableDetail extends React.Component<Props> {
                             })
                           }
                         />
-                        {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
+                        <TextWrapper>
+                          {` [${x.columnName}]: ${x.dataType.toLowerCase()}`}
+                        </TextWrapper>
                       </List.Item>
                     );
                   })}
@@ -116,12 +123,14 @@ class DbTableDetail extends React.Component<Props> {
                     direction={DbReferenceDirection.From}
                     title="Referenced columns from this table"
                     references={response.data.table.referencesFromTable}
+                    primaryColumn={primaryColumn}
                   />
                   <DbReferences
                     onCheckboxClick={e => this.props.onCheckboxClick(e)}
                     direction={DbReferenceDirection.To}
                     title="Referencing columns to this table"
                     references={response.data.table.referencesToTable}
+                    primaryColumn={primaryColumn}
                   />
                 </ActiveColumnsContext.Provider>
               </>

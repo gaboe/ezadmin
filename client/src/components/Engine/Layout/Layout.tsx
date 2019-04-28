@@ -1,14 +1,18 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { AppPreviewQuery_appPreview } from 'src/domain/generated/types';
-import { MenuItems } from '../MenuItems';
-import { Page } from '../Page/Page';
-import { Segment, Sidebar } from 'semantic-ui-react';
+import * as React from "react";
+import styled from "styled-components";
+import { AppPreviewQuery_appPreview } from "../../../domain/generated/types";
+import { MenuItems } from "../MenuItems";
+import { Page } from "../Page/Page";
+import { Segment, Sidebar } from "semantic-ui-react";
 
 type Props = {
-  preview: AppPreviewQuery_appPreview;
-  onPageChange: (pageNo: number) => void;
+  app: AppPreviewQuery_appPreview;
   pageNo: number;
+  isPreview: boolean;
+  onPageChange: (pageNo: number) => void;
+  onDelete: (entityID: string) => void;
+  onEdit: (entityID: string) => void;
+  onMenuItemClick: (pageID: string) => void;
 };
 
 const Pushable = styled.div`
@@ -16,14 +20,23 @@ const Pushable = styled.div`
 `;
 
 const Layout: React.FunctionComponent<Props> = props => {
+  const { isPreview, onPageChange, app, pageNo, onDelete, onEdit, children, onMenuItemClick } = props;
+
   return (
     <>
       <Sidebar.Pushable as={Segment}>
         <Pushable>
-          <MenuItems menuItems={props.preview.menuItems} />
+          <MenuItems menuItems={app.menuItems} onMenuItemClick={onMenuItemClick} />
           <Sidebar.Pusher>
             <Segment basic={true}>
-              <Page onPageChange={props.onPageChange} page={props.preview.pages[0]} pageNo={props.pageNo} />
+              <Page onEdit={onEdit}
+                isPreview={isPreview}
+                onPageChange={onPageChange}
+                page={app.pages[0]}
+                pageNo={pageNo}
+                onDelete={onDelete}>
+                {children}
+              </Page>
             </Segment>
           </Sidebar.Pusher>
         </Pushable>

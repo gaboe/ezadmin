@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
-import { GeneratedAppQuery, GeneratedAppQueryVariables } from 'src/domain/generated/types';
-import { Query } from 'react-apollo';
+import gql from "graphql-tag";
+import { GeneratedAppQuery, GeneratedAppQueryVariables } from "../../../domain/generated/types";
+import { Query } from "react-apollo";
 
 const GENERATED_APP_QUERY = gql`
 query GeneratedAppQuery($id: String!, $pageID: String, $offset: Int!, $limit: Int!) {
@@ -11,6 +11,7 @@ query GeneratedAppQuery($id: String!, $pageID: String, $offset: Int!, $limit: In
       pageID
     }
     pages {
+      pageID
       name
       table {
         allRowsCount

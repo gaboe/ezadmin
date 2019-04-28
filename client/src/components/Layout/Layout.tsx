@@ -1,8 +1,8 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { APPID_QUERY, AppIDQueryComponent } from 'src/graphql/queries/Auth/AppIDQuery';
-import { Menu, Segment, Sidebar } from 'semantic-ui-react';
-import { MenuItems } from './MenuItems';
+import * as React from "react";
+import styled from "styled-components";
+import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/AppIDQuery";
+import { Menu, Segment, Sidebar } from "semantic-ui-react";
+import { MenuItems } from "./MenuItems";
 
 const Pushable = styled.div`
   min-height: calc(100vh);

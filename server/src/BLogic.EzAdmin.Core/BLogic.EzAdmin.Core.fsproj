@@ -12,6 +12,7 @@
     <Compile Include="Converters\OptionConverter.fs" />
     <Compile Include="Converters\InputTypeConverter.fs" />
     <Compile Include="Converters\Settings.fs" />
+    <Compile Include="Services\Schemas\SchemaTypeService.fs" />
     <Compile Include="Services\UserService\UserService.fs" />
     <Compile Include="Services\Application\ApplicationService.fs" />
     <Compile Include="Services\Security\TokenService.fs" />

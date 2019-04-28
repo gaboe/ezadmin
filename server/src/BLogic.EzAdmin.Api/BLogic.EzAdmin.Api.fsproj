@@ -8,6 +8,10 @@
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="FSharp.Data.GraphQL.Server" Version="0.0.18-beta" />
     <PackageReference Include="FSharp.Data.GraphQL.Server.Middlewares" Version="0.0.18-beta" />

@@ -1,5 +1,7 @@
 ﻿namespace BLogic.EzAdmin.GraphQL
 
+#nowarn "40"
+
 open FSharp.Data.GraphQL.Types
 
 open BLogic.EzAdmin.Domain.GraphQL
@@ -29,5 +31,24 @@ module InputGraphQLTypes =
                 Define.Input("tableName", String)
                 Define.Input("columns", ListOf(ColumnInputType))
                 Define.Input("connection", String)
+            ]
+        )
+    let ChangedColumnType = 
+        Define.InputObject<ChangedColumn>(
+            name = "ChangedColumn",
+            fieldsFn = fun () ->
+            [
+                Define.Input("columnID", String)
+                Define.Input("value", String)
+            ]
+        )
+    let UpdateEntityInputType = 
+        Define.InputObject<UpdateEntityInput>(
+            name = "UpdateEntityInput",
+            fieldsFn = fun () ->
+            [
+                Define.Input("pageID", String)
+                Define.Input("entityID", String)
+                Define.Input("changedColumns", ListOf(ChangedColumnType))
             ]
         )

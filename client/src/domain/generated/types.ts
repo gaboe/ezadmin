@@ -111,6 +111,30 @@ export interface SignUpMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: DeleteEntityMutation
+// ====================================================
+
+export interface DeleteEntityMutation_deleteEntity {
+  __typename: "DeleteRecordResult";
+  wasDeleted: boolean;
+  message: string;
+}
+
+export interface DeleteEntityMutation {
+  deleteEntity: DeleteEntityMutation_deleteEntity;
+}
+
+export interface DeleteEntityMutationVariables {
+  appID: string;
+  pageID: string;
+  entityID: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: SaveViewMutation
 // ====================================================
 
@@ -134,6 +158,28 @@ export interface SaveViewMutationVariables {
 }
 
 /* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: UpdateEntityMutation
+// ====================================================
+
+export interface UpdateEntityMutation_updateEntity {
+  __typename: "UpdateEntityResult";
+  wasUpdated: boolean;
+  message: string;
+}
+
+export interface UpdateEntityMutation {
+  updateEntity: UpdateEntityMutation_updateEntity;
+}
+
+export interface UpdateEntityMutationVariables {
+  input: UpdateEntityInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -502,6 +548,7 @@ export interface GeneratedAppQuery_app_pages_table {
 
 export interface GeneratedAppQuery_app_pages {
   __typename: "Page";
+  pageID: string;
   /**
    * Name
    */
@@ -539,6 +586,49 @@ export interface GeneratedAppQueryVariables {
 }
 
 /* tslint:disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: EntityQuery
+// ====================================================
+
+export interface EntityQuery_entity_columns_column {
+  __typename: "Column";
+  columnAlias: string;
+  name: string;
+  value: string;
+}
+
+export interface EntityQuery_entity_columns {
+  __typename: "EntityColumn";
+  columnID: string;
+  column: EntityQuery_entity_columns_column;
+}
+
+export interface EntityQuery_entity {
+  __typename: "Entity";
+  entityID: string;
+  pageName: string;
+  /**
+   * Multiple properties of record
+   */
+  columns: EntityQuery_entity_columns[];
+}
+
+export interface EntityQuery {
+  /**
+   * Get db tables by schema name
+   */
+  entity: EntityQuery_entity | null;
+}
+
+export interface EntityQueryVariables {
+  pageID: string;
+  entityID: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -589,6 +679,11 @@ export interface AppInput {
   connection: string;
 }
 
+export interface ChangedColumn {
+  columnID: string;
+  value: string;
+}
+
 export interface ColumnInput {
   schemaName: string;
   tableName: string;
@@ -596,6 +691,12 @@ export interface ColumnInput {
   isPrimaryKey: boolean;
   isHidden: boolean;
   keyReference?: ColumnInput | null;
+}
+
+export interface UpdateEntityInput {
+  pageID: string;
+  entityID: string;
+  changedColumns: ChangedColumn[];
 }
 
 //==============================================================

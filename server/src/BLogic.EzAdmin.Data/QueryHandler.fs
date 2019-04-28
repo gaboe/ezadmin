@@ -28,3 +28,11 @@ module QueryHandler =
                         | true -> None
                         | false -> Some result
             }
+        
+        let execute q = 
+            async {
+                use connection = new SqlConnection(q.Connection)
+                do! connection.OpenAsync() |> Async.AwaitTask
+                let result = connection.Execute(q.Query, dict q.Parameters)
+                return result
+            }

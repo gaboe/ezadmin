@@ -21,4 +21,15 @@ open System
                                                     | true -> resolve ctx root
                                                     | false -> raise (Exception("AUTHORIZATION_ERROR"))) 
     
+        static member AuthorizedField(name : string,
+                                             typedef : #OutputDef<'Res>,
+                                             description : string,
+                                             args : InputFieldDef list, 
+                                             resolve) : FieldDef<Root> = 
+
+                   Define.Field(name, typedef, description, args,
+                                   fun ctx root -> match isAuthorized root with
+                                                           | true -> resolve ctx root
+                                                           | false -> raise (Exception("AUTHORIZATION_ERROR"))) 
+    
 

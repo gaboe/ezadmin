@@ -10,8 +10,12 @@ type [<CLIMutable>] Header = {Name: string; Alias: string;}
 
 type [<CLIMutable>] Table = {Rows: Row list; Headers: Header list; AllRowsCount: int}
 
-type [<CLIMutable>] Page = {Table: Table; Name: string}
+type [<CLIMutable>] Page = {Table: Table; Name: string; PageID: string}
 
 type [<CLIMutable>] App = {Pages: Page list; MenuItems: MenuItem list; Connection: string}
 
-type [<CLIMutable>] UserApp = {AppID:string; Name: string; Connection: string}
+type [<CLIMutable>] UserApp = {AppID: string; Name: string; Connection: string}
+
+type [<CLIMutable>] EntityColumn = {Column: Column; ColumnID: string;}
+
+type [<CLIMutable>] Entity = {EntityID: string; PageName: string; Columns: EntityColumn list}

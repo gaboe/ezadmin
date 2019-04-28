@@ -1,20 +1,27 @@
-import * as React from 'react';
-import { AppPreviewQuery_appPreview_pages } from 'src/domain/generated/types';
-import { Header } from 'semantic-ui-react';
-import { PagePagination } from './Pagination';
-import { Table } from '../Tables/Table';
+import * as React from "react";
+import { AppPreviewQuery_appPreview_pages } from "../../../domain/generated/types";
+import { Header } from "semantic-ui-react";
+import { PagePagination } from "./Pagination";
+import { Table } from "../Tables/Table";
 
 type Props = {
   page: AppPreviewQuery_appPreview_pages;
-  onPageChange: (pageNo: number) => void;
   pageNo: number;
+  isPreview: boolean;
+  onPageChange: (pageNo: number) => void;
+  onDelete: (entityID: string) => void;
+  onEdit: (entityID: string) => void;
 };
+
 const Page: React.FunctionComponent<Props> = props => {
+  const { pageNo, onPageChange, isPreview, page: { table, name }, onDelete, onEdit } = props;
   return (
     <>
-      <Header>{props.page.name}</Header>
-      <Table table={props.page.table} />
-      <PagePagination totalPages={Math.ceil(props.page.table.allRowsCount / 10)} onPageChange={props.onPageChange} pageNo={props.pageNo} />
+      <Header>{name}</Header>
+      <Table onEdit={onEdit} isPreview={isPreview} table={table} onDelete={onDelete} />
+      {!isPreview &&
+        <PagePagination totalPages={Math.ceil(table.allRowsCount / 10)} onPageChange={onPageChange} pageNo={pageNo} />}
+      {props.children}
     </>
   );
 };

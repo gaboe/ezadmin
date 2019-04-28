@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
-import { CreateApplicationMutation, CreateApplicationMutationVariables } from 'src/domain/generated/types';
-import { Mutation } from 'react-apollo';
+import gql from "graphql-tag";
+import { CreateApplicationMutation, CreateApplicationMutationVariables } from "../../../domain/generated/types";
+import { Mutation } from "react-apollo";
 
 const CREATE_APPLICATION_MUTATION = gql`
 mutation CreateApplicationMutation($name: String!, $connection: String!) {

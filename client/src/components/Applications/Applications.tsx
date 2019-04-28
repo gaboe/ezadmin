@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { APPID_QUERY, AppIDQueryComponent } from 'src/graphql/queries/Auth/AppIDQuery';
-import { Button, Icon, Table } from 'semantic-ui-react';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { SET_APPID_MUTATION, SetAppIDMutationComponent } from 'src/graphql/mutations/Auth/SetAppIDMutation';
-import { USER_APPLICATIONS_QUERY, UserApplicationsQueryComponent } from 'src/graphql/queries/UserApplications/UserApplicationsQuery';
+import * as React from "react";
+import { APPID_QUERY, AppIDQueryComponent } from "../../graphql/queries/Auth/AppIDQuery";
+import { Button, Icon, Table } from "semantic-ui-react";
+import { Link, RouteComponentProps } from "react-router-dom";
+import { SET_APPID_MUTATION, SetAppIDMutationComponent } from "../../graphql/mutations/Auth/SetAppIDMutation";
+import { USER_APPLICATIONS_QUERY, UserApplicationsQueryComponent } from "../../graphql/queries/UserApplications/UserApplicationsQuery";
 
 const Applications: React.FunctionComponent<RouteComponentProps> = props => {
     return (<>
