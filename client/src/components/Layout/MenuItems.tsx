@@ -7,38 +7,44 @@ import { Logout } from "../Auth/Logout/Logout";
 type Props = { app: AppIDQuery_currentApp | null };
 
 const MenuItems: React.FunctionComponent<Props> = props => {
-    const isAuthenticated = localStorage.getItem("AUTHORIZATION_TOKEN");
-    return (<>
-        {props.app && <>
-            <Menu.Item name="current-app" active={true} color="blue">
-                {props.app.name}
-            </Menu.Item>
-            <Menu.Item name="database-explorer">
-                <Link to="/">
-                    <Icon name="find" />
-                    Database Explorer
-                </Link>
-            </Menu.Item>
-            <Menu.Item name="app">
-                <Link to="/app">
-                    <Icon name="cloud" />
-                    Generated App
-                </Link>
-            </Menu.Item>
-        </>}
-        {isAuthenticated &&
-            <Menu.Item name="apps">
-                <Link to="/app/all">
-                    <Icon name="list" />
-                    User applications
-                </Link>
-            </Menu.Item>
-        }
-        {isAuthenticated &&
-            <Menu.Item position="right" name="app">
-                <Logout />
-            </Menu.Item>}
-    </>)
-}
+	const isAuthenticated = localStorage.getItem("AUTHORIZATION_TOKEN");
+	return (
+		<>
+			{props.app && (
+				<>
+					<Menu.Item name="current-app" active={true} color="blue">
+						{props.app.name}
+					</Menu.Item>
+					<Menu.Item name="database-explorer">
+						<Link to="/">
+							<Icon name="find" />
+							Database Explorer
+						</Link>
+					</Menu.Item>
+					<Menu.Item name="app">
+						<Link to="/app">
+							<Icon name="cloud" />
+							Generated App
+						</Link>
+					</Menu.Item>
+				</>
+			)}
+			{!isAuthenticated && <Menu.Item name="ezadmin">EzAdmin</Menu.Item>}
+			{isAuthenticated && (
+				<Menu.Item name="apps">
+					<Link to="/app/all">
+						<Icon name="list" />
+						User applications
+					</Link>
+				</Menu.Item>
+			)}
+			{isAuthenticated && (
+				<Menu.Item position="right" name="app">
+					<Logout />
+				</Menu.Item>
+			)}
+		</>
+	);
+};
 
 export { MenuItems };
