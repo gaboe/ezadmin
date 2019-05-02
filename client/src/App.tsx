@@ -67,13 +67,13 @@ const App = () => {
 	return (
 		<>
 			<ApolloProvider client={client}>
-				<Router>
-					<TokenProvider client={client}>
+				<TokenProvider client={client}>
+					<Router>
 						<Layout>
 							<Routes />
 						</Layout>
-					</TokenProvider>
-				</Router>
+					</Router>
+				</TokenProvider>
 			</ApolloProvider>
 		</>
 	);

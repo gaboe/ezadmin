@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as yup from "yup";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Header } from "semantic-ui-react";
 import { Col, Row } from "react-grid-system";
 import { Formik, FormikProps } from "formik";
 import { nameof } from "../../../utils/Utils";
@@ -25,6 +25,7 @@ const initialUser: UserRegistration = {
 const RegistrationForm = (props: FormikProps<UserRegistration>) => {
 	return (
 		<>
+			<Header>Sign Up</Header>
 			<Form>
 				<Form.Field
 					error={props.touched.email && props.errors.email !== undefined}

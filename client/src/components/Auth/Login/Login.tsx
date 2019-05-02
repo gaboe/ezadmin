@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as yup from "yup";
-import { Button, Form, Message } from "semantic-ui-react";
+import { Button, Form, Message, Header } from "semantic-ui-react";
 import { Col, Row } from "react-grid-system";
 import { Formik, FormikProps } from "formik";
 import { Link, RouteComponentProps } from "react-router-dom";
@@ -19,6 +19,7 @@ const initialUser: UserLogin = { email: "", password: "" };
 const LoginForm = (props: FormikProps<UserLogin>) => {
 	return (
 		<>
+			<Header>Login</Header>
 			<Form>
 				<Form.Field
 					error={props.touched.email && props.errors.email !== undefined}

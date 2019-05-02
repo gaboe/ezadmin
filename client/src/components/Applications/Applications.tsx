@@ -3,7 +3,7 @@ import {
 	APPID_QUERY,
 	AppIDQueryComponent
 } from "../../graphql/queries/Auth/AppIDQuery";
-import { Button, Icon, Table } from "semantic-ui-react";
+import { Button, Icon, Table, Header } from "semantic-ui-react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import {
 	SET_APPID_MUTATION,
@@ -20,6 +20,8 @@ const Applications: React.FunctionComponent<RouteComponentProps> = props => {
 
 	return (
 		<>
+			<Header>Applications</Header>
+
 			<Link to="/app/add">
 				<Button icon={true} labelPosition="right">
 					Add application

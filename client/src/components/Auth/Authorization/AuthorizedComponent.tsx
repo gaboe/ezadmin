@@ -1,18 +1,19 @@
 import * as React from "react";
 import { IPrivateRouteProps, RenderComponent } from "./Common";
 import { Redirect, Route } from "react-router";
+import { TokenContext } from "../../../context/TokenContext";
 
-const isAuthenticated = () =>
-	localStorage.getItem("AUTHORIZATION_TOKEN") !== null;
+interface Props extends IPrivateRouteProps {}
 
-class AuthorizedComponent extends Route<IPrivateRouteProps> {
-	public render() {
-		const { component: Component, ...rest }: IPrivateRouteProps = this.props;
-		const renderComponent: RenderComponent = props =>
-			isAuthenticated() ? <Component {...props} /> : <Redirect to="/login" />;
+const AuthorizedComponent: React.FunctionComponent<Props> = props => {
+	const { component: Component, ...rest } = props;
 
-		return <Route {...rest} render={renderComponent} />;
-	}
-}
+	const isAuthenticated = React.useContext(TokenContext).state.token !== null;
+
+	const renderComponent: RenderComponent = props =>
+		isAuthenticated ? <Component {...props} /> : <Redirect to="/login" />;
+
+	return <Route {...rest} render={renderComponent} />;
+};
 
 export { AuthorizedComponent };
