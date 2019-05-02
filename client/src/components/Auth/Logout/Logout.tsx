@@ -2,14 +2,17 @@ import * as React from "react";
 import { Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { AUTHORIZATION_TOKEN } from "../../../domain/Constants";
+import { TokenContext, ActionType } from "../../../context/TokenContext";
 
 const Logout: React.FunctionComponent = _ => {
+	const { dispatch } = React.useContext(TokenContext);
+
 	return (
 		<>
 			<Link
 				to="/login"
 				onClick={() => {
-					localStorage.removeItem(AUTHORIZATION_TOKEN);
+					dispatch({ type: ActionType.Logout });
 				}}
 			>
 				<Icon name="sign-out" />

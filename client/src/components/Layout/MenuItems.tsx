@@ -3,11 +3,14 @@ import { AppIDQuery_currentApp } from "../../domain/generated/types";
 import { Icon, Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { Logout } from "../Auth/Logout/Logout";
+import { TokenContext } from "../../context/TokenContext";
 
 type Props = { app: AppIDQuery_currentApp | null };
 
 const MenuItems: React.FunctionComponent<Props> = props => {
-	const isAuthenticated = localStorage.getItem("AUTHORIZATION_TOKEN");
+	const { state } = React.useContext(TokenContext);
+	const isAuthenticated = state.token;
+
 	return (
 		<>
 			{props.app && (
