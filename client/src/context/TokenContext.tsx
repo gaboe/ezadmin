@@ -12,11 +12,19 @@ enum ActionType {
 	Logout
 }
 
-type Action = { type: ActionType; payload?: { token: string | null } };
+type Action = { type: ActionType; payload?: Payload };
 type Context = { state: State; dispatch: React.Dispatch<Action> };
 
+const getTokenFromLocalStorage = () => {
+	const token = localStorage.getItem(AUTHORIZATION_TOKEN);
+	if (token && token.length > 0) {
+		return token;
+	}
+	return null;
+};
+
 const initialState: State = {
-	token: null
+	token: getTokenFromLocalStorage()
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -50,7 +58,7 @@ const TokenProvider: React.FunctionComponent<Props> = ({
 		if (state.token) {
 			localStorage.setItem(AUTHORIZATION_TOKEN, state.token);
 		} else {
-			localStorage.setItem(AUTHORIZATION_TOKEN, "");
+			localStorage.removeItem(AUTHORIZATION_TOKEN);
 			client.resetStore();
 		}
 	}, [state.token]);
