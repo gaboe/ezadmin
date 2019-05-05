@@ -50,7 +50,7 @@ module EngineCommands =
         let getUpdateQuery table (column: ColumnQueryDescription) value = 
             sprintf """
                     UPDATE %s
-                    SET %s = '%s'
+                    SET %s = N'%s'
                     FROM  %s.%s %s
                     """ 
                     table.TableAlias 

@@ -49,6 +49,7 @@ const Applications: React.FunctionComponent<RouteComponentProps> = props => {
 											if (
 												!response.loading &&
 												response.data &&
+												response.data.userApplications &&
 												appIDData.data
 											) {
 												const data = appIDData.data;
