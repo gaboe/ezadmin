@@ -67,7 +67,7 @@ const App = () => {
 	return (
 		<>
 			<ApolloProvider client={client}>
-				<TokenProvider client={client}>
+				<TokenProvider onResetStore={client.resetStore}>
 					<Router>
 						<Layout>
 							<Routes />

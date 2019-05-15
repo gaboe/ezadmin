@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { AUTHORIZATION_TOKEN } from "../../../domain/Constants";
 import { TokenContext, ActionType } from "../../../context/TokenContext";
 
 const Logout: React.FunctionComponent = _ => {

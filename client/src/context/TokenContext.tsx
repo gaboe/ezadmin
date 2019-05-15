@@ -1,6 +1,4 @@
 import React, { useReducer, useEffect } from "react";
-import { NormalizedCacheObject } from "apollo-cache-inmemory";
-import ApolloClient from "apollo-client";
 import { AUTHORIZATION_TOKEN } from "../domain/Constants";
 
 type State = { token: string | null };
@@ -33,6 +31,7 @@ const reducer = (state: State, action: Action): State => {
 		case ActionType.Login:
 			if (action.payload && action.payload.token)
 				return { ...state, token: action.payload.token };
+			return { ...state };
 		case ActionType.Logout:
 			return { ...state, token: null };
 		default:
@@ -46,12 +45,12 @@ const TokenContext = React.createContext<Context>({
 });
 
 type Props = {
-	client: ApolloClient<NormalizedCacheObject>;
+	onResetStore: () => void;
 };
 
 const TokenProvider: React.FunctionComponent<Props> = ({
 	children,
-	client
+	onResetStore
 }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 	useEffect(() => {
@@ -59,9 +58,9 @@ const TokenProvider: React.FunctionComponent<Props> = ({
 			localStorage.setItem(AUTHORIZATION_TOKEN, state.token);
 		} else {
 			localStorage.removeItem(AUTHORIZATION_TOKEN);
-			client.resetStore();
+			onResetStore();
 		}
-	}, [state.token]);
+	}, [state.token, onResetStore]);
 
 	return (
 		<TokenContext.Provider value={{ state, dispatch }}>
