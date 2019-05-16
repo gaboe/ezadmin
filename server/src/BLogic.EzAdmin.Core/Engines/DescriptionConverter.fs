@@ -5,30 +5,32 @@ open BLogic.EzAdmin.Data.Engines
 module DescriptionConverter =
     type OtherTable = {Alias: string; SchemaName: string; TableName: string}
     
-    let rec denormalizeColumns (col: ColumnSchema) (denormalized: ColumnSchema list): ColumnSchema list = 
+    type LeveledColumnSchema = {Entity: ColumnSchema; Level: int;}
+
+    let rec denormalizeColumns (col: ColumnSchema) (denormalized: LeveledColumnSchema list) level: LeveledColumnSchema list = 
         match col.Reference with 
-            | Some r ->  denormalizeColumns r (denormalized @ [col])
-            | None -> denormalized @ [col]
+            | Some r ->  denormalizeColumns r (denormalized @ [{Entity = col; Level = level}]) (level + 1)
+            | None -> denormalized @ [{Entity = col; Level = level}]
 
     let getColumnsFromTable tableName schemaName (columns: seq<ColumnSchema>) =
         columns 
-            |> Seq.collect (fun e -> denormalizeColumns e List.empty)
-            |> Seq.filter (fun e -> e.TableName = tableName && e.SchemaName = schemaName)
+            |> Seq.collect (fun e -> denormalizeColumns e List.empty 1)
+            |> Seq.filter (fun e -> e.Entity.TableName = tableName && e.Entity.SchemaName = schemaName)
             |> Seq.toList
 
     let getMainTableColumns (tableSchema: TableSchema) =
         getColumnsFromTable tableSchema.TableName tableSchema.SchemaName tableSchema.Columns
         |> Seq.map (fun e -> {  TableAlias = ColumnAliasProvider.mainTableAlias;
-                                Column = e;
-                                ColumnAlias = ColumnAliasProvider.columnAlias ColumnAliasProvider.mainTableAlias e })
+                                Column = e.Entity;
+                                ColumnAlias = ColumnAliasProvider.columnAlias ColumnAliasProvider.mainTableAlias e.Entity })
         |> Seq.toList
     
     let getTableQueryDescription (table: OtherTable) (allColumns: ColumnSchema list) =
         
         let columns = getColumnsFromTable table.TableName table.SchemaName allColumns
                                |> Seq.map (fun e -> {   TableAlias = table.Alias;
-                                                        Column = e;
-                                                        ColumnAlias = ColumnAliasProvider.columnAlias table.Alias e })
+                                                        Column = e.Entity;
+                                                        ColumnAlias = ColumnAliasProvider.columnAlias table.Alias e.Entity })
                                |> Seq.toList
         
         {
@@ -50,12 +52,13 @@ module DescriptionConverter =
 
         let notPrimaryColumns = 
                         tableSchema.Columns 
-                            |> Seq.collect (fun e -> denormalizeColumns e List.empty)
-                            |> Seq.where (fun e -> not(e.SchemaName = primaryTable.SchemaName && e.TableName = primaryTable.TableName) )
+                            |> Seq.collect (fun e -> denormalizeColumns e List.empty 1)
+                            |> Seq.where (fun e -> not(e.Entity.SchemaName = primaryTable.SchemaName && e.Entity.TableName = primaryTable.TableName) )
+                            |> Seq.sortByDescending (fun e -> e.Level)
                             |> Seq.toList
         
         let otherTables = notPrimaryColumns
-                            |> Seq.map (fun e -> (e.SchemaName, e.TableName))
+                            |> Seq.map (fun e -> (e.Entity.SchemaName, e.Entity.TableName))
                             |> Seq.distinct
                             |> Seq.mapi (fun i (schema, table) -> { Alias = sprintf "[T%d]" i;
                                                                     SchemaName = schema; 
@@ -63,7 +66,7 @@ module DescriptionConverter =
                             |> Seq.toList
 
         let joinedTables = otherTables
-                            |> Seq.map (fun e -> getTableQueryDescription e notPrimaryColumns) 
+                            |> Seq.map (fun e -> getTableQueryDescription e (notPrimaryColumns |> Seq.map (fun e -> e.Entity) |> Seq.toList)) 
                             |> Seq.toList
 
         {
