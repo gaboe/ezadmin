@@ -38,7 +38,7 @@ module ApplicationService =
                                 .Set((fun x -> x.Pages), app.Pages @ [page])
 
         SchemaTypesRepository.update id updateDefinition |> ignore
-        id
+        page.PageID
 
     let createApplication name connection userID = 
         let app: AppSchema = { 
@@ -51,11 +51,18 @@ module ApplicationService =
                                 |> SchemaTypesRepository.createApp
         app
 
+    let private getPageID (app: AppSchema)= 
+        match app.Pages with 
+            | head::_ -> head.PageID |> string |> Some
+            | [] -> None
+
     let getApps userID = 
-        let apps = SchemaTypesRepository.getByUserID userID |> Seq.map (fun e -> {AppID = e.AppID.ToString(); Name = e.Name; Connection = e.Connection}) |> Seq.toList
+        let apps = SchemaTypesRepository.getByUserID userID 
+                    |> Seq.map (fun e -> {AppID = e.AppID.ToString(); Name = e.Name; Connection = e.Connection; FirstPageID = getPageID e}) 
+                    |> Seq.toList
         apps
 
     let getUserApp appID= 
         let app = SchemaTypesRepository.getByID appID
 
-        {AppID = app.AppID.ToString(); Name = app.Name; Connection = app.Connection}
+        {AppID = app.AppID.ToString(); Name = app.Name; Connection = app.Connection;  FirstPageID = getPageID app}

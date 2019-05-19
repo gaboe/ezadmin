@@ -127,7 +127,7 @@ module GraphQLSchema =
                      [ Define.Input("input", AppInputType) ],
                      fun ctx root -> let input = ctx.Arg("input")
                                      SchemaAppService.saveView root.Token input 
-                                        |> (fun appID -> {AppID = appID})
+                                        |> (fun pageID -> {PageID = pageID})
                     );
                 Define.AuthorizedField(
                     "createApplication",

@@ -13,7 +13,7 @@ open BLogic.EzAdmin.Application.Models
 module QueryGraphQLTypes = 
     open BLogic.EzAdmin.Domain.UiTypes
 
-    type SaveViewResult = {AppID: string option}
+    type SaveViewResult = {PageID: string option}
 
     type CreateApplicationResult = {Message: string}
 
@@ -213,6 +213,7 @@ module QueryGraphQLTypes =
                 Define.Field("appID", String, "", fun _ (x: UserApp) -> x.AppID)
                 Define.Field("name", String, "Name of app", fun _ (x: UserApp) -> x.Name)
                 Define.Field("connection", String, "Connection", fun _ (x: UserApp) -> x.Connection)
+                Define.Field("firstAppID", Nullable(String), "", fun _ (x: UserApp) -> x.FirstPageID)
             ]
         )
     and LoginResultType = 
@@ -233,7 +234,7 @@ module QueryGraphQLTypes =
             isTypeOf = (fun o -> o :? SaveViewResult),
             fieldsFn = fun () ->
             [
-                Define.Field("appID", Nullable(String), "Cid", fun _ (x: SaveViewResult) -> x.AppID)
+                Define.Field("pageID", Nullable(String), "", fun _ (x: SaveViewResult) -> x.PageID)
             ]
         )
     and CreateApplicationResultType = 

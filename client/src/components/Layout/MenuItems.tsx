@@ -10,7 +10,8 @@ type Props = { app: AppIDQuery_currentApp | null };
 const MenuItems: React.FunctionComponent<Props> = props => {
 	const { state } = React.useContext(TokenContext);
 	const isAuthenticated = state.token;
-
+	const appUrl =
+		props.app && props.app.firstAppID ? `/${props.app.firstAppID}/` : "";
 	return (
 		<>
 			{props.app && (
@@ -25,7 +26,7 @@ const MenuItems: React.FunctionComponent<Props> = props => {
 						</Link>
 					</Menu.Item>
 					<Menu.Item name="app">
-						<Link to="/app">
+						<Link to={`/app${appUrl}`}>
 							<Icon name="cloud" />
 							Generated App
 						</Link>

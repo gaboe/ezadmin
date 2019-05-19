@@ -1122,6 +1122,18 @@
             "deprecationReason": null
           },
           {
+            "name": "firstAppID",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": "Name of app",
             "args": [],
@@ -1927,8 +1939,8 @@
         "description": "",
         "fields": [
           {
-            "name": "appID",
-            "description": "Cid",
+            "name": "pageID",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",

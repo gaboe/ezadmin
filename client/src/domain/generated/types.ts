@@ -145,10 +145,7 @@ export interface DeleteEntityMutationVariables {
 
 export interface SaveViewMutation_saveView {
   __typename: "SaveViewResult";
-  /**
-   * Cid
-   */
-  appID: string | null;
+  pageID: string | null;
 }
 
 export interface SaveViewMutation {
@@ -203,6 +200,7 @@ export interface AppIDQuery_currentApp {
    * Connection
    */
   connection: string;
+  firstAppID: string | null;
 }
 
 export interface AppIDQuery {
